@@ -1,9 +1,55 @@
+// Keep data saved by older deployments working after asset filenames change.
+const STATIC_IMAGE_MIGRATIONS = {
+  '/public/images/products/10.00 SAR.jpg': '/public/images/products/1.jpg',
+  '/public/images/products/10.00 SAR-2.jpg': '/public/images/products/1.jpg',
+  '/public/images/products/10 SAR Hifi LED.jpg': '/public/images/products/2.jpg',
+  '/public/images/products/40W - 8.30 SAR.jpg': '/public/images/products/3.png',
+  '/public/images/products/14.00 SAR .jpg': '/public/images/products/4.png',
+  '/public/images/products/0Y - 35.00 SAR.jpg': '/public/images/products/5.png',
+  '/public/images/products/7 - 2.20 SAR .jpg': '/public/images/products/6.jpg',
+  '/public/images/products/E27 - 2.20 SAR .jpg': '/public/images/products/7.jpg',
+  '/public/images/products/W - 15.00 SAR .jpg': '/public/images/products/8.jpg',
+  '/public/images/products/0W - 15.00 SAR.jpg': '/public/images/products/9.jpg',
+  '/public/images/products/put - 3.50 SAR .jpg': '/public/images/products/10.jpg',
+  '/public/images/products/put - 6.00 SAR .jpg': '/public/images/products/11.jpg',
+  '/public/images/products/led-multi.jpg': '/public/images/products/12.jpg',
+  '/public/images/blog/solar-tech.jpg': '/public/images/products/30.jpg',
+  '/public/images/blog/circuit-breaker.jpg': '/public/images/products/31.jpg',
+  '/public/images/hero-bg-1.jpg': '/public/images/products/27.jpg',
+  '/public/images/hero-bg-2.jpg': '/public/images/products/28.jpg',
+  '/public/images/hero-bg-3.jpg': '/public/images/products/29.jpg'
+};
+
+function migrateStaticImage(path) {
+  return STATIC_IMAGE_MIGRATIONS[path] || path;
+}
+
 // ================================================================
 // main.js – النواة الأسطورية لمتجر النخبة
-// الإصدار النهائي المتكامل – v7.4 (محرك برق واقعي)
+// الإصدار النهائي المتكامل – v7.5 (محرك برق واقعي + ربط Firebase)
 // ================================================================
 
 import * as THREE from 'three';
+
+// ================================================================
+// إعدادات Firebase السحابية
+// ================================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAnkES6TCMGdshbJmocM_0avknOcdbJ4Ms",
+  authDomain: "nokhba-store.firebaseapp.com",
+  projectId: "nokhba-store",
+  storageBucket: "nokhba-store.firebasestorage.app",
+  messagingSenderId: "701367541618",
+  appId: "1:701367541618:web:d2f0663718a30cc8f9c7eb",
+  measurementId: "G-F0MJ55GPMW"
+};
+
+// تهيئة تطبيق Firebase وقاعدة البيانات
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // ================================================================
 // 1. STORAGE ADAPTERS – طبقة تجريد التخزين
@@ -35,6 +81,45 @@ export class LocalStorageAdapter extends StorageAdapter {
   }
 }
 
+export class FirebaseAdapter extends StorageAdapter {
+  async get(key) {
+    try {
+      const docRef = doc(db, "nokhba_db", key); 
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data().value;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.error("خطأ في جلب البيانات من فايربيس:", e);
+      return null;
+    }
+  }
+
+  async set(key, value) {
+    try {
+      const docRef = doc(db, "nokhba_db", key);
+      await setDoc(docRef, { value: value }); 
+    } catch (e) {
+      console.error("خطأ في حفظ البيانات في فايربيس:", e);
+    }
+  }
+
+  async remove(key) {
+    try {
+      const docRef = doc(db, "nokhba_db", key);
+      await deleteDoc(docRef);
+    } catch (e) {
+      console.error("خطأ في الحذف من فايربيس:", e);
+    }
+  }
+
+  async clear() {
+    console.warn("تم إيقاف مسح قاعدة البيانات بالكامل للحماية");
+  }
+}
+
 // ================================================================
 // 2. CATEGORY MANAGER – إدارة الفئات الديناميكية
 // ================================================================
@@ -43,7 +128,7 @@ export class CategoryManager {
   #adapter;
   #cache = null;
 
-  constructor(adapter = new LocalStorageAdapter()) {
+  constructor(adapter = new FirebaseAdapter()) {
     this.#adapter = adapter;
   }
 
@@ -123,7 +208,7 @@ export class ProductManager {
   #adapter;
   #cache = null;
 
-  constructor(adapter = new LocalStorageAdapter()) {
+  constructor(adapter = new FirebaseAdapter()) {
     this.#adapter = adapter;
   }
 
@@ -143,8 +228,8 @@ export class ProductManager {
         isBestSeller: false,
         active: true,
         sortOrder: 1,
-        image: '/public/images/products/10.00 SAR.jpg',
-        images: ['/public/images/products/10.00 SAR.jpg', '/public/images/products/10.00 SAR-2.jpg'],
+        image: '/public/images/products/1.jpg',
+        images: ['/public/images/products/1.jpg'],
         video: null,
         desc: 'مفتاح تيار عالي الجودة 32 أمبير، مثالي للاستخدام المنزلي والصناعي.',
         variants: []
@@ -161,8 +246,8 @@ export class ProductManager {
         isBestSeller: true,
         active: true,
         sortOrder: 2,
-        image: '/public/images/products/10 SAR Hifi LED.jpg',
-        images: ['/public/images/products/10 SAR Hifi LED.jpg'],
+        image: '/public/images/products/2.jpg',
+        images: ['/public/images/products/2.jpg'],
         video: null,
         desc: 'كابل نحاس نقي 10 مم للاستخدامات الصناعية والمنزلية.',
         variants: []
@@ -179,8 +264,8 @@ export class ProductManager {
         isBestSeller: true,
         active: true,
         sortOrder: 3,
-        image: '/public/images/products/40W - 8.30 SAR.jpg',
-        images: ['/public/images/products/40W - 8.30 SAR.jpg'],
+        image: '/public/images/products/3.png',
+        images: ['/public/images/products/3.png'],
         video: null,
         desc: 'لمبة LED موفرة للطاقة بقدرة 40 وات، إضاءة عالية الجودة.',
         variants: []
@@ -197,8 +282,8 @@ export class ProductManager {
         isBestSeller: false,
         active: true,
         sortOrder: 4,
-        image: '/public/images/products/14.00 SAR .jpg',
-        images: ['/public/images/products/14.00 SAR .jpg'],
+        image: '/public/images/products/4.png',
+        images: ['/public/images/products/4.png'],
         video: null,
         desc: 'مفتاح كهربائي بجودة عالية وسعر مناسب.',
         variants: []
@@ -215,8 +300,8 @@ export class ProductManager {
         isBestSeller: false,
         active: true,
         sortOrder: 5,
-        image: '/public/images/products/0Y - 35.00 SAR.jpg',
-        images: ['/public/images/products/0Y - 35.00 SAR.jpg'],
+        image: '/public/images/products/5.png',
+        images: ['/public/images/products/5.png'],
         video: null,
         desc: 'كابل كهربائي 0Y بمقاومة عالية وجودة ممتازة.',
         variants: []
@@ -233,8 +318,8 @@ export class ProductManager {
         isBestSeller: true,
         active: true,
         sortOrder: 6,
-        image: '/public/images/products/7 - 2.20 SAR .jpg',
-        images: ['/public/images/products/7 - 2.20 SAR .jpg'],
+        image: '/public/images/products/6.jpg',
+        images: ['/public/images/products/6.jpg'],
         video: null,
         desc: 'قابس كهربائي متعدد الاستخدامات بجودة عالية.',
         variants: []
@@ -251,8 +336,8 @@ export class ProductManager {
         isBestSeller: false,
         active: true,
         sortOrder: 7,
-        image: '/public/images/products/E27 - 2.20 SAR .jpg',
-        images: ['/public/images/products/E27 - 2.20 SAR .jpg'],
+        image: '/public/images/products/7.jpg',
+        images: ['/public/images/products/7.jpg'],
         video: null,
         desc: 'مقبس E27 بجودة ممتازة وسعر اقتصادي.',
         variants: []
@@ -269,8 +354,8 @@ export class ProductManager {
         isBestSeller: false,
         active: true,
         sortOrder: 8,
-        image: '/public/images/products/W - 15.00 SAR .jpg',
-        images: ['/public/images/products/W - 15.00 SAR .jpg'],
+        image: '/public/images/products/8.jpg',
+        images: ['/public/images/products/8.jpg'],
         video: null,
         desc: 'مفتاح كهربائي بتصميم عصري وأداء موثوق.',
         variants: []
@@ -287,8 +372,8 @@ export class ProductManager {
         isBestSeller: false,
         active: true,
         sortOrder: 9,
-        image: '/public/images/products/0W - 15.00 SAR.jpg',
-        images: ['/public/images/products/0W - 15.00 SAR.jpg'],
+        image: '/public/images/products/9.jpg',
+        images: ['/public/images/products/9.jpg'],
         video: null,
         desc: 'كابل 20 وات عالي الجودة للاستخدامات المختلفة.',
         variants: []
@@ -305,8 +390,8 @@ export class ProductManager {
         isBestSeller: true,
         active: true,
         sortOrder: 10,
-        image: '/public/images/products/put - 3.50 SAR .jpg',
-        images: ['/public/images/products/put - 3.50 SAR .jpg'],
+        image: '/public/images/products/10.jpg',
+        images: ['/public/images/products/10.jpg'],
         video: null,
         desc: 'محول كهربائي متعدد الاستخدامات بجودة عالية.',
         variants: []
@@ -323,8 +408,8 @@ export class ProductManager {
         isBestSeller: false,
         active: true,
         sortOrder: 11,
-        image: '/public/images/products/put - 6.00 SAR .jpg',
-        images: ['/public/images/products/put - 6.00 SAR .jpg'],
+        image: '/public/images/products/11.jpg',
+        images: ['/public/images/products/11.jpg'],
         video: null,
         desc: 'محول كهربائي بقدرة عالية وجودة ممتازة.',
         variants: []
@@ -341,8 +426,8 @@ export class ProductManager {
         isBestSeller: true,
         active: true,
         sortOrder: 12,
-        image: '/public/images/products/led-multi.jpg',
-        images: ['/public/images/products/led-multi.jpg'],
+        image: '/public/images/products/12.jpg',
+        images: ['/public/images/products/12.jpg'],
         video: null,
         desc: 'لمبة LED متعددة المقاسات – اختر المقاس المناسب.',
         variants: [
@@ -355,6 +440,8 @@ export class ProductManager {
     ];
     const parsed = data && data.length ? data : defaults;
     parsed.forEach(p => {
+      p.image = migrateStaticImage(p.image);
+      if (Array.isArray(p.images)) p.images = p.images.map(migrateStaticImage);
       p.price = parseFloat(p.price) || 0;
       p.stock = parseFloat(p.stock) || 0;
       p.minOrder = parseFloat(p.minOrder) || 1;
@@ -524,7 +611,7 @@ export class BlogManager {
   #adapter;
   #cache = null;
 
-  constructor(adapter = new LocalStorageAdapter()) {
+  constructor(adapter = new FirebaseAdapter()) {
     this.#adapter = adapter;
   }
 
@@ -538,7 +625,7 @@ export class BlogManager {
         slug: 'احدث-تقنيات-الطاقة-الشمسية',
         excerpt: 'نستعرض في هذا المقال أحدث التطورات في مجال الطاقة الشمسية وكيف يمكن استغلالها في اليمن.',
         content: '<p>تفاصيل المقال الكامل حول الطاقة الشمسية وتطبيقاتها في اليمن...</p>',
-        image: '/public/images/blog/solar-tech.jpg',
+        image: '/public/images/products/30.jpg',
         date: new Date().toISOString(),
         author: 'فريق النخبة',
         tags: ['طاقة شمسية', 'تقنية', 'اليمن'],
@@ -550,7 +637,7 @@ export class BlogManager {
         slug: 'كيف-تختار-القاطع-الكهربائي',
         excerpt: 'دليل شامل لاختيار القواطع الكهربائية حسب الأحمال والاستخدامات المختلفة.',
         content: '<p>دليل كامل لاختيار القواطع الكهربائية حسب نوع الحمل والتيار...</p>',
-        image: '/public/images/blog/circuit-breaker.jpg',
+        image: '/public/images/products/31.jpg',
         date: new Date(Date.now() - 86400000 * 3).toISOString(),
         author: 'مهندس كهرباء',
         tags: ['قواطع', 'كهرباء', 'دليل'],
@@ -558,6 +645,7 @@ export class BlogManager {
       }
     ];
     this.#cache = (data && data.length) ? data : defaults;
+    this.#cache.forEach(post => { post.image = migrateStaticImage(post.image); });
     return this.#cache;
   }
 
@@ -624,7 +712,7 @@ export class ContactManager {
   #adapter;
   #cache = null;
 
-  constructor(adapter = new LocalStorageAdapter()) {
+  constructor(adapter = new FirebaseAdapter()) {
     this.#adapter = adapter;
   }
 
@@ -1268,6 +1356,7 @@ export class HeroImagesManager {
   #images = [];
   #adapter;
 
+  // أبقيناه على LocalStorage لكي لا يتسبب في توقف الواجهة الأمامية الحالية
   constructor(adapter = new LocalStorageAdapter()) {
     this.#adapter = adapter;
     this.#load();
@@ -1279,15 +1368,16 @@ export class HeroImagesManager {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          this.#images = parsed;
+          this.#images = parsed.map(item => ({ ...item, image: migrateStaticImage(item.image) }));
+          this.#save();
           return;
         }
       }
     } catch (e) { /* تجاهل */ }
     this.#images = [
-      { image: '/public/images/hero-bg-1.jpg', badge: '⚡ عرض خاص', title: 'أفضل <span class="highlight">الكهربائيات</span> بأسعار تنافسية', desc: 'جودة عالية، ضمان طويل، وأسعار لا تُقهر – كل ما تحتاجه في مكان واحد.', btn: 'تسوق الآن', action: 'shop' },
-      { image: '/public/images/hero-bg-2.jpg', badge: '💡 توفير الطاقة', title: 'لمبات <span class="highlight">LED موفرة</span> بنسبة 80%', desc: 'استمتع بإضاءة قوية واستهلاك منخفض – اختر الأفضل لمنزلك أو مشروعك.', btn: 'استكشف اللمبات', action: 'lighting' },
-      { image: '/public/images/hero-bg-3.jpg', badge: '🔌 توصيل سريع', title: 'طلبك <span class="highlight">يوصلك</span> خلال 24 ساعة', desc: 'في عدن والمناطق المجاورة، نضمن وصول منتجاتك بأمان وسرعة.', btn: 'اطلب الآن', action: 'whatsapp' }
+      { image: '/public/images/products/27.jpg', badge: '⚡ عرض خاص', title: 'أفضل <span class="highlight">الكهربائيات</span> بأسعار تنافسية', desc: 'جودة عالية، ضمان طويل، وأسعار لا تُقهر – كل ما تحتاجه في مكان واحد.', btn: 'تسوق الآن', action: 'shop' },
+      { image: '/public/images/products/28.jpg', badge: '💡 توفير الطاقة', title: 'لمبات <span class="highlight">LED موفرة</span> بنسبة 80%', desc: 'استمتع بإضاءة قوية واستهلاك منخفض – اختر الأفضل لمنزلك أو مشروعك.', btn: 'استكشف اللمبات', action: 'lighting' },
+      { image: '/public/images/products/29.jpg', badge: '🔌 توصيل سريع', title: 'طلبك <span class="highlight">يوصلك</span> خلال 24 ساعة', desc: 'في عدن والمناطق المجاورة، نضمن وصول منتجاتك بأمان وسرعة.', btn: 'اطلب الآن', action: 'whatsapp' }
     ];
     this.#save();
   }
@@ -1480,7 +1570,7 @@ if (typeof THREE !== 'undefined' && !window.__THREE_LOADED) {
   window.__THREE_LOADED = true;
 }
 
-console.log('⚡ النخبة – النواة الأسطورية v7.4 (محرك برق واقعي) جاهزة');
+console.log('⚡ النخبة – النواة الأسطورية v7.5 (محرك برق واقعي + ربط Firebase) جاهزة');
 console.log('📞 رقم الهاتف: +967782826727');
 console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
 console.log('🔊 ThunderEngine: تم تهيئة صوت الرعد');
