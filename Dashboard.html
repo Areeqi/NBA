@@ -984,9 +984,17 @@
             <div class="form-row full-width">
               <label>الوصف <textarea id="pDesc" rows="2"></textarea></label>
             </div>
+
+            <!-- إضافة حقل رفع الصورة الجديد -->
             <div class="form-row full-width">
-              <label>رابط الصورة الرئيسية <input type="url" id="pImage" placeholder="/public/images/products/..." /></label>
+              <label>صورة المنتج (رفع من الجهاز) 
+                <input type="file" id="pImageFile" accept="image/*" style="padding: 0.5rem; background: rgba(0,0,0,0.2); border: 1px dashed var(--primary); border-radius: var(--radius-sm); cursor: pointer;" />
+              </label>
             </div>
+            <div class="form-row full-width">
+              <label>أو رابط الصورة <input type="url" id="pImage" placeholder="في حال لم تختر ملفاً، ضع الرابط هنا" /></label>
+            </div>
+
             <div class="form-row full-width">
               <label>صور إضافية (فصل بفواصل) <input type="text" id="pImages" placeholder="/path/1.jpg, /path/2.jpg" /></label>
             </div>
@@ -1185,6 +1193,7 @@
       CategoryManager,
       TypingEngine,
       HeroImagesManager,
+      ImageUploader, // <-- تمت إضافة كلاس رفع الصور
       showToast, getOrders, getTheme, setTheme,
       getBackground, setBackground, applyBackground,
       getFooterImage, setFooterImage, applyFooterImage
@@ -1434,7 +1443,7 @@
         return `
           <tr>
             <td>${p.id.slice(0,4)}</td>
-            <td><img src="${p.image || '/public/images/products/default.jpg'}" /></td>
+            <td><img src="${p.image || '/public/images/products/1.jpg'}" /></td>
             <td><strong>${p.name}</strong></td>
             <td>${p.category}</td>
             <td>${hasVariants ? 'متعدد' : displayPrice.toFixed(2)}</td>
@@ -1472,6 +1481,7 @@
     async function openModal(id = null) {
       modal.classList.add('active');
       await refreshCategorySelect();
+      if ($('pImageFile')) $('pImageFile').value = ''; // تصفير حقل الملف عند الفتح
       if (id) {
         $('modalTitle').textContent = 'تعديل منتج';
         const p = await productManager.getById(id);
@@ -1512,6 +1522,24 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      // -- رفع الصورة عبر ImgBB --
+      const fileInput = $('pImageFile');
+      let finalImageUrl = $('pImage').value.trim();
+      
+      if (fileInput && fileInput.files.length > 0) {
+        showToast('⏳ جاري رفع الصورة...', 3000, '⏳');
+        form.querySelector('button[type="submit"]').disabled = true; 
+        try {
+          finalImageUrl = await ImageUploader.uploadFile(fileInput.files[0]);
+        } catch (error) {
+          showToast('⚠️ فشل رفع الصورة', 3000, '⚠️');
+          form.querySelector('button[type="submit"]').disabled = false;
+          return; 
+        }
+      }
+      // -----------------------------
+
       const id = $('productId').value;
       const images = $('pImages').value.split(',').map(s => s.trim()).filter(Boolean);
       const variants = getVariantsFromForm();
@@ -1527,16 +1555,19 @@
         isNew: $('pIsNew').checked,
         isBestSeller: $('pIsBestSeller').checked,
         desc: $('pDesc').value.trim(),
-        image: $('pImage').value.trim(),
+        image: finalImageUrl, 
         images: images.length ? images : undefined,
         video: $('pVideo').value.trim() || undefined,
         variants: variants.length > 0 ? variants : []
       };
       if (id) { payload.id = id; await productManager.mutate({ type: 'UPDATE', payload }); }
       else await productManager.mutate({ type: 'ADD', payload });
+      
+      form.querySelector('button[type="submit"]').disabled = false;
       modal.classList.remove('active');
       renderTable();
-      showToast('✅ تم الحفظ', '✅');
+      showToast('✅ تم الحفظ بنجاح', 3000, '✅');
+      if (fileInput) fileInput.value = '';
     });
 
     closeModal.addEventListener('click', () => modal.classList.remove('active'));
@@ -1629,7 +1660,7 @@
       const posts = await blogManager.getAll();
       blogPostsList.innerHTML = posts.map(p => `
         <div class="blog-item">
-          <img src="${p.image || '/public/images/blog/default.jpg'}" alt="${p.title}" />
+          <img src="${p.image || '/public/images/products/1.jpg'}" alt="${p.title}" />
           <div class="blog-info">
             <h4>${p.title}</h4>
             <div class="blog-meta">${new Date(p.date).toLocaleDateString()} - ${p.author || 'غير معروف'} ${p.published !== false ? '✅' : '⛔'}</div>
@@ -1880,7 +1911,7 @@
       }
       heroImagesList.innerHTML = images.map((img, index) => `
         <div class="hero-image-item">
-          <img src="${img.image}" alt="شريحة ${index + 1}" class="img-preview" onerror="this.src='/public/images/hero-bg-1.jpg'" />
+          <img src="${img.image}" alt="شريحة ${index + 1}" class="img-preview" onerror="this.onerror=null;this.src='/public/images/products/27.jpg'" />
           <div class="img-info">
             <div><strong>${img.badge || 'بدون شارة'}</strong> - ${img.btn || 'زر'}</div>
             <div style="font-size:0.65rem;opacity:0.5;">${img.title || ''}</div>
@@ -2115,7 +2146,7 @@
     setInterval(updateStats, 60000);
     setInterval(renderOrders, 30000);
 
-    console.log('⚡ لوحة التحكم الأسطورية v7.3 جاهزة (مع إدارة متقدمة لتأثير الكتابة وصور الهيرو)');
+    console.log('⚡ لوحة التحكم الأسطورية v7.5 جاهزة (مع رفع الصور عبر ImgBB و Firebase)');
     console.log('📞 رقم الهاتف: +967782826727');
     console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
   </script>
