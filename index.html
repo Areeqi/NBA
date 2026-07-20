@@ -61,7 +61,7 @@
     <div class="header-actions">
       <button class="sound-toggle" id="soundToggle" aria-label="تشغيل/إيقاف الصوت">🔊</button>
       <button class="lang-btn" id="langToggle" aria-label="تبديل اللغة">🇸🇦 العربية</button>
-      <button id="themeToggle" aria-label="تبديل الثيم">🌙</button>
+      <button id="breakerToggle" class="breaker-btn" aria-label="قاطع التيار">🎚️</button>
       <button id="cartBtn" aria-label="السلة">🛒 <span id="cartCount" class="badge">0</span></button>
     </div>
   </header>
@@ -457,12 +457,71 @@
       if (target && !target.closest('.sound-toggle') && !target.closest('#lbClose')) playClickSound();
     });
 
-    // استعادة الإعدادات المحفوظة
+    
+        // استعادة إعدادات الخلفية والفوتر
     applyBackground(getBackground());
     applyFooterImage(getFooterImage());
-    const savedTheme = getTheme();
-    setTheme(savedTheme);
-    if(document.getElementById('themeToggle')) document.getElementById('themeToggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    setTheme('dark'); // المتجر سيكون دائماً بالثيم الداكن الأنيق كأساس
+
+    // ================================================================
+    // 💡 الإبهار الأول: تجربة انقطاع التيار (Circuit Breaker)
+    // ================================================================
+    const breakerToggle = document.getElementById('breakerToggle');
+    let isBlackout = false;
+
+    // برمجة صوت القاطع الميكانيكي الثقيل
+    function playBreakerSound() {
+      if (!soundEnabled || !audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.type = 'square'; // صوت ميكانيكي غليظ
+        osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.25);
+        
+        gain.gain.setValueAtTime(1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+        
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.25);
+      } catch(e){}
+    }
+
+    if (breakerToggle) {
+      breakerToggle.addEventListener('click', () => {
+        isBlackout = !isBlackout;
+        playBreakerSound();
+        
+        if (isBlackout) {
+          breakerToggle.textContent = '🔌';
+          breakerToggle.classList.add('is-off');
+          document.body.classList.add('blackout-mode');
+          showToast('⚠️ تم فصل التيار الرئيسي!', 3000, '🔌');
+          
+          // وميض تفاعلي للمنتجات (تأثير تشغيل اللمبات)
+          setTimeout(() => {
+            document.querySelectorAll('.product-card img').forEach(img => {
+              img.style.filter = 'drop-shadow(0 0 35px rgba(255, 245, 150, 1)) brightness(1.5)';
+            });
+            try { thunder.play(0.5); } catch(e){} // صوت رعد خفيف مع الإضاءة
+          }, 800);
+
+        } else {
+          breakerToggle.textContent = '🎚️';
+          breakerToggle.classList.remove('is-off');
+          document.body.classList.remove('blackout-mode');
+          
+          // إعادة المنتجات لوضعها الطبيعي
+          document.querySelectorAll('.product-card img').forEach(img => {
+            img.style.filter = '';
+          });
+          showToast('⚡ عاد التيار الكهربائي', 2000, '⚡');
+        }
+      });
+    }
 
     // إعدادات اللغة
     let currentLang = localStorage.getItem('nokhba_lang') || 'ar';
@@ -501,6 +560,7 @@
         showToast(newLang === 'ar' ? '🌐 تم التبديل إلى العربية' : '🌐 Switched to English', 1500);
       });
     }
+
 
     // تأثير الهيدر
     const header = document.getElementById('mainHeader');
