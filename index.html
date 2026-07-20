@@ -310,7 +310,7 @@
   <button id="scrollTopBtn">↑</button>
 
   <!-- ========================================================== -->
-  <!-- JavaScript – تشغيل المتجر (الإصدار النهائي المتصل بـ Firebase) -->
+  <!-- JavaScript – تشغيل المتجر (الإصدار الاستثنائي المحدث) -->
   <!-- ========================================================== -->
   <script type="module">
     // استيراد المكونات من main.js
@@ -349,7 +349,7 @@
     const productManager = new ProductManager();
     const blogManager = new BlogManager();
     const contactManager = new ContactManager();
-    const heroImagesManager = new HeroImagesManager(); // أضفنا مدير الصور هنا
+    const heroImagesManager = new HeroImagesManager();
     
     const lightning = new LightningEngine();
     const thunder = new ThunderEngine();
@@ -394,9 +394,25 @@
       setTimeout(() => { typingEngine.start(typingText, typingCursor); }, 600);
     }
 
-    // إدارة الصوت
+    // ================================================================
+    // إدارة الصوت (النسخة اللحظية بدون تأخير - Zero-Latency)
+    // صوت "تماس كهربائي" يتناسب مع هوية المتجر ⚡
+    // ================================================================
     let soundEnabled = localStorage.getItem('nokhba_sound') !== 'off';
     const soundToggle = document.getElementById('soundToggle');
+    
+    // العبقرية هنا: تعريف سياق الصوت مرة واحدة فقط في الذاكرة (RAM)
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+    // تفعيل الصوت من أول لمسة للشاشة (لتخطي حماية المتصفحات)
+    document.body.addEventListener('click', initAudio, { once: true });
+    document.body.addEventListener('touchstart', initAudio, { once: true });
+
     function updateSoundUI() {
       if(soundToggle){
         soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
@@ -405,6 +421,7 @@
       document.documentElement.style.setProperty('--sound-enabled', soundEnabled ? '1' : '0');
     }
     updateSoundUI();
+    
     if(soundToggle){
       soundToggle.addEventListener('click', () => {
         soundEnabled = !soundEnabled;
@@ -414,23 +431,30 @@
       });
     }
 
-    function playClickSound(volume = 0.12) {
-      if (!soundEnabled) return;
+    function playClickSound(volume = 0.08) {
+      if (!soundEnabled || !audioCtx) return;
       try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.frequency.value = 800; osc.type = 'sine';
-        gain.gain.setValueAtTime(volume, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.07);
-        osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.07);
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        // صوت "تماس كهربائي" حاد وأنيق (Electric Zap)
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(1500, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
+        
+        gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+        
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.05);
       } catch (e) {}
     }
 
     document.addEventListener('click', (e) => {
       const target = e.target.closest('button, .product-card, .cat-pill, .nav-item, .whatsapp-btn');
-      if (target && !target.closest('.sound-toggle')) playClickSound(0.1);
+      if (target && !target.closest('.sound-toggle') && !target.closest('#lbClose')) playClickSound();
     });
 
     // استعادة الإعدادات المحفوظة
@@ -496,7 +520,7 @@
     let autoSlideInterval;
 
     function renderHero() {
-      const heroImages = heroImagesManager.getAll(); // جلب الصور من المدير
+      const heroImages = heroImagesManager.getAll(); 
       if(!heroTrack || heroImages.length === 0) return;
 
       heroTrack.innerHTML = heroImages.map((slide, index) => `
@@ -798,7 +822,7 @@
         }
         saveCart(cart); updateCartUI(); renderProducts(currentFilter);
         showToast(`✅ أضيف للسلة`, 2000, '✅');
-        playClickSound(0.12);
+        try { thunder.play(0.8); } catch(e){} // إضافة رعد خفيف عند الإضافة للسلة!
       });
     }
 
@@ -926,9 +950,14 @@
       });
     }
 
-    // Lightbox بسيط (للشاشة المنبثقة للمنتج)
+    // ================================================================
+    // نظام التكبير الذكي للصور (Smart Zoom) & Lightbox
+    // ================================================================
     const lightbox = document.getElementById('productLightbox');
     const lbClose = document.getElementById('lbClose');
+    const lbDisplay = document.getElementById('lbDisplay');
+    const lbImg = document.getElementById('lbImage');
+
     async function openLightbox(id) {
       const p = await productManager.getById(id);
       if(!p || !lightbox) return;
@@ -939,14 +968,64 @@
       document.getElementById('lbDesc').textContent = p.desc || 'لا يوجد وصف';
       document.getElementById('lbImage').src = p.image || '/public/images/products/1.jpg';
       document.getElementById('lbImage').style.display = 'block';
+      // تصفير التقريب عند فتح صورة جديدة
+      if(lbImg) {
+        lbImg.style.transformOrigin = 'center center';
+        lbImg.style.transform = 'scale(1)';
+      }
       
       const addBtn = document.getElementById('lbAddToCart');
       addBtn.onclick = () => addToCart(p.id);
       
       lightbox.classList.add('active');
     }
-    if(lbClose) lbClose.addEventListener('click', () => lightbox.classList.remove('active'));
+    
+    // إغلاق المودال مع تأثير الصوت
+    if(lbClose) {
+      lbClose.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+        playClickSound(0.05); // صوت إغلاق
+      });
+    }
     if(lightbox) lightbox.addEventListener('click', (e) => { if(e.target === lightbox) lightbox.classList.remove('active') });
+
+    // تفعيل التكبير
+    if (lbDisplay && lbImg) {
+      // 1. للكمبيوتر: تكبير وتتبع حركة الماوس (Hover Zoom)
+      lbDisplay.addEventListener('mousemove', (e) => {
+          if (window.innerWidth > 768 && lbImg.style.display !== 'none') {
+              const rect = lbDisplay.getBoundingClientRect();
+              const x = ((e.clientX - rect.left) / rect.width) * 100;
+              const y = ((e.clientY - rect.top) / rect.height) * 100;
+              lbImg.style.transformOrigin = `${x}% ${y}%`;
+              lbImg.style.transform = 'scale(2.5)';
+              lbImg.style.cursor = 'zoom-in';
+          }
+      });
+
+      lbDisplay.addEventListener('mouseleave', () => {
+          lbImg.style.transformOrigin = 'center center';
+          lbImg.style.transform = 'scale(1)';
+      });
+
+      // 2. للجوال: تكبير ذكي بالنقر المزدوج (Double Tap to Zoom)
+      let lastTap = 0;
+      lbDisplay.addEventListener('touchstart', (e) => {
+          const currentTime = new Date().getTime();
+          const tapLength = currentTime - lastTap;
+          
+          if (tapLength < 300 && tapLength > 0 && lbImg.style.display !== 'none') {
+              e.preventDefault(); // منع التقريب الافتراضي للمتصفح
+              if(lbImg.style.transform === 'scale(2.5)') {
+                  lbImg.style.transform = 'scale(1)'; // تصغير
+              } else {
+                  lbImg.style.transformOrigin = 'center center';
+                  lbImg.style.transform = 'scale(2.5)'; // تكبير
+              }
+          }
+          lastTap = currentTime;
+      }, {passive: false});
+    }
 
     // المدونة والتواصل (جلب وعرض البيانات)
     async function renderBlogPosts() {
