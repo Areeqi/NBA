@@ -1070,3 +1070,66 @@ footer {
   box-shadow: 0 5px 15px var(--primary-glow); transition: 0.3s;
 }
 #scrollTopBtn:hover { transform: translateY(-5px) scale(1.1); }
+/* ================================================================
+   تأثير انقطاع التيار الكهربائي (The Blackout Experience) ⚡
+   ================================================================ */
+
+/* تصميم زر القاطع الكهربائي */
+.breaker-btn {
+  background: #ef4444 !important; /* لون أحمر للقاطع */
+  color: white !important;
+  border: 2px solid #991b1b !important;
+  border-radius: 6px !important;
+  box-shadow: inset 0 3px 5px rgba(255,255,255,0.4), 0 4px 10px rgba(0,0,0,0.5) !important;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.breaker-btn.is-off {
+  background: #22c55e !important; /* لون أخضر عند القطع */
+  border-color: #166534 !important;
+  transform: translateY(4px) scale(0.95);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* حالة الظلام الدامس للموقع */
+body.blackout-mode {
+  background-color: #030305 !important;
+  background-image: none !important;
+}
+
+/* إخفاء العناصر غير المهمة في الظلام */
+body.blackout-mode .hero-section,
+body.blackout-mode .info-bar,
+body.blackout-mode .filters,
+body.blackout-mode .typing-section,
+body.blackout-mode footer,
+body.blackout-mode .contact-page,
+body.blackout-mode .blog-grid,
+body.blackout-mode .testimonials-section {
+  opacity: 0.05;
+  pointer-events: none;
+  filter: grayscale(1);
+}
+
+/* توهج المنتجات في الظلام */
+body.blackout-mode .product-card {
+  background: #000;
+  border-color: #111;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+body.blackout-mode .product-card img {
+  filter: drop-shadow(0 0 25px rgba(255, 245, 150, 0.8)) brightness(1.2);
+  transform: scale(1.05);
+  z-index: 5;
+  position: relative;
+  transition: all 0.5s ease-in-out;
+}
+
+body.blackout-mode .product-card h4,
+body.blackout-mode .product-card .price,
+body.blackout-mode .product-card .variant-price-display {
+  color: rgba(255, 245, 150, 0.9);
+  text-shadow: 0 0 15px rgba(255, 245, 150, 0.6);
+}
