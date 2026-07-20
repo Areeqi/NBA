@@ -26,7 +26,7 @@ function migrateStaticImage(path) {
 
 // ================================================================
 // main.js – النواة الأسطورية لمتجر النخبة
-// الإصدار النهائي المتكامل (Firebase + ImgBB + 3D Engine)
+// الإصدار النهائي المتكامل (Firebase + ImgBB + 3D Lightning)
 // ================================================================
 
 import * as THREE from 'three';
@@ -120,7 +120,7 @@ export class FirebaseAdapter extends StorageAdapter {
 }
 
 // ================================================================
-// 2. CATEGORY MANAGER
+// 2. CATEGORY MANAGER – إدارة الفئات الديناميكية
 // ================================================================
 
 export class CategoryManager {
@@ -180,7 +180,7 @@ export class CategoryManager {
 }
 
 // ================================================================
-// 3. PRODUCT MANAGER
+// 3. PRODUCT MANAGER – إدارة المنتجات المتطورة
 // ================================================================
 
 function levenshtein(a, b) {
@@ -229,8 +229,212 @@ export class ProductManager {
         sortOrder: 1,
         image: '/public/images/products/1.jpg',
         images: ['/public/images/products/1.jpg'],
+        video: null,
         desc: 'مفتاح تيار عالي الجودة 32 أمبير، مثالي للاستخدام المنزلي والصناعي.',
         variants: []
+      },
+      {
+        id: 'p2',
+        name: 'كابل نحاس 10مم',
+        category: 'كابلات',
+        price: 120,
+        stock: 50,
+        minOrder: 1,
+        rating: 4.2,
+        isNew: false,
+        isBestSeller: true,
+        active: true,
+        sortOrder: 2,
+        image: '/public/images/products/2.jpg',
+        images: ['/public/images/products/2.jpg'],
+        video: null,
+        desc: 'كابل نحاس نقي 10 مم للاستخدامات الصناعية والمنزلية.',
+        variants: []
+      },
+      {
+        id: 'p3',
+        name: 'لمبة Hifi LED 40W',
+        category: 'إضاءة',
+        price: 8.30,
+        stock: 200,
+        minOrder: 2,
+        rating: 4.8,
+        isNew: true,
+        isBestSeller: true,
+        active: true,
+        sortOrder: 3,
+        image: '/public/images/products/3.png',
+        images: ['/public/images/products/3.png'],
+        video: null,
+        desc: 'لمبة LED موفرة للطاقة بقدرة 40 وات، إضاءة عالية الجودة.',
+        variants: []
+      },
+      {
+        id: 'p4',
+        name: 'مفتاح 14.00 SAR',
+        category: 'مفاتيح',
+        price: 14,
+        stock: 80,
+        minOrder: 1,
+        rating: 3.8,
+        isNew: false,
+        isBestSeller: false,
+        active: true,
+        sortOrder: 4,
+        image: '/public/images/products/4.png',
+        images: ['/public/images/products/4.png'],
+        video: null,
+        desc: 'مفتاح كهربائي بجودة عالية وسعر مناسب.',
+        variants: []
+      },
+      {
+        id: 'p5',
+        name: 'كابل 0Y - 35.00 SAR',
+        category: 'كابلات',
+        price: 35,
+        stock: 30,
+        minOrder: 1,
+        rating: 4.0,
+        isNew: false,
+        isBestSeller: false,
+        active: true,
+        sortOrder: 5,
+        image: '/public/images/products/5.png',
+        images: ['/public/images/products/5.png'],
+        video: null,
+        desc: 'كابل كهربائي 0Y بمقاومة عالية وجودة ممتازة.',
+        variants: []
+      },
+      {
+        id: 'p6',
+        name: 'قابس 7 - 2.20 SAR',
+        category: 'قوابس',
+        price: 2.20,
+        stock: 500,
+        minOrder: 5,
+        rating: 4.3,
+        isNew: false,
+        isBestSeller: true,
+        active: true,
+        sortOrder: 6,
+        image: '/public/images/products/6.jpg',
+        images: ['/public/images/products/6.jpg'],
+        video: null,
+        desc: 'قابس كهربائي متعدد الاستخدامات بجودة عالية.',
+        variants: []
+      },
+      {
+        id: 'p7',
+        name: 'مقبس E27 - 2.20 SAR',
+        category: 'مقابس',
+        price: 2.20,
+        stock: 300,
+        minOrder: 3,
+        rating: 4.1,
+        isNew: false,
+        isBestSeller: false,
+        active: true,
+        sortOrder: 7,
+        image: '/public/images/products/7.jpg',
+        images: ['/public/images/products/7.jpg'],
+        video: null,
+        desc: 'مقبس E27 بجودة ممتازة وسعر اقتصادي.',
+        variants: []
+      },
+      {
+        id: 'p8',
+        name: 'مفتاح 15.00 SAR',
+        category: 'مفاتيح',
+        price: 15,
+        stock: 60,
+        minOrder: 1,
+        rating: 3.5,
+        isNew: false,
+        isBestSeller: false,
+        active: true,
+        sortOrder: 8,
+        image: '/public/images/products/8.jpg',
+        images: ['/public/images/products/8.jpg'],
+        video: null,
+        desc: 'مفتاح كهربائي بتصميم عصري وأداء موثوق.',
+        variants: []
+      },
+      {
+        id: 'p9',
+        name: 'كابل 20W - 15.00 SAR',
+        category: 'كابلات',
+        price: 15,
+        stock: 40,
+        minOrder: 1,
+        rating: 4.4,
+        isNew: true,
+        isBestSeller: false,
+        active: true,
+        sortOrder: 9,
+        image: '/public/images/products/9.jpg',
+        images: ['/public/images/products/9.jpg'],
+        video: null,
+        desc: 'كابل 20 وات عالي الجودة للاستخدامات المختلفة.',
+        variants: []
+      },
+      {
+        id: 'p10',
+        name: 'محول 3.50 SAR',
+        category: 'محولات',
+        price: 3.50,
+        stock: 150,
+        minOrder: 2,
+        rating: 4.6,
+        isNew: false,
+        isBestSeller: true,
+        active: true,
+        sortOrder: 10,
+        image: '/public/images/products/10.jpg',
+        images: ['/public/images/products/10.jpg'],
+        video: null,
+        desc: 'محول كهربائي متعدد الاستخدامات بجودة عالية.',
+        variants: []
+      },
+      {
+        id: 'p11',
+        name: 'محول 6.00 SAR',
+        category: 'محولات',
+        price: 6,
+        stock: 120,
+        minOrder: 1,
+        rating: 4.0,
+        isNew: false,
+        isBestSeller: false,
+        active: true,
+        sortOrder: 11,
+        image: '/public/images/products/11.jpg',
+        images: ['/public/images/products/11.jpg'],
+        video: null,
+        desc: 'محول كهربائي بقدرة عالية وجودة ممتازة.',
+        variants: []
+      },
+      {
+        id: 'p12',
+        name: 'لمبة LED متعددة المقاسات',
+        category: 'إضاءة',
+        price: 10,
+        stock: 0,
+        minOrder: 1,
+        rating: 4.7,
+        isNew: true,
+        isBestSeller: true,
+        active: true,
+        sortOrder: 12,
+        image: '/public/images/products/12.jpg',
+        images: ['/public/images/products/12.jpg'],
+        video: null,
+        desc: 'لمبة LED متعددة المقاسات – اختر المقاس المناسب.',
+        variants: [
+          { size: '20 وات', price: 10, stock: 100, minOrder: 6 },
+          { size: '30 وات', price: 15, stock: 80, minOrder: 4 },
+          { size: '40 وات', price: 20, stock: 60, minOrder: 3 },
+          { size: '50 وات', price: 25, stock: 40, minOrder: 2 }
+        ]
       }
     ];
     const parsed = data && data.length ? data : defaults;
@@ -308,7 +512,8 @@ export class ProductManager {
       products = products.filter(p => p.price <= parseFloat(maxPrice));
     }
     if (sort) {
-      products.sort((a, b) => (a[sort] > b[sort]) ? 1 : -1);
+      const key = sort;
+      products.sort((a, b) => (a[key] > b[key]) ? 1 : -1);
     } else {
       products.sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
     }
@@ -333,6 +538,13 @@ export class ProductManager {
         np.minOrder = parseFloat(np.minOrder) || 1;
         np.rating = parseFloat(np.rating) || 0;
         np.sortOrder = parseFloat(np.sortOrder) || 0;
+        if (np.variants) {
+          np.variants.forEach(v => {
+            v.price = parseFloat(v.price) || 0;
+            v.stock = parseFloat(v.stock) || 0;
+            v.minOrder = parseFloat(v.minOrder) || 1;
+          });
+        }
         products.push(np);
         result = np;
         break;
@@ -346,6 +558,13 @@ export class ProductManager {
         updated.minOrder = parseFloat(updated.minOrder) || 1;
         updated.rating = parseFloat(updated.rating) || 0;
         updated.sortOrder = parseFloat(updated.sortOrder) || 0;
+        if (updated.variants) {
+          updated.variants.forEach(v => {
+            v.price = parseFloat(v.price) || 0;
+            v.stock = parseFloat(v.stock) || 0;
+            v.minOrder = parseFloat(v.minOrder) || 1;
+          });
+        }
         products[idx] = updated;
         result = updated;
         break;
@@ -384,7 +603,7 @@ export class ProductManager {
 }
 
 // ================================================================
-// 4. BLOG MANAGER
+// 4. BLOG MANAGER – إدارة المدونة
 // ================================================================
 
 export class BlogManager {
@@ -398,7 +617,32 @@ export class BlogManager {
   async #load() {
     if (this.#cache) return this.#cache;
     const data = await this.#adapter.get('nokhba_blog_posts');
-    const defaults = [];
+    const defaults = [
+      {
+        id: 'b1',
+        title: 'أحدث تقنيات الطاقة الشمسية في اليمن',
+        slug: 'احدث-تقنيات-الطاقة-الشمسية',
+        excerpt: 'نستعرض في هذا المقال أحدث التطورات في مجال الطاقة الشمسية وكيف يمكن استغلالها في اليمن.',
+        content: '<p>تفاصيل المقال الكامل حول الطاقة الشمسية وتطبيقاتها في اليمن...</p>',
+        image: '/public/images/products/30.jpg',
+        date: new Date().toISOString(),
+        author: 'فريق النخبة',
+        tags: ['طاقة شمسية', 'تقنية', 'اليمن'],
+        published: true
+      },
+      {
+        id: 'b2',
+        title: 'كيف تختار القاطع الكهربائي المناسب؟',
+        slug: 'كيف-تختار-القاطع-الكهربائي',
+        excerpt: 'دليل شامل لاختيار القواطع الكهربائية حسب الأحمال والاستخدامات المختلفة.',
+        content: '<p>دليل كامل لاختيار القواطع الكهربائية حسب نوع الحمل والتيار...</p>',
+        image: '/public/images/products/31.jpg',
+        date: new Date(Date.now() - 86400000 * 3).toISOString(),
+        author: 'مهندس كهرباء',
+        tags: ['قواطع', 'كهرباء', 'دليل'],
+        published: true
+      }
+    ];
     this.#cache = (data && data.length) ? data : defaults;
     this.#cache.forEach(post => { post.image = migrateStaticImage(post.image); });
     return this.#cache;
@@ -412,6 +656,11 @@ export class BlogManager {
   async getById(id) {
     const posts = await this.#load();
     return posts.find(p => p.id === id) || null;
+  }
+
+  async getBySlug(slug) {
+    const posts = await this.#load();
+    return posts.find(p => p.slug === slug && p.published !== false) || null;
   }
 
   async mutate(command) {
@@ -440,15 +689,22 @@ export class BlogManager {
         result = { deleted: true };
         break;
       }
+      default:
+        throw new Error('أمر غير معروف');
     }
     await this.#adapter.set('nokhba_blog_posts', posts);
     this.#cache = null;
     return result;
   }
+
+  async getRecent(limit = 3) {
+    const posts = await this.getAll();
+    return posts.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, limit);
+  }
 }
 
 // ================================================================
-// 5. CONTACT MANAGER
+// 5. CONTACT MANAGER – إدارة معلومات التواصل
 // ================================================================
 
 export class ContactManager {
@@ -465,13 +721,22 @@ export class ContactManager {
     const defaults = {
       address: 'عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد',
       phone: '+967782826727',
+      email: 'info@nokhba-electric.com',
       whatsapp: '967782826727',
+      facebook: 'https://facebook.com/nokhba',
+      instagram: 'https://instagram.com/nokhba',
+      twitter: 'https://twitter.com/nokhba',
+      youtube: 'https://youtube.com/nokhba',
+      mapEmbed: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456!2d45.123456!3d12.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDA3JzI0LjYiTiA0NcKwMDcnMjQuMCJF!5e0!3m2!1sar!2sye!4v1234567890" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
+      openingHours: 'السبت - الخميس: 9:00 ص - 9:00 م'
     };
     this.#cache = data || defaults;
     return this.#cache;
   }
 
-  async get() { return this.#load(); }
+  async get() {
+    return this.#load();
+  }
 
   async update(data) {
     const current = await this.#load();
@@ -482,7 +747,18 @@ export class ContactManager {
   }
 
   async reset() {
-    const defaults = { address: 'عدن', phone: '+967782826727' };
+    const defaults = {
+      address: 'عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد',
+      phone: '+967782826727',
+      email: 'info@nokhba-electric.com',
+      whatsapp: '967782826727',
+      facebook: 'https://facebook.com/nokhba',
+      instagram: 'https://instagram.com/nokhba',
+      twitter: 'https://twitter.com/nokhba',
+      youtube: 'https://youtube.com/nokhba',
+      mapEmbed: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456!2d45.123456!3d12.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDA3JzI0LjYiTiA0NcKwMDcnMjQuMCJF!5e0!3m2!1sar!2sye!4v1234567890" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
+      openingHours: 'السبت - الخميس: 9:00 ص - 9:00 م'
+    };
     await this.#adapter.set('nokhba_contact_info', defaults);
     this.#cache = null;
     return defaults;
@@ -490,7 +766,7 @@ export class ContactManager {
 }
 
 // ================================================================
-// 6. TYPING ENGINE
+// 6. TYPING ENGINE – محرك تأثير الكتابة الديناميكي
 // ================================================================
 
 export class TypingEngine {
@@ -505,9 +781,12 @@ export class TypingEngine {
   #cursorElement = null;
   #isRunning = false;
   #timeoutId = null;
+  #onPhraseChange = null;
   #enabled = true;
 
-  constructor() { this.#loadSettings(); }
+  constructor() {
+    this.#loadSettings();
+  }
 
   #loadSettings() {
     try {
@@ -515,14 +794,28 @@ export class TypingEngine {
       if (saved) {
         const settings = JSON.parse(saved);
         this.#enabled = settings.enabled !== undefined ? settings.enabled : true;
-        this.#phrases = settings.phrases && settings.phrases.length > 0 ? settings.phrases : ['مرحباً بك'];
+        if (settings.phrases && settings.phrases.length > 0) {
+          this.#phrases = settings.phrases;
+        } else {
+          this.#loadDefaultPhrases();
+        }
         this.#speed = settings.speed || 50;
         this.#deleteSpeed = settings.deleteSpeed || 30;
         this.#pause = settings.pause || 2000;
         return;
       }
-    } catch (e) {}
-    this.#phrases = ['مرحباً بك في النخبة للكهربائيات'];
+    } catch (e) { /* تجاهل */ }
+    this.#loadDefaultPhrases();
+  }
+
+  #loadDefaultPhrases() {
+    this.#phrases = [
+      'مرحباً بك في النخبة للكهربائيات',
+      'جودة عالية وأسعار تنافسية',
+      'توصيل سريع إلى جميع أنحاء عدن',
+      'نحن نصنع الفرق في عالم الكهرباء',
+      'أفضل المنتجات بأفضل الأسعار'
+    ];
   }
 
   start(element, cursorElement = null) {
@@ -539,8 +832,13 @@ export class TypingEngine {
 
   #type() {
     if (!this.#isRunning || !this.#enabled) return;
+    
     const currentPhrase = this.#phrases[this.#currentIndex];
-    if (!currentPhrase) { this.#currentIndex = 0; this.#type(); return; }
+    if (!currentPhrase) {
+      this.#currentIndex = 0;
+      this.#type();
+      return;
+    }
 
     if (this.#isDeleting) {
       this.#currentText = currentPhrase.substring(0, this.#currentText.length - 1);
@@ -548,63 +846,528 @@ export class TypingEngine {
       this.#currentText = currentPhrase.substring(0, this.#currentText.length + 1);
     }
 
-    if (this.#element) this.#element.textContent = this.#currentText;
+    if (this.#element) {
+      this.#element.textContent = this.#currentText;
+    }
 
     let delay = this.#isDeleting ? this.#deleteSpeed : this.#speed;
     
     if (this.#currentText === currentPhrase) {
       delay = this.#pause;
       this.#isDeleting = true;
+      if (this.#onPhraseChange) {
+        this.#onPhraseChange(currentPhrase, this.#currentIndex);
+      }
     } else if (this.#currentText === '') {
       this.#isDeleting = false;
       this.#currentIndex = (this.#currentIndex + 1) % this.#phrases.length;
       delay = this.#pause / 3;
     }
+
     this.#timeoutId = setTimeout(() => this.#type(), delay);
   }
 
   stop() {
     this.#isRunning = false;
-    if (this.#timeoutId) clearTimeout(this.#timeoutId);
+    if (this.#timeoutId) {
+      clearTimeout(this.#timeoutId);
+      this.#timeoutId = null;
+    }
+  }
+
+  reload() {
+    this.stop();
+    this.#loadSettings();
+    this.#currentIndex = 0;
+    this.#isDeleting = false;
+    this.#currentText = '';
+    this.#isRunning = true;
+    this.#type();
+  }
+
+  setPhrases(phrases) {
+    if (Array.isArray(phrases) && phrases.length > 0) {
+      this.#phrases = phrases;
+      this.#saveSettings();
+      this.reload();
+      return true;
+    }
+    return false;
+  }
+
+  getPhrases() {
+    return [...this.#phrases];
+  }
+
+  onPhraseChange(callback) {
+    this.#onPhraseChange = callback;
+  }
+
+  setSpeed(speed) {
+    this.#speed = Math.max(10, Math.min(200, speed));
+    this.#saveSettings();
+  }
+
+  setDeleteSpeed(speed) {
+    this.#deleteSpeed = Math.max(10, Math.min(100, speed));
+    this.#saveSettings();
+  }
+
+  setPause(pause) {
+    this.#pause = Math.max(500, Math.min(5000, pause));
+    this.#saveSettings();
+  }
+
+  setEnabled(enabled) {
+    this.#enabled = enabled;
+    if (!enabled) {
+      this.stop();
+      if (this.#element) this.#element.textContent = '';
+      if (this.#cursorElement) this.#cursorElement.style.display = 'none';
+    } else {
+      if (this.#cursorElement) this.#cursorElement.style.display = 'inline-block';
+      this.reload();
+    }
+    this.#saveSettings();
+  }
+
+  isEnabled() {
+    return this.#enabled;
+  }
+
+  #saveSettings() {
+    try {
+      const settings = {
+        enabled: this.#enabled,
+        phrases: this.#phrases,
+        speed: this.#speed,
+        deleteSpeed: this.#deleteSpeed,
+        pause: this.#pause
+      };
+      localStorage.setItem('nokhba_typing_settings', JSON.stringify(settings));
+    } catch (e) { /* تجاهل */ }
   }
 }
 
 // ================================================================
-// 7. LIGHTNING ENGINE 
+// 7. LIGHTNING ENGINE – محرك البرق الواقعي 
 // ================================================================
+
 export class LightningEngine {
-  init(container) {}
-  spawn(x, y, intensity = 1) {}
+  #scene;
+  #camera;
+  #renderer;
+  #clock = new THREE.Clock();
+  #bolts = [];
+  #container = null;
+  #isMobile = false;
+  #enabled = true;
+
+  init(container) {
+    this.#container = container;
+    this.#isMobile = window.innerWidth < 768 || 
+                     (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4);
+    
+    if (this.#isMobile) {
+      console.log('⚡ LightningEngine: وضع الأداء المنخفض للجوال');
+    }
+    
+    this.#init3D();
+  }
+
+  #init3D() {
+    this.#scene = new THREE.Scene();
+    this.#camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+    this.#camera.position.z = 1;
+
+    this.#renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true,
+      powerPreference: 'high-performance'
+    });
+    this.#renderer.setSize(this.#container.clientWidth, this.#container.clientHeight);
+    this.#renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.#isMobile ? 1 : 1.5));
+    this.#renderer.setClearColor(0x000000, 0);
+    this.#container.appendChild(this.#renderer.domElement);
+
+    this.#animate3D();
+    window.addEventListener('resize', () => {
+      this.#renderer?.setSize(this.#container.clientWidth, this.#container.clientHeight);
+    });
+  }
+
+  #animate3D = () => {
+    requestAnimationFrame(this.#animate3D);
+    if (!this.#enabled || !this.#renderer) return;
+    
+    const delta = Math.min(this.#clock.getDelta(), 0.05);
+    for (let i = this.#bolts.length - 1; i >= 0; i--) {
+      const b = this.#bolts[i];
+      b.age += delta;
+      if (b.age > b.life) {
+        b.parts.forEach(part => {
+          this.#scene.remove(part.line);
+          this.#scene.remove(part.glow);
+          this.#scene.remove(part.shadow);
+          part.line.geometry.dispose?.();
+          part.glow.geometry.dispose?.();
+          part.shadow.geometry.dispose?.();
+        });
+        this.#scene.remove(b.sparks);
+        b.sparks.geometry.dispose?.();
+        this.#bolts.splice(i, 1);
+      } else {
+        const alpha = 1 - b.age / b.life;
+        b.parts.forEach(part => {
+          part.line.material.opacity = alpha * 0.9;
+          part.glow.material.opacity = alpha * 0.5;
+          part.shadow.material.opacity = alpha * 0.25;
+        });
+        b.sparks.material.opacity = alpha * 0.8;
+        b.sparks.material.size = 0.015 * (0.5 + 0.5 * alpha);
+      }
+    }
+    this.#renderer.render(this.#scene, this.#camera);
+  };
+
+  spawn(x, y, intensity = 1) {
+    if (!this.#enabled) return;
+    
+    const nx = (x / window.innerWidth) * 2 - 1;
+    const ny = -(y / window.innerHeight) * 2 + 1;
+
+    const numSegments = this.#isMobile ? 
+      12 + Math.floor(intensity * 6) : 
+      18 + Math.floor(intensity * 10);
+    
+    const mainPath = this.#generateLightningPath(nx, ny, numSegments, intensity);
+    const branches = this.#generateBranches(mainPath, intensity);
+    const parts = [];
+    const allPaths = [mainPath, ...branches];
+    
+    allPaths.forEach(path => {
+      if (path.length < 2) return;
+      const points = path.map(p => new THREE.Vector3(p.x, p.y, 0));
+      const geom = new THREE.BufferGeometry().setFromPoints(points);
+      
+      const coreMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, linewidth: 1 });
+      const coreLine = new THREE.Line(geom.clone(), coreMat);
+      this.#scene.add(coreLine);
+      
+      const glowMat = new THREE.LineBasicMaterial({ color: 0x88ccff, transparent: true, opacity: 0.5, linewidth: 2 });
+      const glowLine = new THREE.Line(geom.clone(), glowMat);
+      this.#scene.add(glowLine);
+      
+      const shadowMat = new THREE.LineBasicMaterial({ color: 0x4466ff, transparent: true, opacity: 0.25, linewidth: 3 });
+      const shadowLine = new THREE.Line(geom.clone(), shadowMat);
+      this.#scene.add(shadowLine);
+      
+      parts.push({ line: coreLine, glow: glowLine, shadow: shadowLine });
+    });
+    
+    const sparkCount = this.#isMobile ? 20 : 40 + Math.floor(intensity * 20);
+    const positions = [];
+    for (let i = 0; i < sparkCount; i++) {
+      const idx = Math.floor(Math.random() * mainPath.length);
+      const p = mainPath[idx];
+      positions.push(
+        p.x + (Math.random() - 0.5) * 0.08,
+        p.y + (Math.random() - 0.5) * 0.08,
+        (Math.random() - 0.5) * 0.04
+      );
+    }
+    const sparkGeom = new THREE.BufferGeometry();
+    sparkGeom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    const sparkMat = new THREE.PointsMaterial({
+      color: 0xffdd88, size: 0.015, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending
+    });
+    const sparks = new THREE.Points(sparkGeom, sparkMat);
+    this.#scene.add(sparks);
+    
+    this.#bolts.push({
+      parts: parts,
+      sparks: sparks,
+      life: 0.3 + Math.random() * 0.15,
+      age: 0
+    });
+  }
+
+  #generateLightningPath(startX, startY, numPoints, intensity) {
+    const path = [{ x: startX, y: startY }];
+    let dx = (Math.random() - 0.5) * 0.15;
+    let dy = -0.04 - Math.random() * 0.03;
+    
+    for (let i = 0; i < numPoints; i++) {
+      const step = i / numPoints;
+      const jitter = 0.04 + step * 0.12; 
+      const prev = path[path.length - 1];
+      
+      dx += (Math.random() - 0.5) * 0.04;
+      dy += (Math.random() - 0.5) * 0.015;
+      
+      dx = Math.max(-0.12, Math.min(0.12, dx));
+      dy = Math.max(-0.08, Math.min(-0.01, dy));
+      
+      const newX = prev.x + dx + (Math.random() - 0.5) * jitter;
+      const newY = prev.y + dy + (Math.random() - 0.5) * jitter * 0.5;
+      
+      path.push({ x: newX, y: newY });
+    }
+    return path;
+  }
+
+  #generateBranches(mainPath, intensity) {
+    const branches = [];
+    const numBranches = this.#isMobile ? 1 + Math.floor(intensity * 1.5) : 2 + Math.floor(intensity * 3);
+    const indices = [];
+    for (let i = 0; i < numBranches; i++) {
+      const idx = Math.floor(2 + Math.random() * (mainPath.length - 4));
+      if (!indices.includes(idx)) indices.push(idx);
+    }
+    
+    indices.forEach((idx, order) => {
+      const start = mainPath[idx];
+      const dir = (order % 2 === 0) ? 1 : -1; 
+      const angle = (Math.random() * 0.8 + 0.3) * dir;
+      
+      const branch = [{ x: start.x, y: start.y }];
+      let cx = start.x, cy = start.y;
+      for (let i = 0; i < 6 + Math.floor(intensity * 3); i++) {
+        const step = i / 6;
+        const jitter = 0.02 + step * 0.04;
+        cx += Math.cos(angle + step * 0.3 * dir) * 0.02 * intensity;
+        cy -= 0.025 + Math.random() * 0.01;
+        cx += (Math.random() - 0.5) * jitter;
+        branch.push({ x: cx, y: cy });
+      }
+      branches.push(branch);
+      
+      if (intensity > 0.7 && !this.#isMobile) {
+        const subIdx = Math.floor(branch.length * 0.5);
+        const subStart = branch[subIdx];
+        const subDir = (Math.random() > 0.5) ? 1 : -1;
+        const subBranch = [{ x: subStart.x, y: subStart.y }];
+        let sx = subStart.x, sy = subStart.y;
+        for (let i = 0; i < 4; i++) {
+          sx += (Math.random() - 0.5) * 0.04 + subDir * 0.03;
+          sy -= 0.02 + Math.random() * 0.01;
+          subBranch.push({ x: sx, y: sy });
+        }
+        branches.push(subBranch);
+      }
+    });
+    return branches;
+  }
+
+  setEnabled(enabled) {
+    this.#enabled = enabled;
+  }
 }
 
 // ================================================================
-// 8. THUNDER ENGINE
+// 8. THUNDER ENGINE – محرك الصوت (الرعد)
 // ================================================================
+
 export class ThunderEngine {
-  init() {}
-  play(intensity = 1) {}
+  #audio = null;
+  #ready = false;
+  #initAttempts = 0;
+  #maxInitAttempts = 3;
+
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    if (this.#initAttempts >= this.#maxInitAttempts) {
+      console.warn('⚠️ ThunderEngine: فشل تحميل الصوت بعد عدة محاولات');
+      return;
+    }
+    this.#initAttempts++;
+
+    try {
+      this.#audio = new Audio('/public/sounds/thunder.mp3');
+      this.#audio.preload = 'auto';
+      this.#audio.volume = 0.7;
+      this.#audio.loop = false;
+
+      this.#audio.oncanplaythrough = () => {
+        this.#ready = true;
+      };
+
+      this.#audio.onloadeddata = () => {
+        this.#ready = true;
+      };
+
+      this.#audio.onerror = (e) => {
+        this.#ready = false;
+        setTimeout(() => {
+          if (this.#initAttempts < this.#maxInitAttempts) {
+            this.init();
+          }
+        }, 2000);
+      };
+
+      this.#audio.load();
+
+      setTimeout(() => {
+        if (!this.#ready && this.#audio) {
+          this.#ready = true;
+        }
+      }, 3000);
+
+    } catch (err) {
+      this.#ready = false;
+    }
+  }
+
+  play(intensity = 1) {
+    if (!this.#ready || !this.#audio) {
+      this.init();
+      setTimeout(() => {
+        if (this.#ready && this.#audio) {
+          this._playInternal(intensity);
+        }
+      }, 500);
+      return false;
+    }
+    return this._playInternal(intensity);
+  }
+
+  _playInternal(intensity) {
+    try {
+      this.#audio.currentTime = 0;
+      const volume = Math.min(1, Math.max(0.2, 0.3 + intensity * 0.5));
+      this.#audio.volume = volume;
+      const playPromise = this.#audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          this.#audio.load();
+          setTimeout(() => {
+            this.#audio.play().catch(() => {});
+          }, 300);
+        });
+        return true;
+      }
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  isReady() {
+    return this.#ready && this.#audio !== null;
+  }
+
+  reload() {
+    this.#initAttempts = 0;
+    this.#ready = false;
+    this.init();
+  }
 }
 
 // ================================================================
-// 9. HERO IMAGES MANAGER
+// 9. HERO IMAGES MANAGER – إدارة صور الإعلانات
 // ================================================================
+
 export class HeroImagesManager {
   #images = [];
+  #adapter;
+
   constructor(adapter = new LocalStorageAdapter()) {
-    this.#images = [
-      { image: '/public/images/products/27.jpg', badge: '⚡ عرض خاص', title: 'أفضل <span class="highlight">الكهربائيات</span> بأسعار تنافسية', desc: 'جودة عالية.', btn: 'تسوق الآن', action: 'shop' }
-    ];
+    this.#adapter = adapter;
+    this.#load();
   }
-  getAll() { return [...this.#images]; }
+
+  #load() {
+    try {
+      const saved = localStorage.getItem('nokhba_hero_images');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          this.#images = parsed.map(item => ({ ...item, image: migrateStaticImage(item.image) }));
+          this.#save();
+          return;
+        }
+      }
+    } catch (e) { /* تجاهل */ }
+    this.#images = [
+      { image: '/public/images/products/27.jpg', badge: '⚡ عرض خاص', title: 'أفضل <span class="highlight">الكهربائيات</span> بأسعار تنافسية', desc: 'جودة عالية، ضمان طويل، وأسعار لا تُقهر – كل ما تحتاجه في مكان واحد.', btn: 'تسوق الآن', action: 'shop' },
+      { image: '/public/images/products/28.jpg', badge: '💡 توفير الطاقة', title: 'لمبات <span class="highlight">LED موفرة</span> بنسبة 80%', desc: 'استمتع بإضاءة قوية واستهلاك منخفض – اختر الأفضل لمنزلك أو مشروعك.', btn: 'استكشف اللمبات', action: 'lighting' },
+      { image: '/public/images/products/29.jpg', badge: '🔌 توصيل سريع', title: 'طلبك <span class="highlight">يوصلك</span> خلال 24 ساعة', desc: 'في عدن والمناطق المجاورة، نضمن وصول منتجاتك بأمان وسرعة.', btn: 'اطلب الآن', action: 'whatsapp' }
+    ];
+    this.#save();
+  }
+
+  #save() {
+    localStorage.setItem('nokhba_hero_images', JSON.stringify(this.#images));
+  }
+
+  getAll() {
+    return [...this.#images];
+  }
+
+  add(imageData) {
+    if (imageData.image && imageData.image.trim()) {
+      this.#images.push({
+        image: imageData.image.trim(),
+        badge: imageData.badge || '✨ عرض خاص',
+        title: imageData.title || 'منتج <span class="highlight">جديد</span>',
+        desc: imageData.desc || 'اكتشف أفضل العروض في متجر النخبة',
+        btn: imageData.btn || 'تسوق الآن',
+        action: imageData.action || 'shop'
+      });
+      this.#save();
+      return true;
+    }
+    return false;
+  }
+
+  remove(index) {
+    if (index >= 0 && index < this.#images.length) {
+      this.#images.splice(index, 1);
+      this.#save();
+      return true;
+    }
+    return false;
+  }
+
+  update(index, imageData) {
+    if (index >= 0 && index < this.#images.length) {
+      this.#images[index] = { ...this.#images[index], ...imageData };
+      this.#save();
+      return true;
+    }
+    return false;
+  }
+
+  reorder(fromIndex, toIndex) {
+    if (fromIndex >= 0 && fromIndex < this.#images.length &&
+        toIndex >= 0 && toIndex < this.#images.length) {
+      const [item] = this.#images.splice(fromIndex, 1);
+      this.#images.splice(toIndex, 0, item);
+      this.#save();
+      return true;
+    }
+    return false;
+  }
+
+  reset() {
+    localStorage.removeItem('nokhba_hero_images');
+    this.#load();
+  }
 }
 
 // ================================================================
-// 10. IMAGE UPLOADER (ImgBB)
+// 10. IMAGE UPLOADER – إدارة رفع الصور عبر ImgBB
 // ================================================================
+
 export class ImageUploader {
   static async uploadFile(file) {
     if (!file) return null;
+
     const apiKey = "a2429d609080c139ccdaa5a789cf6928"; 
+    
     const formData = new FormData();
     formData.append("image", file);
 
@@ -613,7 +1376,9 @@ export class ImageUploader {
         method: "POST",
         body: formData
       });
+      
       const data = await response.json();
+      
       if (data.success) {
         return data.data.url;
       } else {
@@ -627,7 +1392,7 @@ export class ImageUploader {
 }
 
 // ================================================================
-// 11. UTILITY FUNCTIONS
+// 11. UTILITY FUNCTIONS – دوال مساعدة للمتجر
 // ================================================================
 
 export function showToast(message, duration = 3500, icon = '✨') {
@@ -695,29 +1460,52 @@ export function applyFooterImage(base64) {
   if (!footer) return;
   if (base64 && base64.startsWith('data:image')) {
     footer.style.backgroundImage = `url(${base64})`;
+    footer.style.backgroundSize = 'cover';
+    footer.style.backgroundPosition = 'center';
+    footer.style.minHeight = '180px';
   } else {
     footer.style.backgroundImage = 'none';
+    footer.style.minHeight = '100px';
   }
 }
 
 export function getVariantPrice(product, variantSize) {
-  return product.price;
+  if (!product.variants || product.variants.length === 0) {
+    return product.price;
+  }
+  const variant = product.variants.find(v => v.size === variantSize);
+  return variant ? variant.price : product.price;
 }
 
 export function getVariantStock(product, variantSize) {
-  return product.stock;
+  if (!product.variants || product.variants.length === 0) {
+    return product.stock;
+  }
+  const variant = product.variants.find(v => v.size === variantSize);
+  return variant ? variant.stock : 0;
 }
 
 export function getVariantMinOrder(product, variantSize) {
-  return product.minOrder || 1;
+  if (!product.variants || product.variants.length === 0) {
+    return product.minOrder || 1;
+  }
+  const variant = product.variants.find(v => v.size === variantSize);
+  return variant ? variant.minOrder : 1;
 }
 
 export function getAvailableSizes(product) {
-  return [];
+  if (!product.variants || product.variants.length === 0) {
+    return [];
+  }
+  return product.variants.map(v => v.size);
 }
+
+// ================================================================
+// 12. منع التصادم مع Three.js
+// ================================================================
 
 if (typeof THREE !== 'undefined' && !window.__THREE_LOADED) {
   window.__THREE_LOADED = true;
 }
 
-console.log('⚡ النخبة – النواة الأسطورية جاهزة');
+console.log('⚡ النخبة – النواة الأسطورية v7.5 (Firebase + ImgBB) جاهزة');
