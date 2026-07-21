@@ -1,32 +1,6 @@
-// Keep data saved by older deployments working after asset filenames change.
-const STATIC_IMAGE_MIGRATIONS = {
-  '/public/images/products/10.00 SAR.jpg': '/public/images/products/1.jpg',
-  '/public/images/products/10.00 SAR-2.jpg': '/public/images/products/1.jpg',
-  '/public/images/products/10 SAR Hifi LED.jpg': '/public/images/products/2.jpg',
-  '/public/images/products/40W - 8.30 SAR.jpg': '/public/images/products/3.png',
-  '/public/images/products/14.00 SAR .jpg': '/public/images/products/4.png',
-  '/public/images/products/0Y - 35.00 SAR.jpg': '/public/images/products/5.png',
-  '/public/images/products/7 - 2.20 SAR .jpg': '/public/images/products/6.jpg',
-  '/public/images/products/E27 - 2.20 SAR .jpg': '/public/images/products/7.jpg',
-  '/public/images/products/W - 15.00 SAR .jpg': '/public/images/products/8.jpg',
-  '/public/images/products/0W - 15.00 SAR.jpg': '/public/images/products/9.jpg',
-  '/public/images/products/put - 3.50 SAR .jpg': '/public/images/products/10.jpg',
-  '/public/images/products/put - 6.00 SAR .jpg': '/public/images/products/11.jpg',
-  '/public/images/products/led-multi.jpg': '/public/images/products/12.jpg',
-  '/public/images/blog/solar-tech.jpg': '/public/images/products/30.jpg',
-  '/public/images/blog/circuit-breaker.jpg': '/public/images/products/31.jpg',
-  '/public/images/hero-bg-1.jpg': '/public/images/products/27.jpg',
-  '/public/images/hero-bg-2.jpg': '/public/images/products/28.jpg',
-  '/public/images/hero-bg-3.jpg': '/public/images/products/29.jpg'
-};
-
-function migrateStaticImage(path) {
-  return STATIC_IMAGE_MIGRATIONS[path] || path;
-}
-
 // ================================================================
 // main.js – النواة الأسطورية لمتجر النخبة
-// الإصدار النهائي المتكامل (Firebase + ImgBB + 3D Lightning)
+// الإصدار النهائي المتكامل – v8.0 (مع جميع الميزات الجديدة)
 // ================================================================
 
 import * as THREE from 'three';
@@ -35,7 +9,7 @@ import * as THREE from 'three';
 // إعدادات Firebase السحابية
 // ================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, deleteDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAnkES6TCMGdshbJmocM_0avknOcdbJ4Ms",
@@ -83,7 +57,7 @@ export class LocalStorageAdapter extends StorageAdapter {
 export class FirebaseAdapter extends StorageAdapter {
   async get(key) {
     try {
-      const docRef = doc(db, "nokhba_db", key); 
+      const docRef = doc(db, "nokhba_db", key);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         return docSnap.data().value;
@@ -99,7 +73,7 @@ export class FirebaseAdapter extends StorageAdapter {
   async set(key, value) {
     try {
       const docRef = doc(db, "nokhba_db", key);
-      await setDoc(docRef, { value: value }); 
+      await setDoc(docRef, { value: value });
     } catch (e) {
       console.error("خطأ في حفظ البيانات في فايربيس:", e);
     }
@@ -183,6 +157,32 @@ export class CategoryManager {
 // 3. PRODUCT MANAGER – إدارة المنتجات المتطورة
 // ================================================================
 
+// Keep data saved by older deployments working after asset filenames change.
+const STATIC_IMAGE_MIGRATIONS = {
+  '/public/images/products/10.00 SAR.jpg': '/public/images/products/1.jpg',
+  '/public/images/products/10.00 SAR-2.jpg': '/public/images/products/1.jpg',
+  '/public/images/products/10 SAR Hifi LED.jpg': '/public/images/products/2.jpg',
+  '/public/images/products/40W - 8.30 SAR.jpg': '/public/images/products/3.png',
+  '/public/images/products/14.00 SAR .jpg': '/public/images/products/4.png',
+  '/public/images/products/0Y - 35.00 SAR.jpg': '/public/images/products/5.png',
+  '/public/images/products/7 - 2.20 SAR .jpg': '/public/images/products/6.jpg',
+  '/public/images/products/E27 - 2.20 SAR .jpg': '/public/images/products/7.jpg',
+  '/public/images/products/W - 15.00 SAR .jpg': '/public/images/products/8.jpg',
+  '/public/images/products/0W - 15.00 SAR.jpg': '/public/images/products/9.jpg',
+  '/public/images/products/put - 3.50 SAR .jpg': '/public/images/products/10.jpg',
+  '/public/images/products/put - 6.00 SAR .jpg': '/public/images/products/11.jpg',
+  '/public/images/products/led-multi.jpg': '/public/images/products/12.jpg',
+  '/public/images/blog/solar-tech.jpg': '/public/images/products/30.jpg',
+  '/public/images/blog/circuit-breaker.jpg': '/public/images/products/31.jpg',
+  '/public/images/hero-bg-1.jpg': '/public/images/products/27.jpg',
+  '/public/images/hero-bg-2.jpg': '/public/images/products/28.jpg',
+  '/public/images/hero-bg-3.jpg': '/public/images/products/29.jpg'
+};
+
+function migrateStaticImage(path) {
+  return STATIC_IMAGE_MIGRATIONS[path] || path;
+}
+
 function levenshtein(a, b) {
   if (a.length === 0) return b.length;
   if (b.length === 0) return a.length;
@@ -231,7 +231,8 @@ export class ProductManager {
         images: ['/public/images/products/1.jpg'],
         video: null,
         desc: 'مفتاح تيار عالي الجودة 32 أمبير، مثالي للاستخدام المنزلي والصناعي.',
-        variants: []
+        variants: [],
+        power: 0
       },
       {
         id: 'p2',
@@ -249,7 +250,8 @@ export class ProductManager {
         images: ['/public/images/products/2.jpg'],
         video: null,
         desc: 'كابل نحاس نقي 10 مم للاستخدامات الصناعية والمنزلية.',
-        variants: []
+        variants: [],
+        power: 0
       },
       {
         id: 'p3',
@@ -267,7 +269,8 @@ export class ProductManager {
         images: ['/public/images/products/3.png'],
         video: null,
         desc: 'لمبة LED موفرة للطاقة بقدرة 40 وات، إضاءة عالية الجودة.',
-        variants: []
+        variants: [],
+        power: 40
       },
       {
         id: 'p4',
@@ -285,7 +288,8 @@ export class ProductManager {
         images: ['/public/images/products/4.png'],
         video: null,
         desc: 'مفتاح كهربائي بجودة عالية وسعر مناسب.',
-        variants: []
+        variants: [],
+        power: 0
       },
       {
         id: 'p5',
@@ -303,7 +307,8 @@ export class ProductManager {
         images: ['/public/images/products/5.png'],
         video: null,
         desc: 'كابل كهربائي 0Y بمقاومة عالية وجودة ممتازة.',
-        variants: []
+        variants: [],
+        power: 0
       },
       {
         id: 'p6',
@@ -321,7 +326,8 @@ export class ProductManager {
         images: ['/public/images/products/6.jpg'],
         video: null,
         desc: 'قابس كهربائي متعدد الاستخدامات بجودة عالية.',
-        variants: []
+        variants: [],
+        power: 0
       },
       {
         id: 'p7',
@@ -339,7 +345,8 @@ export class ProductManager {
         images: ['/public/images/products/7.jpg'],
         video: null,
         desc: 'مقبس E27 بجودة ممتازة وسعر اقتصادي.',
-        variants: []
+        variants: [],
+        power: 0
       },
       {
         id: 'p8',
@@ -357,7 +364,8 @@ export class ProductManager {
         images: ['/public/images/products/8.jpg'],
         video: null,
         desc: 'مفتاح كهربائي بتصميم عصري وأداء موثوق.',
-        variants: []
+        variants: [],
+        power: 0
       },
       {
         id: 'p9',
@@ -375,7 +383,8 @@ export class ProductManager {
         images: ['/public/images/products/9.jpg'],
         video: null,
         desc: 'كابل 20 وات عالي الجودة للاستخدامات المختلفة.',
-        variants: []
+        variants: [],
+        power: 0
       },
       {
         id: 'p10',
@@ -393,7 +402,8 @@ export class ProductManager {
         images: ['/public/images/products/10.jpg'],
         video: null,
         desc: 'محول كهربائي متعدد الاستخدامات بجودة عالية.',
-        variants: []
+        variants: [],
+        power: 0
       },
       {
         id: 'p11',
@@ -411,7 +421,8 @@ export class ProductManager {
         images: ['/public/images/products/11.jpg'],
         video: null,
         desc: 'محول كهربائي بقدرة عالية وجودة ممتازة.',
-        variants: []
+        variants: [],
+        power: 0
       },
       {
         id: 'p12',
@@ -430,11 +441,12 @@ export class ProductManager {
         video: null,
         desc: 'لمبة LED متعددة المقاسات – اختر المقاس المناسب.',
         variants: [
-          { size: '20 وات', price: 10, stock: 100, minOrder: 6 },
-          { size: '30 وات', price: 15, stock: 80, minOrder: 4 },
-          { size: '40 وات', price: 20, stock: 60, minOrder: 3 },
-          { size: '50 وات', price: 25, stock: 40, minOrder: 2 }
-        ]
+          { size: '20 وات', price: 10, stock: 100, minOrder: 6, power: 20 },
+          { size: '30 وات', price: 15, stock: 80, minOrder: 4, power: 30 },
+          { size: '40 وات', price: 20, stock: 60, minOrder: 3, power: 40 },
+          { size: '50 وات', price: 25, stock: 40, minOrder: 2, power: 50 }
+        ],
+        power: 20
       }
     ];
     const parsed = data && data.length ? data : defaults;
@@ -446,11 +458,13 @@ export class ProductManager {
       p.minOrder = parseFloat(p.minOrder) || 1;
       p.rating = parseFloat(p.rating) || 0;
       p.sortOrder = parseFloat(p.sortOrder) || 0;
+      p.power = parseFloat(p.power) || 0;
       if (p.variants) {
         p.variants.forEach(v => {
           v.price = parseFloat(v.price) || 0;
           v.stock = parseFloat(v.stock) || 0;
           v.minOrder = parseFloat(v.minOrder) || 1;
+          v.power = parseFloat(v.power) || 0;
         });
       }
     });
@@ -538,11 +552,13 @@ export class ProductManager {
         np.minOrder = parseFloat(np.minOrder) || 1;
         np.rating = parseFloat(np.rating) || 0;
         np.sortOrder = parseFloat(np.sortOrder) || 0;
+        np.power = parseFloat(np.power) || 0;
         if (np.variants) {
           np.variants.forEach(v => {
             v.price = parseFloat(v.price) || 0;
             v.stock = parseFloat(v.stock) || 0;
             v.minOrder = parseFloat(v.minOrder) || 1;
+            v.power = parseFloat(v.power) || 0;
           });
         }
         products.push(np);
@@ -558,11 +574,13 @@ export class ProductManager {
         updated.minOrder = parseFloat(updated.minOrder) || 1;
         updated.rating = parseFloat(updated.rating) || 0;
         updated.sortOrder = parseFloat(updated.sortOrder) || 0;
+        updated.power = parseFloat(updated.power) || 0;
         if (updated.variants) {
           updated.variants.forEach(v => {
             v.price = parseFloat(v.price) || 0;
             v.stock = parseFloat(v.stock) || 0;
             v.minOrder = parseFloat(v.minOrder) || 1;
+            v.power = parseFloat(v.power) || 0;
           });
         }
         products[idx] = updated;
@@ -832,7 +850,7 @@ export class TypingEngine {
 
   #type() {
     if (!this.#isRunning || !this.#enabled) return;
-    
+
     const currentPhrase = this.#phrases[this.#currentIndex];
     if (!currentPhrase) {
       this.#currentIndex = 0;
@@ -851,7 +869,7 @@ export class TypingEngine {
     }
 
     let delay = this.#isDeleting ? this.#deleteSpeed : this.#speed;
-    
+
     if (this.#currentText === currentPhrase) {
       delay = this.#pause;
       this.#isDeleting = true;
@@ -950,7 +968,7 @@ export class TypingEngine {
 }
 
 // ================================================================
-// 7. LIGHTNING ENGINE – محرك البرق الواقعي 
+// 7. LIGHTNING ENGINE – محرك البرق الواقعي
 // ================================================================
 
 export class LightningEngine {
@@ -965,13 +983,13 @@ export class LightningEngine {
 
   init(container) {
     this.#container = container;
-    this.#isMobile = window.innerWidth < 768 || 
+    this.#isMobile = window.innerWidth < 768 ||
                      (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4);
-    
+
     if (this.#isMobile) {
       console.log('⚡ LightningEngine: وضع الأداء المنخفض للجوال');
     }
-    
+
     this.#init3D();
   }
 
@@ -999,7 +1017,7 @@ export class LightningEngine {
   #animate3D = () => {
     requestAnimationFrame(this.#animate3D);
     if (!this.#enabled || !this.#renderer) return;
-    
+
     const delta = Math.min(this.#clock.getDelta(), 0.05);
     for (let i = this.#bolts.length - 1; i >= 0; i--) {
       const b = this.#bolts[i];
@@ -1032,39 +1050,39 @@ export class LightningEngine {
 
   spawn(x, y, intensity = 1) {
     if (!this.#enabled) return;
-    
+
     const nx = (x / window.innerWidth) * 2 - 1;
     const ny = -(y / window.innerHeight) * 2 + 1;
 
-    const numSegments = this.#isMobile ? 
-      12 + Math.floor(intensity * 6) : 
+    const numSegments = this.#isMobile ?
+      12 + Math.floor(intensity * 6) :
       18 + Math.floor(intensity * 10);
-    
+
     const mainPath = this.#generateLightningPath(nx, ny, numSegments, intensity);
     const branches = this.#generateBranches(mainPath, intensity);
     const parts = [];
     const allPaths = [mainPath, ...branches];
-    
+
     allPaths.forEach(path => {
       if (path.length < 2) return;
       const points = path.map(p => new THREE.Vector3(p.x, p.y, 0));
       const geom = new THREE.BufferGeometry().setFromPoints(points);
-      
+
       const coreMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, linewidth: 1 });
       const coreLine = new THREE.Line(geom.clone(), coreMat);
       this.#scene.add(coreLine);
-      
+
       const glowMat = new THREE.LineBasicMaterial({ color: 0x88ccff, transparent: true, opacity: 0.5, linewidth: 2 });
       const glowLine = new THREE.Line(geom.clone(), glowMat);
       this.#scene.add(glowLine);
-      
+
       const shadowMat = new THREE.LineBasicMaterial({ color: 0x4466ff, transparent: true, opacity: 0.25, linewidth: 3 });
       const shadowLine = new THREE.Line(geom.clone(), shadowMat);
       this.#scene.add(shadowLine);
-      
+
       parts.push({ line: coreLine, glow: glowLine, shadow: shadowLine });
     });
-    
+
     const sparkCount = this.#isMobile ? 20 : 40 + Math.floor(intensity * 20);
     const positions = [];
     for (let i = 0; i < sparkCount; i++) {
@@ -1083,7 +1101,7 @@ export class LightningEngine {
     });
     const sparks = new THREE.Points(sparkGeom, sparkMat);
     this.#scene.add(sparks);
-    
+
     this.#bolts.push({
       parts: parts,
       sparks: sparks,
@@ -1096,21 +1114,21 @@ export class LightningEngine {
     const path = [{ x: startX, y: startY }];
     let dx = (Math.random() - 0.5) * 0.15;
     let dy = -0.04 - Math.random() * 0.03;
-    
+
     for (let i = 0; i < numPoints; i++) {
       const step = i / numPoints;
-      const jitter = 0.04 + step * 0.12; 
+      const jitter = 0.04 + step * 0.12;
       const prev = path[path.length - 1];
-      
+
       dx += (Math.random() - 0.5) * 0.04;
       dy += (Math.random() - 0.5) * 0.015;
-      
+
       dx = Math.max(-0.12, Math.min(0.12, dx));
       dy = Math.max(-0.08, Math.min(-0.01, dy));
-      
+
       const newX = prev.x + dx + (Math.random() - 0.5) * jitter;
       const newY = prev.y + dy + (Math.random() - 0.5) * jitter * 0.5;
-      
+
       path.push({ x: newX, y: newY });
     }
     return path;
@@ -1124,12 +1142,12 @@ export class LightningEngine {
       const idx = Math.floor(2 + Math.random() * (mainPath.length - 4));
       if (!indices.includes(idx)) indices.push(idx);
     }
-    
+
     indices.forEach((idx, order) => {
       const start = mainPath[idx];
-      const dir = (order % 2 === 0) ? 1 : -1; 
+      const dir = (order % 2 === 0) ? 1 : -1;
       const angle = (Math.random() * 0.8 + 0.3) * dir;
-      
+
       const branch = [{ x: start.x, y: start.y }];
       let cx = start.x, cy = start.y;
       for (let i = 0; i < 6 + Math.floor(intensity * 3); i++) {
@@ -1141,7 +1159,7 @@ export class LightningEngine {
         branch.push({ x: cx, y: cy });
       }
       branches.push(branch);
-      
+
       if (intensity > 0.7 && !this.#isMobile) {
         const subIdx = Math.floor(branch.length * 0.5);
         const subStart = branch[subIdx];
@@ -1366,8 +1384,8 @@ export class ImageUploader {
   static async uploadFile(file) {
     if (!file) return null;
 
-    const apiKey = "a2429d609080c139ccdaa5a789cf6928"; 
-    
+    const apiKey = "a2429d609080c139ccdaa5a789cf6928";
+
     const formData = new FormData();
     formData.append("image", file);
 
@@ -1376,9 +1394,9 @@ export class ImageUploader {
         method: "POST",
         body: formData
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         return data.data.url;
       } else {
@@ -1392,7 +1410,235 @@ export class ImageUploader {
 }
 
 // ================================================================
-// 11. UTILITY FUNCTIONS – دوال مساعدة للمتجر
+// 11. COMMUNITY STATS MANAGER – إدارة إحصائيات المجتمع
+// ================================================================
+
+export class CommunityStatsManager {
+  #adapter;
+  #cache = null;
+
+  constructor(adapter = new FirebaseAdapter()) {
+    this.#adapter = adapter;
+  }
+
+  async #load() {
+    if (this.#cache) return this.#cache;
+    const data = await this.#adapter.get('nokhba_community_stats');
+    const defaults = {
+      totalPower: 0,
+      totalCustomers: 0,
+      savedHours: 0,
+      lastUpdated: new Date().toISOString()
+    };
+    this.#cache = data || defaults;
+    return this.#cache;
+  }
+
+  async getStats() {
+    return this.#load();
+  }
+
+  async updateStats(newStats) {
+    const current = await this.#load();
+    const updated = { ...current, ...newStats, lastUpdated: new Date().toISOString() };
+    await this.#adapter.set('nokhba_community_stats', updated);
+    this.#cache = null;
+    return updated;
+  }
+
+  async incrementPower(watts) {
+    const current = await this.#load();
+    const updated = {
+      ...current,
+      totalPower: (current.totalPower || 0) + watts,
+      totalCustomers: (current.totalCustomers || 0) + 1,
+      savedHours: (current.savedHours || 0) + (watts / 1000)
+    };
+    await this.#adapter.set('nokhba_community_stats', updated);
+    this.#cache = null;
+    return updated;
+  }
+
+  async resetStats() {
+    const defaults = {
+      totalPower: 0,
+      totalCustomers: 0,
+      savedHours: 0,
+      lastUpdated: new Date().toISOString()
+    };
+    await this.#adapter.set('nokhba_community_stats', defaults);
+    this.#cache = null;
+    return defaults;
+  }
+}
+
+// ================================================================
+// 12. EMOTIONAL ENGINE – المحرك العاطفي
+// ================================================================
+
+export class EmotionalEngine {
+  #currentMood = 'neutral';
+  #moodBtn = null;
+  #modal = null;
+
+  constructor() {
+    this.#loadMood();
+    setTimeout(() => this.#initUI(), 1000);
+  }
+
+  #loadMood() {
+    try {
+      const saved = localStorage.getItem('nokhba_mood');
+      if (saved) this.#currentMood = saved;
+    } catch (e) { /* تجاهل */ }
+  }
+
+  #initUI() {
+    if (document.getElementById('moodBtn')) return;
+
+    this.#moodBtn = document.createElement('button');
+    this.#moodBtn.id = 'moodBtn';
+    this.#moodBtn.innerHTML = '💓';
+    this.#moodBtn.style.cssText = `
+      position: fixed; bottom: 140px; right: 20px;
+      width: 50px; height: 50px; border-radius: 50%;
+      background: var(--panel-bg); backdrop-filter: blur(12px);
+      border: 1px solid var(--panel-border);
+      color: var(--text); font-size: 1.5rem;
+      cursor: pointer; z-index: 999;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s ease;
+      display: flex; align-items: center; justify-content: center;
+      animation: pulseGlow 2s infinite;
+    `;
+    this.#moodBtn.addEventListener('click', () => this.#openMoodModal());
+    document.body.appendChild(this.#moodBtn);
+
+    if (this.#currentMood !== 'neutral') {
+      this.#applyMood(this.#currentMood);
+    }
+  }
+
+  #openMoodModal() {
+    if (document.getElementById('moodModal')) return;
+
+    const overlay = document.createElement('div');
+    overlay.id = 'moodModal';
+    overlay.style.cssText = `
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(16px);
+      z-index: 9999; display: flex;
+      align-items: center; justify-content: center;
+      animation: fadeIn 0.3s ease;
+    `;
+
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      background: var(--panel-bg); backdrop-filter: blur(24px);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      max-width: 400px; width: 90%;
+      box-shadow: var(--shadow-xl);
+      text-align: center;
+      animation: modalSlide 0.3s ease;
+    `;
+
+    const moods = [
+      { id: 'optimistic', emoji: '😊', label: 'متفائل', color: '#f59e0b' },
+      { id: 'tired', emoji: '😔', label: 'متعب من الانقطاع', color: '#3b82f6' },
+      { id: 'excited', emoji: '🔥', label: 'متحمس للطاقة', color: '#ef4444' },
+      { id: 'neutral', emoji: '🧐', label: 'محايد', color: 'var(--text)' }
+    ];
+
+    modal.innerHTML = `
+      <h3 style="margin-bottom: 1.5rem; font-size: 1.3rem;">💭 كيف تشعر اليوم؟</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        ${moods.map(m => `
+          <button class="mood-option" data-mood="${m.id}" style="
+            padding: 1rem; border-radius: var(--radius-md);
+            border: 2px solid transparent;
+            background: ${m.id === 'neutral' ? 'rgba(255,255,255,0.05)' : `rgba(${m.id === 'optimistic' ? '245,158,11' : m.id === 'tired' ? '59,130,246' : '239,68,68'},0.1)`};
+            color: ${m.color}; cursor: pointer; transition: 0.3s;
+          ">
+            <div style="font-size: 2rem;">${m.emoji}</div>
+            <div style="font-weight: 700; font-size: 0.9rem;">${m.label}</div>
+          </button>
+        `).join('')}
+      </div>
+      <button id="closeMoodModal" style="
+        margin-top: 1.5rem; background: transparent;
+        border: 1px solid var(--panel-border); color: var(--text);
+        padding: 0.5rem 1.5rem; border-radius: var(--radius-full);
+        cursor: pointer;
+      ">إغلاق</button>
+    `;
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    modal.querySelectorAll('.mood-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mood = btn.dataset.mood;
+        this.#setMood(mood);
+        overlay.remove();
+        showToast(`✅ تم تغيير الحالة إلى: ${btn.textContent.trim()}`, 2000, '💓');
+      });
+    });
+
+    modal.querySelector('#closeMoodModal').addEventListener('click', () => overlay.remove());
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  }
+
+  #setMood(mood) {
+    this.#currentMood = mood;
+    localStorage.setItem('nokhba_mood', mood);
+    this.#applyMood(mood);
+  }
+
+  #applyMood(mood) {
+    const root = document.documentElement;
+    const heroTitle = document.querySelector('.hero-content h1');
+    const heroDesc = document.querySelector('.hero-content p');
+
+    root.style.setProperty('--primary', '#4f46e5');
+    root.style.setProperty('--secondary', '#0ea5e9');
+    root.style.setProperty('--primary-glow', 'rgba(79,70,229,0.6)');
+
+    const moods = {
+      optimistic: {
+        primary: '#f59e0b', secondary: '#fbbf24', glow: 'rgba(245,158,11,0.6)',
+        title: '☀️ يوم <span class="highlight">مشرق</span> مع النخبة!',
+        desc: 'اكتشف حلول الطاقة التي تضيء حياتك.'
+      },
+      tired: {
+        primary: '#3b82f6', secondary: '#60a5fa', glow: 'rgba(59,130,246,0.6)',
+        title: '💡 انقطع التيار؟ <span class="highlight">نحن هنا</span> لدعمك!',
+        desc: 'حلول طاقة موثوقة تناسب احتياجاتك.'
+      },
+      excited: {
+        primary: '#ef4444', secondary: '#f87171', glow: 'rgba(239,68,68,0.6)',
+        title: '🔥 استعد للثورة <span class="highlight">الطاقية</span>!',
+        desc: 'أفضل منتجات الطاقة الشمسية بأسعار لا تُقهر.'
+      },
+      neutral: {
+        primary: '#4f46e5', secondary: '#0ea5e9', glow: 'rgba(79,70,229,0.6)',
+        title: '⚡ <span class="highlight">النخبة</span> للكهربائيات',
+        desc: 'جودة عالية، ضمان طويل، وأسعار تنافسية.'
+      }
+    };
+
+    const config = moods[mood] || moods.neutral;
+    root.style.setProperty('--primary', config.primary);
+    root.style.setProperty('--secondary', config.secondary);
+    root.style.setProperty('--primary-glow', config.glow);
+    if (heroTitle) heroTitle.innerHTML = config.title;
+    if (heroDesc) heroDesc.textContent = config.desc;
+  }
+}
+
+// ================================================================
+// 13. UTILITY FUNCTIONS – دوال مساعدة للمتجر
 // ================================================================
 
 export function showToast(message, duration = 3500, icon = '✨') {
@@ -1501,11 +1747,199 @@ export function getAvailableSizes(product) {
 }
 
 // ================================================================
-// 12. منع التصادم مع Three.js
+// 14. COMMUNITY FUNCTIONS – دوال المجتمع
+// ================================================================
+
+export async function updateCommunityStatsOnOrder(orderItems) {
+  try {
+    const statsManager = new CommunityStatsManager();
+    let totalPower = 0;
+    orderItems.forEach(item => {
+      if (item.variants && item.size) {
+        const variant = item.variants.find(v => v.size === item.size);
+        if (variant && variant.power) {
+          totalPower += variant.power * item.quantity;
+        }
+      } else if (item.power) {
+        totalPower += item.power * item.quantity;
+      }
+    });
+    if (totalPower > 0) {
+      await statsManager.incrementPower(totalPower);
+      console.log(`⚡ تم تحديث إحصائيات المجتمع: +${totalPower} وات`);
+    }
+    return totalPower;
+  } catch (e) {
+    console.error('خطأ في تحديث إحصائيات المجتمع:', e);
+    return 0;
+  }
+}
+
+export async function getCommunityStats() {
+  try {
+    const statsManager = new CommunityStatsManager();
+    return await statsManager.getStats();
+  } catch (e) {
+    console.error('خطأ في جلب إحصائيات المجتمع:', e);
+    return { totalPower: 0, totalCustomers: 0, savedHours: 0 };
+  }
+}
+
+export async function updateEnergyClock() {
+  try {
+    const stats = await getCommunityStats();
+    const hours = Math.round(stats.savedHours || 0);
+    const el = document.getElementById('savedHoursDisplay');
+    if (el) el.textContent = hours;
+  } catch (e) { /* تجاهل */ }
+}
+
+// ================================================================
+// 15. ENERGY MAP – خريطة الطاقة
+// ================================================================
+
+let mapInstance = null;
+
+export async function initEnergyMap() {
+  try {
+    const L = await import('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(link);
+
+    const container = document.getElementById('energyMap');
+    if (!container) return;
+
+    document.getElementById('energyMapSection').style.display = 'block';
+
+    mapInstance = L.map('energyMap').setView([12.8, 45.0], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(mapInstance);
+
+    const stats = await getCommunityStats();
+    const totalCustomers = stats.totalCustomers || 0;
+
+    const areas = [
+      { name: 'الشيخ عثمان', lat: 12.82, lng: 44.98, systems: Math.max(8, Math.floor(totalCustomers * 0.3)) },
+      { name: 'خور مكسر', lat: 12.79, lng: 45.02, systems: Math.max(6, Math.floor(totalCustomers * 0.25)) },
+      { name: 'كريتر', lat: 12.77, lng: 45.04, systems: Math.max(4, Math.floor(totalCustomers * 0.2)) },
+      { name: 'المعلا', lat: 12.75, lng: 44.99, systems: Math.max(3, Math.floor(totalCustomers * 0.15)) },
+      { name: 'التواهي', lat: 12.78, lng: 44.96, systems: Math.max(2, Math.floor(totalCustomers * 0.1)) }
+    ];
+
+    areas.forEach(area => {
+      const radius = Math.max(6, 8 + (area.systems / totalCustomers) * 20 || 8);
+      const marker = L.circleMarker([area.lat, area.lng], {
+        radius: Math.min(radius, 30),
+        fillColor: '#4f46e5',
+        fillOpacity: 0.7,
+        color: '#fff',
+        weight: 1
+      }).addTo(mapInstance);
+
+      marker.bindPopup(`
+        <strong>${area.name}</strong><br>
+        ⚡ ${area.systems} نظام شمسي<br>
+        🔋 قدرة تقديرية: ${(area.systems * 3).toFixed(1)} كيلووات
+      `);
+    });
+
+    const mapBtn = document.createElement('button');
+    mapBtn.innerHTML = '🗺️';
+    mapBtn.title = 'خريطة الطاقة';
+    mapBtn.style.cssText = 'background:transparent; border:none; font-size:1.3rem; cursor:pointer; color:var(--text);';
+    mapBtn.addEventListener('click', () => {
+      document.getElementById('energyMapSection').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => { if (mapInstance) mapInstance.invalidateSize(); }, 500);
+    });
+    document.querySelector('.header-actions').appendChild(mapBtn);
+
+  } catch (e) {
+    console.warn('⚠️ خطأ في تحميل الخريطة:', e);
+  }
+}
+
+// ================================================================
+// 16. ENGINEERING CHALLENGE – نظام المنافسة الهندسية
+// ================================================================
+
+export function initEngineeringChallenge() {
+  const btn = document.getElementById('submitChallengeBtn');
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    const name = document.getElementById('engineerName')?.value.trim();
+    const desc = document.getElementById('designDesc')?.value.trim();
+    if (!name || !desc) {
+      showToast('⚠️ يرجى ملء جميع الحقول', 2000, '⚠️');
+      return;
+    }
+    const entries = JSON.parse(localStorage.getItem('nokhba_challenges') || '[]');
+    entries.push({ name, desc, date: new Date().toISOString() });
+    localStorage.setItem('nokhba_challenges', JSON.stringify(entries));
+    showToast('✅ تم تقديم تصميمك بنجاح!', 3000, '✅');
+    document.getElementById('engineerName').value = '';
+    document.getElementById('designDesc').value = '';
+    updatePastWinners();
+  });
+}
+
+export function updatePastWinners() {
+  const entries = JSON.parse(localStorage.getItem('nokhba_challenges') || '[]');
+  const el = document.getElementById('pastWinners');
+  if (!el) return;
+  if (entries.length === 0) {
+    el.textContent = '🏅 لا يوجد مشاركات حتى الآن. كن أول من يشارك!';
+    return;
+  }
+  const lastThree = entries.slice(-3).map(e => e.name).join('، ');
+  el.textContent = `🏅 أحدث المشاركين: ${lastThree}`;
+}
+
+// ================================================================
+// 17. INSTALLATION SERVICE – خدمة التركيب
+// ================================================================
+
+export function addInstallationToCart(productId) {
+  const productManager = new ProductManager();
+  productManager.getById(productId).then(p => {
+    if (!p) return;
+    const installCost = p.price * 0.15;
+    const installItem = {
+      ...p,
+      id: p.id + '_install',
+      name: p.name + ' (خدمة تركيب)',
+      price: installCost,
+      isInstallation: true,
+      quantity: 1,
+      stock: 999
+    };
+    const cart = getCart();
+    cart.push(installItem);
+    saveCart(cart);
+    updateCartUI();
+    showToast('🛠️ تم إضافة خدمة التركيب للسلة', 2500, '🛠️');
+  });
+}
+
+// ================================================================
+// 18. منع التصادم مع Three.js
 // ================================================================
 
 if (typeof THREE !== 'undefined' && !window.__THREE_LOADED) {
   window.__THREE_LOADED = true;
 }
 
-console.log('⚡ النخبة – النواة الأسطورية v7.5 (Firebase + ImgBB) جاهزة');
+console.log('⚡ النخبة – النواة الأسطورية v8.0 (مع جميع الميزات الجديدة) جاهزة');
+console.log('📞 رقم الهاتف: +967782826727');
+console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
+console.log('🔊 ThunderEngine: تم تهيئة صوت الرعد');
+console.log('⌨️ TypingEngine: جاهز لتأثير الكتابة الديناميكي');
+console.log('⚡ LightningEngine: محرك برق واقعي');
+console.log('💓 EmotionalEngine: المحرك العاطفي جاهز');
+console.log('🗺️ Energy Map: خريطة الطاقة جاهزة');
+console.log('🏆 Engineering Challenge: نظام المنافسة جاهز');
