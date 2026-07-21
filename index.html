@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
   <title>النخبة للكهربائيات – المتجر الأسطوري</title>
   
-  <!-- ===== Google Fonts ===== -->
+  <!-- ===== Google Fonts – خطوط عصرية ===== -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="style.css" />
@@ -16,113 +16,96 @@
     { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
   </script>
 
-  <!-- ===== أنماط إضافية للميزات السيكولوجية والمستشار الهندسي ===== -->
+  <!-- ===== أنماط إضافية صغيرة للتجاوزات ===== -->
   <style>
-    /* 🧠 التسويق النفسي: تأثير الإرساء */
-    .price-anchor {
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.4);
-      text-decoration: line-through;
-      margin-left: 0.5rem;
-      font-weight: 400;
-    }
-    
-    /* 🧠 التسويق النفسي: محفز الندرة */
-    .scarcity-badge {
-      font-size: 0.75rem;
-      color: #ef4444;
-      font-weight: 800;
-      background: rgba(239, 68, 68, 0.1);
-      padding: 0.2rem 0.6rem;
+    .cart-item .controls .qty-input {
+      width: 44px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: var(--radius-sm);
-      margin-bottom: 0.5rem;
-      display: inline-block;
-      animation: pulseAlert 1.5s infinite;
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text);
+      padding: 2px 0;
+      font-size: 0.8rem;
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
     }
-    @keyframes pulseAlert { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-
-    /* 🧠 التسويق النفسي: تأثير القطيع */
-    .social-proof {
-      font-size: 0.7rem;
-      color: #fbbf24;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      background: rgba(251, 191, 36, 0.05);
-      padding: 0.2rem 0.5rem;
-      border-radius: var(--radius-sm);
-      border-right: 2px solid #fbbf24;
+    .cart-item .controls .qty-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-glow);
     }
-
-    /* 🧠 زر خيار المهندسين (Authority Bias) */
-    .btn-authority {
-      background: linear-gradient(135deg, #1e3a8a, var(--primary));
-      border-color: #1e40af !important;
-      box-shadow: 0 0 15px rgba(30, 58, 138, 0.5) !important;
+    .cart-item .controls .qty-input::-webkit-inner-spin-button,
+    .cart-item .controls .qty-input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    @media (max-width: 400px) {
+      .product-grid { gap: 0.4rem; }
+      .product-card { padding: 0.4rem; }
+      .product-card h4 { font-size: 0.65rem; }
+      .product-card .price { font-size: 0.8rem; }
+      .variant-select { font-size: 0.6rem; }
+      .add-to-cart { font-size: 0.6rem; padding: 0.3rem; }
     }
 
-    /* 🧮 المستشار الهندسي الذكي */
-    .wizard-btn-float {
-      position: fixed;
-      bottom: 90px;
-      left: 20px;
-      background: linear-gradient(135deg, var(--secondary), var(--primary));
-      color: white;
-      border: none;
+    /* أنماط شاشة الطاقة */
+    .community-bar {
+      text-align: center;
+      margin: 0.8rem 0 1.2rem;
+      padding: 0.6rem;
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
       border-radius: var(--radius-full);
-      padding: 0.8rem 1.5rem;
-      font-weight: 800;
-      font-size: 0.9rem;
-      cursor: pointer;
-      z-index: 998;
-      box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4);
+      border: 1px solid var(--panel-border);
+      font-size: 0.95rem;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: center;
+      gap: 0.5rem 1.2rem;
+    }
+    .community-bar strong { color: var(--primary); }
+    .community-bar .highlight { color: var(--secondary); font-weight: 800; }
+
+    /* خريطة الطاقة */
+    #energyMapSection { margin: 2.5rem 0; }
+    #energyMapSection h2 { text-align:center; margin-bottom:1rem; font-weight:700; }
+    #energyMap { height: 380px; border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--panel-border); }
+    #energyMapSection .map-note { text-align:center; opacity:0.4; font-size:0.8rem; margin-top:0.5rem; }
+
+    /* تحدي المهندسين */
+    .challenge-section {
+      margin: 2.5rem 0;
+      padding: 1.5rem;
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--panel-border);
+    }
+    .challenge-section h2 { text-align:center; margin-bottom:0.5rem; font-weight:700; }
+    .challenge-section .sub { text-align:center; opacity:0.6; margin-bottom:1.2rem; }
+    .challenge-form { display:flex; flex-wrap:wrap; gap:0.8rem; }
+    .challenge-form input { flex:1; min-width:140px; padding:0.6rem 1rem; border-radius:var(--radius-full); border:1px solid var(--panel-border); background:rgba(0,0,0,0.2); color:var(--text); }
+    .challenge-form button { padding:0.6rem 1.8rem; background:var(--primary); color:white; border:none; border-radius:var(--radius-full); cursor:pointer; font-weight:700; transition:0.3s; }
+    .challenge-form button:hover { background:var(--primary-dark); transform:scale(1.02); }
+    .past-winners { text-align:center; opacity:0.4; font-size:0.9rem; margin-top:1rem; padding-top:0.8rem; border-top:1px solid var(--panel-border); }
+
+    /* زر الحالة المزاجية */
+    #moodBtn {
+      position: fixed; bottom: 140px; right: 20px;
+      width: 50px; height: 50px; border-radius: 50%;
+      background: var(--panel-bg); backdrop-filter: blur(12px);
+      border: 1px solid var(--panel-border);
+      color: var(--text); font-size: 1.5rem;
+      cursor: pointer; z-index: 999;
+      box-shadow: var(--shadow-md);
       transition: all 0.3s ease;
-      animation: floatBtn 3s infinite ease-in-out;
+      display: flex; align-items: center; justify-content: center;
+      animation: pulseGlow 2s infinite;
     }
-    .wizard-btn-float:hover { transform: scale(1.05); }
-    @keyframes floatBtn { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-    .wizard-modal {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
-      z-index: 4000; display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.3s;
-    }
-    .wizard-modal.active { display: flex; opacity: 1; }
-    .wizard-content {
-      background: var(--panel-bg); border: 1px solid var(--primary); box-shadow: 0 0 40px var(--primary-glow);
-      border-radius: var(--radius-xl); width: 90%; max-width: 500px; padding: 2rem; position: relative;
-    }
-    .wizard-close { position: absolute; top: 15px; left: 15px; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
-    .wizard-content h3 { color: var(--secondary); margin-bottom: 1.5rem; text-align: center; font-weight: 800; font-size: 1.4rem; }
-    .wizard-group { margin-bottom: 1.2rem; }
-    .wizard-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; }
-    .wizard-group input[type="range"] { width: 100%; accent-color: var(--primary); }
-    .wizard-val { color: var(--secondary); font-weight: 800; font-size: 1.1rem; float: left; }
-    .wizard-result {
-      background: rgba(0,0,0,0.4); padding: 1rem; border-radius: var(--radius-md); border-right: 4px solid var(--primary);
-      margin-top: 1.5rem; font-size: 0.85rem; line-height: 1.8;
-    }
-    .wizard-add-btn {
-      width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: var(--radius-full);
-      font-weight: 800; font-size: 1.1rem; margin-top: 1rem; cursor: pointer; transition: 0.3s; box-shadow: 0 0 20px var(--primary-glow);
-    }
-    .wizard-add-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
-
-    /* 🌍 القائمة الجغرافية لقاطع التيار */
-    .district-select {
-      background: rgba(0,0,0,0.4); border: 1px solid var(--panel-border); color: var(--text);
-      padding: 0.3rem 0.8rem; border-radius: var(--radius-full); font-family: var(--font);
-      font-size: 0.75rem; font-weight: 600; outline: none; cursor: pointer;
-    }
-
-    .cart-item .controls .qty-input { width: 44px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: var(--radius-sm); background: rgba(0, 0, 0, 0.2); color: var(--text); padding: 2px 0; font-size: 0.8rem; transition: border-color 0.2s; -moz-appearance: textfield; }
-    .cart-item .controls .qty-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-glow); }
-    .cart-item .controls .qty-input::-webkit-inner-spin-button, .cart-item .controls .qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    @media (max-width: 400px) { .product-grid { gap: 0.4rem; } .product-card { padding: 0.4rem; } .product-card h4 { font-size: 0.65rem; } .product-card .price { font-size: 0.8rem; } .variant-select { font-size: 0.6rem; } .add-to-cart { font-size: 0.6rem; padding: 0.3rem; } }
+    #moodBtn:hover { transform: scale(1.1); background: var(--primary); color:white; }
+    @keyframes pulseGlow { 0%,100% { box-shadow:0 0 10px var(--primary-glow); } 50% { box-shadow:0 0 25px var(--primary-glow); } }
   </style>
 </head>
 <body>
@@ -134,16 +117,12 @@
   <header id="mainHeader">
     <div class="logo">⚡ النخبة</div>
     <div class="header-actions">
-      <!-- ميزة وضع الظلام المبرمج جغرافياً -->
-      <select id="districtSelect" class="district-select" aria-label="تحديد المنطقة">
-        <option value="cra">صيرة (كريتر)</option>
-        <option value="kho">خور مكسر</option>
-        <option value="she" selected>الشيخ عثمان</option>
-        <option value="man">المنصورة</option>
-        <option value="bur">البريقة</option>
-        <option value="mua">المعلا</option>
-      </select>
-      
+      <span class="power-counter" style="display:flex; align-items:center; gap:0.4rem; font-size:0.75rem; background:rgba(255,255,255,0.05); padding:0.2rem 0.8rem; border-radius:var(--radius-full); border:1px solid var(--panel-border); font-family:var(--font-mono);">
+        ⚡ <span id="totalPowerDisplay">0</span> وات
+        <span id="energyClock" style="font-size:0.65rem; opacity:0.6; margin-right:0.3rem;">
+          ⏳ <span id="savedHoursDisplay">0</span> ساعة
+        </span>
+      </span>
       <button class="sound-toggle" id="soundToggle" aria-label="تشغيل/إيقاف الصوت">🔊</button>
       <button class="lang-btn" id="langToggle" aria-label="تبديل اللغة">🇸🇦 العربية</button>
       <button id="breakerToggle" class="breaker-btn" aria-label="قاطع التيار">🎚️</button>
@@ -157,20 +136,24 @@
   <!-- ===== المحتوى الرئيسي ===== -->
   <main style="position:relative; z-index:1; max-width:1400px; margin:0 auto; padding:0 0.8rem 90px;">
 
-    <!-- أزرار التنقل -->
+    <!-- ===== أزرار التنقل بين الأقسام ===== -->
     <div class="nav-tabs">
       <button class="active" data-section="store">🛍️ المتجر</button>
       <button data-section="blog">📝 المدونة</button>
       <button data-section="contact">📞 تواصل معنا</button>
     </div>
 
-    <!-- تأثير الكتابة الديناميكي -->
+    <!-- ========================================================== -->
+    <!-- تأثير الكتابة الديناميكي (Typewriter Effect) -->
+    <!-- ========================================================== -->
     <section class="typing-section" id="typingSection">
       <div class="typing-container" id="typingContainer">
+        <!-- النص الثابت + المؤشر المتحرك -->
         <div class="terminal-prefix" id="terminalPrefix">
           <span class="prefix-text" id="prefixText">النخبة NBA: ~_</span>
           <span class="prefix-cursor" id="prefixCursor">🔌</span>
         </div>
+        <!-- النص المتغير -->
         <div class="typing-text-wrapper">
           <span class="typing-text" id="typingText"></span>
           <span class="typing-cursor glow" id="typingCursor">|</span>
@@ -178,13 +161,28 @@
       </div>
     </section>
 
-    <!-- الشاشة الإعلانية -->
+    <!-- ===== شريط المجتمع ===== -->
+    <div class="community-bar" id="communityBar">
+      <span>⚡ مجتمع النخبة يولد</span>
+      <span class="highlight" id="communityPowerDisplay">0</span>
+      <span>وات من الطاقة النظيفة!</span>
+      <span>👥 <strong id="communityCustomersDisplay">0</strong> عميل</span>
+      <span>⏳ <strong id="communityHoursDisplay">0</strong> ساعة موفرة</span>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- الشاشة الإعلانية التفاعلية (Hero Billboard) -->
+    <!-- ========================================================== -->
     <section class="hero-section" id="heroSection">
-      <div class="hero-track" id="heroTrack"></div>
+      <div class="hero-track" id="heroTrack">
+        <!-- سيتم تعبئة الشرائح من JavaScript -->
+      </div>
       <div class="hero-dots" id="heroDots"></div>
     </section>
 
-    <!-- شريط الأقسام السريعة -->
+    <!-- ========================================================== -->
+    <!-- شريط الأقسام السريعة (Quick Categories) -->
+    <!-- ========================================================== -->
     <section class="categories-scroll" id="categoriesScroll">
       <span class="cat-pill active" data-category="all">🔥 الكل</span>
       <span class="cat-pill" data-category="إضاءة">💡 إضاءة</span>
@@ -195,8 +193,11 @@
       <span class="cat-pill" data-category="مقابس">🔌 مقابس</span>
     </section>
 
-    <!-- قسم المتجر -->
+    <!-- ========================================================== -->
+    <!-- قسم المتجر (Store) -->
+    <!-- ========================================================== -->
     <div id="section-store" class="page-section active">
+
       <div class="info-bar">
         <span class="info-item">🛍️ <span class="count" id="productCount">0</span> منتج</span>
         <span class="info-item">📦 <span class="count" id="orderCount">0</span> طلب سابق</span>
@@ -222,29 +223,21 @@
 
       <section class="testimonials-section">
         <h2>💬 آراء عملائنا</h2>
-        <div class="testimonials-scroll" id="testimonialsScroll">
-          <!-- نماذج للآراء لتعزيز الدليل الاجتماعي -->
-          <div class="testimonial-card">
-            <div class="stars">⭐⭐⭐⭐⭐</div>
-            <p>"استشرت المستشار الهندسي واشتريت منظومة متكاملة.. دقة في الحسابات وجودة في المنتجات!"</p>
-            <div class="author">- م. أحمد، عدن</div>
-          </div>
-          <div class="testimonial-card">
-            <div class="stars">⭐⭐⭐⭐⭐</div>
-            <p>"سرعة خيالية في التوصيل، والكابلات أصلية 100%. شكراً النخبة."</p>
-            <div class="author">- محمد اليافعي</div>
-          </div>
-        </div>
+        <div class="testimonials-scroll" id="testimonialsScroll"></div>
       </section>
     </div>
 
-    <!-- قسم المدونة -->
+    <!-- ========================================================== -->
+    <!-- قسم المدونة (Blog) -->
+    <!-- ========================================================== -->
     <div id="section-blog" class="page-section">
       <h2 style="font-weight:700; margin-bottom:1.5rem;">📝 المدونة التقنية</h2>
       <div id="blogGrid" class="blog-grid"></div>
     </div>
 
-    <!-- قسم التواصل -->
+    <!-- ========================================================== -->
+    <!-- قسم التواصل (Contact) -->
+    <!-- ========================================================== -->
     <div id="section-contact" class="page-section">
       <h2 style="font-weight:700; margin-bottom:1.5rem;">📞 تواصل معنا</h2>
       <div class="contact-page">
@@ -252,10 +245,14 @@
         <div class="contact-form">
           <h4>✉️ أرسل رسالة</h4>
           <form id="contactForm">
-            <label>الاسم</label><input type="text" id="contactName" placeholder="اسمك الكريم" required />
-            <label>البريد الإلكتروني</label><input type="email" id="contactEmailUser" placeholder="بريدك الإلكتروني" required />
-            <label>الموضوع</label><input type="text" id="contactSubject" placeholder="موضوع الرسالة" required />
-            <label>الرسالة</label><textarea id="contactMessage" rows="3" placeholder="اكتب رسالتك هنا..." required></textarea>
+            <label>الاسم</label>
+            <input type="text" id="contactName" placeholder="اسمك الكريم" required />
+            <label>البريد الإلكتروني</label>
+            <input type="email" id="contactEmailUser" placeholder="بريدك الإلكتروني" required />
+            <label>الموضوع</label>
+            <input type="text" id="contactSubject" placeholder="موضوع الرسالة" required />
+            <label>الرسالة</label>
+            <textarea id="contactMessage" rows="3" placeholder="اكتب رسالتك هنا..." required></textarea>
             <button type="submit">📨 إرسال</button>
           </form>
         </div>
@@ -263,7 +260,34 @@
       <div class="map-container" id="contactMapDisplay"></div>
     </div>
 
-    <!-- السلة الجانبية -->
+    <!-- ========================================================== -->
+    <!-- خريطة الطاقة (Energy Map) -->
+    <!-- ========================================================== -->
+    <section id="energyMapSection">
+      <h2>🗺️ خريطة الطاقة في عدن</h2>
+      <div id="energyMap"></div>
+      <p class="map-note">📍 النقاط المضيئة تمثل أنظمة الطاقة الشمسية في مناطق عدن</p>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- تحدي المهندسين (Engineering Challenge) -->
+    <!-- ========================================================== -->
+    <section class="challenge-section" id="engineeringChallenge">
+      <h2>🏆 تحدي المهندسين الشهري</h2>
+      <p class="sub">صمم منظومة طاقة شمسية بأقل تكلفة وفز بخصم 50% على طلبك التالي!</p>
+      <div class="challenge-form">
+        <input type="text" id="engineerName" placeholder="اسمك" />
+        <input type="text" id="designDesc" placeholder="وصف التصميم" />
+        <button id="submitChallengeBtn">🚀 تقديم</button>
+      </div>
+      <div class="past-winners" id="pastWinners">
+        🏅 الفائزون السابقون: أحمد المهندس (تصميم 5 كيلووات بـ 1200$)
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- السلة الجانبية (Cart Sidebar) -->
+    <!-- ========================================================== -->
     <div id="cartSidebar" class="cart-sidebar">
       <h3>🛒 سلة المشتريات <span class="cart-count-badge" id="cartItemCount">(0)</span></h3>
       <div id="cartItems"></div>
@@ -272,13 +296,15 @@
         <div>الخصم: <span id="cartDiscount">0</span> ريال</div>
         <div class="total-final"><strong>الإجمالي: <span id="cartFinal">0</span> ريال</strong></div>
       </div>
-      <button id="checkoutBtn" class="primary-btn">📤 اعتماد هندسي وإرسال عبر واتساب</button>
+      <button id="checkoutBtn" class="primary-btn">📤 إرسال الطلب عبر واتساب</button>
       <button id="clearCartBtn" class="secondary-btn">🗑️ تفريغ</button>
       <button id="closeCart" class="secondary-btn">إغلاق</button>
     </div>
     <div id="cartOverlay" class="overlay"></div>
 
+    <!-- ========================================================== -->
     <!-- الـ Lightbox (معرض المنتج) -->
+    <!-- ========================================================== -->
     <div id="productLightbox" class="lightbox-overlay">
       <div class="lightbox-container" id="lightboxContainer">
         <div class="lightbox-header">
@@ -322,13 +348,16 @@
               <button class="add-btn" id="lbAddToCart">
                 <span class="btn-icon">➕</span> أضف إلى السلة
               </button>
+              <button class="secondary-btn" id="installBtn" style="width:100%; margin-top:0.5rem; padding:0.8rem;">🛠️ تركيب احترافي (+15%)</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- الفوتر -->
+    <!-- ========================================================== -->
+    <!-- الفوتر (Footer) -->
+    <!-- ========================================================== -->
     <footer id="siteFooter">
       <div class="footer-brand">⚡ النخبة للكهربائيات</div>
       <div class="footer-links">
@@ -349,84 +378,87 @@
 
   </main>
 
-  <!-- زر تشغيل المستشار الهندسي -->
-  <button id="openWizardBtn" class="wizard-btn-float">
-    🧮 المستشار الهندسي الذكي
-  </button>
-
-  <!-- نافذة المستشار الهندسي (Engineering Wizard Modal) -->
-  <div id="wizardModal" class="wizard-modal">
-    <div class="wizard-content">
-      <button id="closeWizard" class="wizard-close">✕</button>
-      <h3>🧮 صمم منظومتك الشمسية</h3>
-      
-      <div class="wizard-group">
-        <label>الأحمال الأساسية (إنارة، شاشات، مراوح) - <span class="wizard-val" id="valLoad">500</span> وات</label>
-        <input type="range" id="wizLoad" min="100" max="3000" step="100" value="500">
-      </div>
-      
-      <div class="wizard-group">
-        <label>عدد المكيفات (اقتصادي 1 طن) - <span class="wizard-val" id="valAc">0</span> مكيف</label>
-        <input type="range" id="wizAc" min="0" max="3" step="1" value="0">
-      </div>
-      
-      <div class="wizard-group">
-        <label>ساعات التشغيل المطلوبة ليلاً - <span class="wizard-val" id="valHours">8</span> ساعات</label>
-        <input type="range" id="wizHours" min="4" max="12" step="1" value="8">
-      </div>
-
-      <div class="wizard-result" id="wizResult">
-        <i>💡 جاري الحساب الهندسي...</i>
-      </div>
-      
-      <button id="addBundleBtn" class="wizard-add-btn">🛒 اعتماد الباقة وإضافتها للسلة</button>
-    </div>
-  </div>
-
-  <!-- شريط التنقل السفلي -->
+  <!-- ===== شريط التنقل السفلي العائم (Bottom Navigation) ===== -->
   <nav class="bottom-nav" id="bottomNav">
-    <button class="nav-item active" data-section="store" aria-label="الرئيسية"><span class="nav-icon">🏠</span><span class="nav-label">الرئيسية</span></button>
-    <button class="nav-item" id="navSearch" aria-label="بحث"><span class="nav-icon">🔍</span><span class="nav-label">بحث</span></button>
-    <button class="whatsapp-btn" id="navWhatsapp" aria-label="واتساب">💬</button>
-    <button class="nav-item" id="navCart" aria-label="السلة"><span class="nav-icon">🛒</span><span class="nav-label">السلة</span><span id="navCartBadge" class="badge" style="position:absolute;top:-4px;right:-4px;font-size:0.5rem;min-width:0.8rem;">0</span></button>
-    <button class="nav-item" data-section="contact" aria-label="تواصل"><span class="nav-icon">📞</span><span class="nav-label">تواصل</span></button>
+    <button class="nav-item active" data-section="store" aria-label="الرئيسية">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">الرئيسية</span>
+    </button>
+    <button class="nav-item" id="navSearch" aria-label="بحث">
+      <span class="nav-icon">🔍</span>
+      <span class="nav-label">بحث</span>
+    </button>
+    <button class="whatsapp-btn" id="navWhatsapp" aria-label="واتساب">
+      💬
+    </button>
+    <button class="nav-item" id="navCart" aria-label="السلة">
+      <span class="nav-icon">🛒</span>
+      <span class="nav-label">السلة</span>
+      <span id="navCartBadge" class="badge" style="position:absolute;top:-4px;right:-4px;font-size:0.5rem;min-width:0.8rem;">0</span>
+    </button>
+    <button class="nav-item" data-section="contact" aria-label="تواصل">
+      <span class="nav-icon">📞</span>
+      <span class="nav-label">تواصل</span>
+    </button>
   </nav>
 
-  <!-- الإشعارات -->
+  <!-- ===== الإشعارات (Toast) ===== -->
   <div id="toast" class="toast"></div>
 
-  <!-- زر العودة للأعلى -->
+  <!-- ===== زر العودة للأعلى ===== -->
   <button id="scrollTopBtn">↑</button>
 
   <!-- ========================================================== -->
-  <!-- JavaScript – النواة البرمجية (الإصدار الاستثنائي المحدث) -->
+  <!-- JavaScript – تشغيل المتجر (الإصدار الاستثنائي المحدث) -->
   <!-- ========================================================== -->
   <script type="module">
+    // استيراد المكونات من main.js
     import { 
       ProductManager, BlogManager, ContactManager,
       LightningEngine, ThunderEngine, TypingEngine, HeroImagesManager,
+      EmotionalEngine,
+      initEnergyMap, updateEnergyClock, getCommunityStats,
+      initEngineeringChallenge, updatePastWinners,
+      addInstallationToCart,
       showToast, getCart, saveCart, getOrders, saveOrders,
       getTheme, setTheme, getBackground, applyBackground,
       getFooterImage, applyFooterImage
     } from './main.js';
 
+    // تحميل إعدادات تأثير الكتابة
     function loadTypingSettings() {
       try {
         const saved = localStorage.getItem('nokhba_typing_settings');
         if (saved) return JSON.parse(saved);
       } catch (e) { }
-      return { enabled: true, phrases: ['مرحباً بك في النخبة للكهربائيات', 'جودة عالية وأسعار تنافسية', 'الخيار الأول لمهندسي عدن'], speed: 50, deleteSpeed: 30, pause: 2000, cursorEnabled: true, cursorEmojis: ['🔌', '💡', '⚡'], showPrefix: true, prefixText: 'النخبة NBA: ~_' };
+      return {
+        enabled: true,
+        phrases: [
+          'مرحباً بك في النخبة للكهربائيات',
+          'جودة عالية وأسعار تنافسية',
+          'توصيل سريع إلى جميع أنحاء عدن',
+          'نحن نصنع الفرق في عالم الكهرباء',
+          'أفضل المنتجات بأفضل الأسعار'
+        ],
+        speed: 50, deleteSpeed: 30, pause: 2000, cursorEnabled: true,
+        cursorEmojis: ['🔌', '💡', '⚡', '☀️', '🔋', '📡', '🛠️', '🔧', '⚙️', '🔦'],
+        showPrefix: true, prefixText: 'النخبة NBA: ~_'
+      };
     }
 
     const typingSettings = loadTypingSettings();
+
+    // تهيئة المحركات والمديرين
     const productManager = new ProductManager();
     const blogManager = new BlogManager();
     const contactManager = new ContactManager();
     const heroImagesManager = new HeroImagesManager();
+    
     const lightning = new LightningEngine();
     const thunder = new ThunderEngine();
     const typingEngine = new TypingEngine();
 
+    // تشغيل المحركات بأمان
     try { lightning.init(document.getElementById('lightning-container')); } catch(e) {}
     try { thunder.init(); } catch(e) {}
 
@@ -445,198 +477,429 @@
 
     let cursorEmojis = typingSettings.cursorEmojis || ['⚡'];
     let cursorEmojiIndex = 0;
-    function updateCursorEmoji() { if (cursorEmojis.length > 0 && prefixCursor) { prefixCursor.textContent = cursorEmojis[cursorEmojiIndex % cursorEmojis.length]; cursorEmojiIndex++; } }
-    if (typingSettings.cursorEnabled && prefixCursor) { setInterval(updateCursorEmoji, 2000); updateCursorEmoji(); } else if (prefixCursor) { prefixCursor.style.display = 'none'; }
-    if (typingSettings.enabled && typingText && typingCursor) { typingEngine.setSpeed(typingSettings.speed); typingEngine.setDeleteSpeed(typingSettings.deleteSpeed); typingEngine.setPause(typingSettings.pause); setTimeout(() => { typingEngine.start(typingText, typingCursor); }, 600); }
+    function updateCursorEmoji() {
+      if (cursorEmojis.length > 0 && prefixCursor) {
+        prefixCursor.textContent = cursorEmojis[cursorEmojiIndex % cursorEmojis.length];
+        cursorEmojiIndex++;
+      }
+    }
+    if (typingSettings.cursorEnabled && prefixCursor) {
+      setInterval(updateCursorEmoji, 2000);
+      updateCursorEmoji();
+    } else if (prefixCursor) {
+      prefixCursor.style.display = 'none';
+    }
 
-    // إدارة الصوت (Zero-Latency)
+    if (typingSettings.enabled && typingText && typingCursor) {
+      typingEngine.setSpeed(typingSettings.speed);
+      typingEngine.setDeleteSpeed(typingSettings.deleteSpeed);
+      typingEngine.setPause(typingSettings.pause);
+      setTimeout(() => { typingEngine.start(typingText, typingCursor); }, 600);
+    }
+
+    // ================================================================
+    // تشغيل المحرك العاطفي
+    // ================================================================
+    let emotionalEngine = new EmotionalEngine();
+
+    // ================================================================
+    // إدارة الصوت (النسخة اللحظية بدون تأخير - Zero-Latency)
+    // ================================================================
     let soundEnabled = localStorage.getItem('nokhba_sound') !== 'off';
     const soundToggle = document.getElementById('soundToggle');
+    
     let audioCtx = null;
-    function initAudio() { if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } if (audioCtx.state === 'suspended') audioCtx.resume(); }
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
     document.body.addEventListener('click', initAudio, { once: true });
     document.body.addEventListener('touchstart', initAudio, { once: true });
 
     function updateSoundUI() {
-      if(soundToggle){ soundToggle.textContent = soundEnabled ? '🔊' : '🔇'; soundToggle.classList.toggle('sound-off', !soundEnabled); }
+      if(soundToggle){
+        soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+        soundToggle.classList.toggle('sound-off', !soundEnabled);
+      }
       document.documentElement.style.setProperty('--sound-enabled', soundEnabled ? '1' : '0');
     }
     updateSoundUI();
-    if(soundToggle){ soundToggle.addEventListener('click', () => { soundEnabled = !soundEnabled; localStorage.setItem('nokhba_sound', soundEnabled ? 'on' : 'off'); updateSoundUI(); showToast(soundEnabled ? '🔊 تم تشغيل الصوت' : '🔇 تم إيقاف الصوت', 1500, soundEnabled ? '🔊' : '🔇'); }); }
+    
+    if(soundToggle){
+      soundToggle.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        localStorage.setItem('nokhba_sound', soundEnabled ? 'on' : 'off');
+        updateSoundUI();
+        showToast(soundEnabled ? '🔊 تم تشغيل الصوت' : '🔇 تم إيقاف الصوت', 1500, soundEnabled ? '🔊' : '🔇');
+      });
+    }
 
     function playClickSound(volume = 0.08) {
       if (!soundEnabled || !audioCtx) return;
       try {
-        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.type = 'sawtooth'; osc.frequency.setValueAtTime(1500, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
-        gain.gain.setValueAtTime(volume, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-        osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.05);
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(1500, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
+        gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.05);
       } catch (e) {}
     }
-    document.addEventListener('click', (e) => { const target = e.target.closest('button, .product-card, .cat-pill, .nav-item, .whatsapp-btn'); if (target && !target.closest('.sound-toggle') && !target.closest('#lbClose')) playClickSound(); });
 
-    applyBackground(getBackground()); applyFooterImage(getFooterImage()); setTheme('dark');
+    document.addEventListener('click', (e) => {
+      const target = e.target.closest('button, .product-card, .cat-pill, .nav-item, .whatsapp-btn');
+      if (target && !target.closest('.sound-toggle') && !target.closest('#lbClose')) playClickSound();
+    });
 
-    // 💡 وضع قاطع التيار وتزامن المناطق (Geotargeted Blackout Sync)
+    // استعادة إعدادات الخلفية والفوتر
+    applyBackground(getBackground());
+    applyFooterImage(getFooterImage());
+    setTheme('dark');
+
+    // ================================================================
+    // 💡 تجربة انقطاع التيار (Circuit Breaker)
+    // ================================================================
     const breakerToggle = document.getElementById('breakerToggle');
-    const districtSelect = document.getElementById('districtSelect');
     let isBlackout = false;
 
     function playBreakerSound() {
       if (!soundEnabled || !audioCtx) return;
       try {
-        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.type = 'square'; osc.frequency.setValueAtTime(60, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.25);
-        gain.gain.setValueAtTime(1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
-        osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.25);
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.25);
+        gain.gain.setValueAtTime(1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.25);
       } catch(e){}
     }
 
-    function toggleBlackout(forceState = null, triggerMsg = null) {
-      isBlackout = forceState !== null ? forceState : !isBlackout;
-      playBreakerSound();
-      if (isBlackout) {
-        if(breakerToggle) { breakerToggle.textContent = '🔌'; breakerToggle.classList.add('is-off'); }
-        document.body.classList.add('blackout-mode');
-        showToast(triggerMsg || '⚠️ تم فصل التيار الرئيسي!', 3000, '🔌');
-        setTimeout(() => { document.querySelectorAll('.product-card img').forEach(img => { img.style.filter = 'drop-shadow(0 0 35px rgba(255, 245, 150, 1)) brightness(1.5)'; }); try { thunder.play(0.5); } catch(e){} }, 800);
-      } else {
-        if(breakerToggle) { breakerToggle.textContent = '🎚️'; breakerToggle.classList.remove('is-off'); }
-        document.body.classList.remove('blackout-mode');
-        document.querySelectorAll('.product-card img').forEach(img => { img.style.filter = ''; });
-        showToast('⚡ عاد التيار الكهربائي', 2000, '⚡');
-      }
-    }
-
-    if (breakerToggle) breakerToggle.addEventListener('click', () => toggleBlackout());
-    
-    // محاكاة الانقطاع حسب مديريات عدن
-    if(districtSelect) {
-      districtSelect.addEventListener('change', (e) => {
-        const districtName = e.target.options[e.target.selectedIndex].text;
-        showToast(`📍 جاري مزامنة شبكة ${districtName}...`, 2000, '📡');
-        // محاكاة جدول الإطفاء (عشوائي لأغراض العرض)
-        setTimeout(() => {
-          if (Math.random() > 0.4) {
-            toggleBlackout(true, `⚠️ تنبيه: جدول إطفاء حالي في ${districtName}`);
-          } else {
-            if(isBlackout) toggleBlackout(false);
-            showToast(`✅ التيار مستقر حالياً في ${districtName}`, 2000, '⚡');
-          }
-        }, 1500);
+    if (breakerToggle) {
+      breakerToggle.addEventListener('click', () => {
+        isBlackout = !isBlackout;
+        playBreakerSound();
+        if (isBlackout) {
+          breakerToggle.textContent = '🔌';
+          breakerToggle.classList.add('is-off');
+          document.body.classList.add('blackout-mode');
+          showToast('⚠️ تم فصل التيار الرئيسي!', 3000, '🔌');
+          setTimeout(() => {
+            document.querySelectorAll('.product-card img').forEach(img => {
+              img.style.filter = 'drop-shadow(0 0 35px rgba(255, 245, 150, 1)) brightness(1.5)';
+            });
+            try { thunder.play(0.5); } catch(e){}
+          }, 800);
+        } else {
+          breakerToggle.textContent = '🎚️';
+          breakerToggle.classList.remove('is-off');
+          document.body.classList.remove('blackout-mode');
+          document.querySelectorAll('.product-card img').forEach(img => {
+            img.style.filter = '';
+          });
+          showToast('⚡ عاد التيار الكهربائي', 2000, '⚡');
+        }
       });
     }
 
-    // إعدادات اللغة، الهيدر، والـ Hero Slider كما هي في الكود الأصلي
+    // ================================================================
+    // إعدادات اللغة
+    // ================================================================
     let currentLang = localStorage.getItem('nokhba_lang') || 'ar';
     const langToggle = document.getElementById('langToggle');
     function updateLangUI(lang) {
       const html = document.documentElement;
-      if (lang === 'en') { html.setAttribute('dir', 'ltr'); html.setAttribute('lang', 'en'); if(langToggle) langToggle.textContent = '🇸🇦 العربية'; document.body.style.direction = 'ltr'; document.body.style.textAlign = 'left'; document.querySelectorAll('.product-card, .filters, .cart-sidebar, .info-bar, .contact-page, .blog-card, .testimonial-card').forEach(el => { el.style.direction = 'ltr'; el.style.textAlign = 'left'; }); document.querySelectorAll('.header-actions button').forEach(btn => { btn.style.marginLeft = '0'; btn.style.marginRight = '0.6rem'; }); } 
-      else { html.setAttribute('dir', 'rtl'); html.setAttribute('lang', 'ar'); if(langToggle) langToggle.textContent = '🇬🇧 English'; document.body.style.direction = 'rtl'; document.body.style.textAlign = 'right'; document.querySelectorAll('.product-card, .filters, .cart-sidebar, .info-bar, .contact-page, .blog-card, .testimonial-card').forEach(el => { el.style.direction = 'rtl'; el.style.textAlign = 'right'; }); document.querySelectorAll('.header-actions button').forEach(btn => { btn.style.marginLeft = '0.6rem'; btn.style.marginRight = '0'; }); }
-      localStorage.setItem('nokhba_lang', lang); currentLang = lang;
+      if (lang === 'en') {
+        html.setAttribute('dir', 'ltr'); html.setAttribute('lang', 'en');
+        if(langToggle) langToggle.textContent = '🇸🇦 العربية';
+        document.body.style.direction = 'ltr'; document.body.style.textAlign = 'left';
+        document.querySelectorAll('.product-card, .filters, .cart-sidebar, .info-bar, .contact-page, .blog-card, .testimonial-card').forEach(el => {
+          el.style.direction = 'ltr'; el.style.textAlign = 'left';
+        });
+        document.querySelectorAll('.header-actions button').forEach(btn => {
+          btn.style.marginLeft = '0'; btn.style.marginRight = '0.6rem';
+        });
+      } else {
+        html.setAttribute('dir', 'rtl'); html.setAttribute('lang', 'ar');
+        if(langToggle) langToggle.textContent = '🇬🇧 English';
+        document.body.style.direction = 'rtl'; document.body.style.textAlign = 'right';
+        document.querySelectorAll('.product-card, .filters, .cart-sidebar, .info-bar, .contact-page, .blog-card, .testimonial-card').forEach(el => {
+          el.style.direction = 'rtl'; el.style.textAlign = 'right';
+        });
+        document.querySelectorAll('.header-actions button').forEach(btn => {
+          btn.style.marginLeft = '0.6rem'; btn.style.marginRight = '0';
+        });
+      }
+      localStorage.setItem('nokhba_lang', lang);
+      currentLang = lang;
     }
     updateLangUI(currentLang);
-    if(langToggle) langToggle.addEventListener('click', () => { const newLang = currentLang === 'ar' ? 'en' : 'ar'; updateLangUI(newLang); showToast(newLang === 'ar' ? '🌐 تم التبديل إلى العربية' : '🌐 Switched to English', 1500); });
+    if(langToggle){
+      langToggle.addEventListener('click', () => {
+        const newLang = currentLang === 'ar' ? 'en' : 'ar';
+        updateLangUI(newLang);
+        showToast(newLang === 'ar' ? '🌐 تم التبديل إلى العربية' : '🌐 Switched to English', 1500);
+      });
+    }
 
-    const header = document.getElementById('mainHeader'); const bottomNav = document.getElementById('bottomNav'); let lastScrollY = 0;
-    window.addEventListener('scroll', () => { const currentScrollY = window.scrollY; if (header) { currentScrollY > 50 ? header.classList.add('scrolled') : header.classList.remove('scrolled'); } if (bottomNav) { (currentScrollY > 200 && currentScrollY > lastScrollY) ? bottomNav.classList.add('hidden') : bottomNav.classList.remove('hidden'); } lastScrollY = currentScrollY; });
+    // تأثير الهيدر
+    const header = document.getElementById('mainHeader');
+    const bottomNav = document.getElementById('bottomNav');
+    let lastScrollY = 0;
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      if (header) { currentScrollY > 50 ? header.classList.add('scrolled') : header.classList.remove('scrolled'); }
+      if (bottomNav) { (currentScrollY > 200 && currentScrollY > lastScrollY) ? bottomNav.classList.add('hidden') : bottomNav.classList.remove('hidden'); }
+      lastScrollY = currentScrollY;
+    });
 
-    const heroTrack = document.getElementById('heroTrack'); const heroDots = document.getElementById('heroDots'); let currentSlide = 0; let autoSlideInterval;
+    // الشاشة الإعلانية (Hero)
+    const heroTrack = document.getElementById('heroTrack');
+    const heroDots = document.getElementById('heroDots');
+    let currentSlide = 0;
+    let autoSlideInterval;
+
     function renderHero() {
-      const heroImages = heroImagesManager.getAll(); if(!heroTrack || heroImages.length === 0) return;
-      heroTrack.innerHTML = heroImages.map((slide, index) => `<div class="hero-slide"><div class="hero-bg" style="background-image: url('${slide.image}');"></div><div class="hero-content"><span class="hero-badge">${slide.badge}</span><h1>${slide.title}</h1><p>${slide.desc}</p><button class="hero-btn" data-action="${slide.action || 'shop'}" data-index="${index}">${slide.btn}</button></div></div>`).join('');
-      heroTrack.querySelectorAll('.hero-btn').forEach(btn => { btn.addEventListener('click', (e) => { const action = btn.dataset.action; if (action === 'shop') { document.querySelector('.filters').scrollIntoView({ behavior: 'smooth' }); } else if (action === 'lighting') { const catFilter = document.getElementById('categoryFilter'); if(catFilter) { catFilter.value = 'إضاءة'; document.getElementById('applyFilters').click(); } document.querySelector('.filters').scrollIntoView({ behavior: 'smooth' }); } else if (action === 'whatsapp') { document.getElementById('navWhatsapp').click(); } }); });
-      if(heroDots){ heroDots.innerHTML = heroImages.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`).join(''); heroDots.querySelectorAll('.dot').forEach(dot => { dot.addEventListener('click', () => { goToSlide(parseInt(dot.dataset.index)); resetAutoSlide(heroImages.length); }); }); }
+      const heroImages = heroImagesManager.getAll(); 
+      if(!heroTrack || heroImages.length === 0) return;
+
+      heroTrack.innerHTML = heroImages.map((slide, index) => `
+        <div class="hero-slide">
+          <div class="hero-bg" style="background-image: url('${slide.image}');"></div>
+          <div class="hero-content">
+            <span class="hero-badge">${slide.badge}</span>
+            <h1>${slide.title}</h1>
+            <p>${slide.desc}</p>
+            <button class="hero-btn" data-action="${slide.action || 'shop'}" data-index="${index}">${slide.btn}</button>
+          </div>
+        </div>
+      `).join('');
+
+      heroTrack.querySelectorAll('.hero-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const action = btn.dataset.action;
+          if (action === 'shop') { document.querySelector('.filters').scrollIntoView({ behavior: 'smooth' }); }
+          else if (action === 'lighting') { 
+            const catFilter = document.getElementById('categoryFilter');
+            if(catFilter) { catFilter.value = 'إضاءة'; document.getElementById('applyFilters').click(); }
+            document.querySelector('.filters').scrollIntoView({ behavior: 'smooth' });
+          } else if (action === 'whatsapp') { document.getElementById('navWhatsapp').click(); }
+        });
+      });
+
+      if(heroDots){
+        heroDots.innerHTML = heroImages.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`).join('');
+        heroDots.querySelectorAll('.dot').forEach(dot => {
+          dot.addEventListener('click', () => { goToSlide(parseInt(dot.dataset.index)); resetAutoSlide(heroImages.length); });
+        });
+      }
+
       startAutoSlide(heroImages.length);
     }
-    function goToSlide(index) { const heroImages = heroImagesManager.getAll(); if (index < 0) index = heroImages.length - 1; if (index >= heroImages.length) index = 0; currentSlide = index; if(heroTrack) heroTrack.style.transform = `translateX(-${index * 100}%)`; if(heroDots){ heroDots.querySelectorAll('.dot').forEach((dot, i) => { dot.classList.toggle('active', i === index); }); } }
-    function startAutoSlide(length) { if (autoSlideInterval) clearInterval(autoSlideInterval); if (length > 1) { autoSlideInterval = setInterval(() => goToSlide(currentSlide + 1), 5000); } }
-    function resetAutoSlide(length) { if (autoSlideInterval) { clearInterval(autoSlideInterval); startAutoSlide(length); } }
+
+    function goToSlide(index) {
+      const heroImages = heroImagesManager.getAll();
+      if (index < 0) index = heroImages.length - 1;
+      if (index >= heroImages.length) index = 0;
+      currentSlide = index;
+      if(heroTrack) heroTrack.style.transform = `translateX(-${index * 100}%)`;
+      if(heroDots){
+        heroDots.querySelectorAll('.dot').forEach((dot, i) => { dot.classList.toggle('active', i === index); });
+      }
+    }
+
+    function startAutoSlide(length) {
+      if (autoSlideInterval) clearInterval(autoSlideInterval);
+      if (length > 1) { autoSlideInterval = setInterval(() => goToSlide(currentSlide + 1), 5000); }
+    }
+
+    function resetAutoSlide(length) {
+      if (autoSlideInterval) { clearInterval(autoSlideInterval); startAutoSlide(length); }
+    }
+
     renderHero();
 
-    const catPills = document.querySelectorAll('.cat-pill'); const catFilter = document.getElementById('categoryFilter'); const applyBtn = document.getElementById('applyFilters');
-    catPills.forEach(pill => { pill.addEventListener('click', () => { catPills.forEach(p => p.classList.remove('active')); pill.classList.add('active'); if(catFilter) { catFilter.value = pill.dataset.category === 'all' ? '' : pill.dataset.category; if(applyBtn) applyBtn.click(); } document.querySelector('.filters').scrollIntoView({ behavior: 'smooth', block: 'center' }); }); });
-    document.querySelectorAll('.nav-tabs button, .footer-links a[data-section], .nav-item[data-section]').forEach(btn => { btn.addEventListener('click', (e) => { e.preventDefault(); const section = btn.dataset.section || 'store'; document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active')); const secEl = document.getElementById('section-' + section); if(secEl) secEl.classList.add('active'); document.querySelectorAll('.nav-tabs button, .nav-item[data-section]').forEach(b => b.classList.remove('active')); const tabBtn = document.querySelector(`.nav-tabs button[data-section="${section}"]`); if(tabBtn) tabBtn.classList.add('active'); const navItem = document.querySelector(`.nav-item[data-section="${section}"]`); if(navItem) navItem.classList.add('active'); if (section === 'blog') renderBlogPosts(); if (section === 'contact') renderContactInfo(); if (section === 'store') renderProducts(currentFilter); if (document.getElementById('cartSidebar').classList.contains('open')) toggleCart(false); }); });
-    const navSearch = document.getElementById('navSearch'); if(navSearch) navSearch.addEventListener('click', () => { document.querySelector('.filters').scrollIntoView({ behavior: 'smooth', block: 'center' }); document.getElementById('searchInput').focus(); });
-    const navCart = document.getElementById('navCart'); if(navCart) navCart.addEventListener('click', () => toggleCart(true));
-    const navWhatsapp = document.getElementById('navWhatsapp'); if(navWhatsapp) navWhatsapp.addEventListener('click', () => sendOrder());
+    // شريط الأقسام السريعة
+    const catPills = document.querySelectorAll('.cat-pill');
+    const catFilter = document.getElementById('categoryFilter');
+    const applyBtn = document.getElementById('applyFilters');
+    
+    catPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        catPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        if(catFilter) {
+           catFilter.value = pill.dataset.category === 'all' ? '' : pill.dataset.category;
+           if(applyBtn) applyBtn.click();
+        }
+        document.querySelector('.filters').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
 
-    let cart = getCart(); let currentFilter = {}; let isLoading = false;
-    const grid = document.getElementById('productGrid'); const search = document.getElementById('searchInput'); const minP = document.getElementById('minPrice'); const maxP = document.getElementById('maxPrice'); const resetFiltersBtn = document.getElementById('resetFiltersBtn'); const loadingSpinner = document.getElementById('loadingSpinner'); const loadingBar = document.getElementById('loadingBar'); const productCount = document.getElementById('productCount');
+    // التنقل بين الأقسام
+    document.querySelectorAll('.nav-tabs button, .footer-links a[data-section], .nav-item[data-section]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = btn.dataset.section || 'store';
+        document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+        const secEl = document.getElementById('section-' + section);
+        if(secEl) secEl.classList.add('active');
+        
+        document.querySelectorAll('.nav-tabs button, .nav-item[data-section]').forEach(b => b.classList.remove('active'));
+        const tabBtn = document.querySelector(`.nav-tabs button[data-section="${section}"]`);
+        if(tabBtn) tabBtn.classList.add('active');
+        const navItem = document.querySelector(`.nav-item[data-section="${section}"]`);
+        if(navItem) navItem.classList.add('active');
 
-    // ================================================================
-    // 🧠 بناء المنتجات (مع محرك التسويق النفسي والهندسة الاجتماعية)
-    // ================================================================
+        if (section === 'blog') renderBlogPosts();
+        if (section === 'contact') renderContactInfo();
+        if (section === 'store') renderProducts(currentFilter);
+        if (document.getElementById('cartSidebar').classList.contains('open')) toggleCart(false);
+      });
+    });
+
+    const navSearch = document.getElementById('navSearch');
+    if(navSearch){
+      navSearch.addEventListener('click', () => {
+        document.querySelector('.filters').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        document.getElementById('searchInput').focus();
+      });
+    }
+
+    const navCart = document.getElementById('navCart');
+    if(navCart) navCart.addEventListener('click', () => toggleCart(true));
+    
+    const navWhatsapp = document.getElementById('navWhatsapp');
+    if(navWhatsapp) navWhatsapp.addEventListener('click', () => sendOrder());
+
+    // الحالة العامة
+    let cart = getCart();
+    let currentFilter = {};
+    let currentLightboxProductId = null;
+    let currentGalleryItems = [];
+    let currentGalleryIndex = 0;
+    let isLoading = false;
+    let currentVariantIndex = 0;
+    let currentProductVariants = [];
+
+    // عناصر DOM للمنتجات
+    const grid = document.getElementById('productGrid');
+    const search = document.getElementById('searchInput');
+    const minP = document.getElementById('minPrice');
+    const maxP = document.getElementById('maxPrice');
+    const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const loadingBar = document.getElementById('loadingBar');
+    const productCount = document.getElementById('productCount');
+
+    // عرض المنتجات
     async function renderProducts(filter = {}) {
-      if (isLoading || !grid) return; isLoading = true;
-      if(loadingSpinner) loadingSpinner.classList.add('active'); if(loadingBar) loadingBar.style.width = '20%';
+      if (isLoading || !grid) return;
+      isLoading = true;
+      if(loadingSpinner) loadingSpinner.classList.add('active');
+      if(loadingBar) loadingBar.style.width = '20%';
+
       currentFilter = filter;
+
       try {
         const products = await productManager.query(filter);
         if(loadingBar) loadingBar.style.width = '80%';
-        if (products.length === 0) { grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2rem;color:rgba(var(--text-rgb),0.5);font-size:1.2rem;"><span style="font-size:3rem;display:block;margin-bottom:1rem;">📦</span>لا توجد نتائج للبحث.</div>`; } 
-        else { grid.innerHTML = products.map(p => buildProductCard(p)).join(''); bindProductEvents(); }
+
+        if (products.length === 0) {
+          grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2rem;color:rgba(var(--text-rgb),0.5);font-size:1.2rem;">
+            <span style="font-size:3rem;display:block;margin-bottom:1rem;">📦</span>
+            لم يتم إضافة منتجات حتى الآن أو لا توجد نتائج للبحث.
+          </div>`;
+        } else {
+          grid.innerHTML = products.map(p => buildProductCard(p)).join('');
+          bindProductEvents();
+        }
+
         const cats = [...new Set(products.map(p => p.category).filter(Boolean))];
-        if(catFilter) catFilter.innerHTML = '<option value="">جميع الفئات</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+        if(catFilter) {
+          catFilter.innerHTML = '<option value="">جميع الفئات</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
         if(productCount) productCount.textContent = products.length;
         if(loadingBar) loadingBar.style.width = '100%';
-        catPills.forEach(pill => { const cat = pill.dataset.category; if (cat === 'all') return; pill.style.display = cats.includes(cat) ? 'flex' : 'none'; });
-      } catch (err) { console.error(err); showToast('⚠️ خطأ في التحميل', 3000, '⚠️'); } 
-      finally { isLoading = false; if(loadingSpinner) loadingSpinner.classList.remove('active'); setTimeout(() => { if(loadingBar) loadingBar.style.width = '0%'; }, 300); }
+        
+        catPills.forEach(pill => {
+          const cat = pill.dataset.category;
+          if (cat === 'all') return;
+          pill.style.display = cats.includes(cat) ? 'flex' : 'none';
+        });
+      } catch (err) {
+        console.error(err);
+        showToast('⚠️ حدث خطأ أثناء تحميل المنتجات', 3000, '⚠️');
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:1.5rem;color:#ef4444;">
+          <span style="font-size:2rem;">⚠️</span><br>تأكد من اتصالك بالإنترنت.
+        </div>`;
+      } finally {
+        isLoading = false;
+        if(loadingSpinner) loadingSpinner.classList.remove('active');
+        setTimeout(() => { if(loadingBar) loadingBar.style.width = '0%'; }, 300);
+      }
     }
 
     function buildProductCard(p) {
       const inCart = cart.find(i => i.id === p.id && !i.size);
       const firstImage = p.images && p.images.length > 0 ? p.images[0] : (p.image || '/public/images/products/1.jpg');
+      const hasMultiple = p.images && p.images.length > 1;
+      const hasVideo = p.video;
+      const stars = '⭐'.repeat(Math.floor(p.rating || 0)) + (p.rating % 1 >= 0.5 ? '✨' : '');
+      const ratingHtml = p.rating > 0 ? `<div class="product-rating">${stars}</div>` : '';
+      let tags = '';
+      if (p.isNew) tags += `<span class="product-tag tag-new">🆕 جديد</span>`;
+      if (p.isBestSeller) tags += `<span class="product-tag tag-bestseller">⭐ الأكثر مبيعاً</span>`;
+
       const hasVariants = p.variants && p.variants.length > 0;
-      
-      // 🧠 التسويق النفسي: الدليل الاجتماعي (Social Proof) - توليد ذكي ثابت لكل منتج
-      const fakeSales = (parseInt(p.id.replace(/\D/g, '') || 12) * 7 % 43) + 12;
-      const socialProofHtml = `<div class="social-proof">🔥 اشتراه ${fakeSales} شخصاً هذا الأسبوع</div>`;
-
-      // 🧠 التسويق النفسي: انحياز السلطة (Authority Bias) للأقسام المعقدة
-      const isEngineeringCat = ['كابلات', 'قواطع', 'محولات'].includes(p.category);
-      let btnText = isEngineeringCat ? '🛡️ خيار المهندسين' : '➕ أضف للسلة';
-      if (inCart) btnText = `🔄 في السلة (${inCart.quantity})`;
-      const btnClass = isEngineeringCat ? 'add-to-cart btn-authority' : 'add-to-cart';
-
+      let variantsHtml = '';
       let priceDisplay = '';
       let stockDisplay = '';
-      let scarcityHtml = '';
 
       if (hasVariants) {
         const sortedVariants = [...p.variants].sort((a, b) => a.price - b.price);
-        const optionsHtml = sortedVariants.map((v, idx) => `<option value="${v.size}" data-price="${v.price}" data-stock="${v.stock}"> ${v.size} - ${v.price.toFixed(2)} ريال </option>`).join('');
-        const firstVar = sortedVariants[0];
-        // 🧠 تأثير الإرساء (Anchoring): رفع السعر 15% لشطبه
-        const fakeOldPrice = (firstVar.price * 1.15).toFixed(2);
-        priceDisplay = `<select class="variant-select" data-id="${p.id}">${optionsHtml}</select><div class="variant-price-display" data-id="${p.id}">${firstVar.price.toFixed(2)} ريال<span class="price-anchor">${fakeOldPrice}</span></div>`;
-        stockDisplay = `<div class="${firstVar.stock < 10 ? 'stock-display low-stock' : 'stock-display'}" data-id="${p.id}">${firstVar.stock > 0 ? `المتوفر: ${firstVar.stock}` : 'نفدت الكمية'}</div>`;
-        // 🧠 محفز الندرة
-        if (firstVar.stock > 0 && firstVar.stock < 10) scarcityHtml = `<div class="scarcity-badge">⏳ أسرع! باقي ${firstVar.stock} فقط!</div>`;
+        const optionsHtml = sortedVariants.map((v, idx) => `
+          <option value="${v.size}" data-price="${v.price}" data-stock="${v.stock}" data-minorder="${v.minOrder}" ${idx === 0 ? 'selected' : ''}>
+            ${v.size} - ${v.price.toFixed(2)} ريال 
+          </option>
+        `).join('');
+        variantsHtml = `<select class="variant-select" data-id="${p.id}">${optionsHtml}</select>`;
+        const firstVariant = sortedVariants[0];
+        priceDisplay = `<div class="variant-price-display" data-id="${p.id}">${firstVariant.price.toFixed(2)} ريال</div>`;
+        const stockClass = firstVariant.stock < 10 ? 'stock-display low-stock' : 'stock-display';
+        stockDisplay = `<div class="${stockClass}" data-id="${p.id}">${firstVariant.stock > 0 ? `المتوفر: ${firstVariant.stock}` : 'نفدت الكمية'}</div>`;
       } else {
-        const fakeOldPrice = (p.price * 1.15).toFixed(2);
-        priceDisplay = `<div class="price">${p.price.toFixed(2)} ريال<span class="price-anchor">${fakeOldPrice}</span></div>`;
-        stockDisplay = `<div class="${p.stock < 10 ? 'stock-display low-stock' : 'stock-display'}">${p.stock > 0 ? `المتوفر: ${p.stock}` : 'نفدت الكمية'}</div>`;
-        if (p.stock > 0 && p.stock < 10) scarcityHtml = `<div class="scarcity-badge">⏳ أسرع! باقي ${p.stock} فقط!</div>`;
+        priceDisplay = `<div class="price">${p.price.toFixed(2)} ريال</div>`;
+        const stockClass = p.stock < 10 ? 'stock-display low-stock' : 'stock-display';
+        stockDisplay = `<div class="${stockClass}">${p.stock > 0 ? `المتوفر: ${p.stock}` : 'نفدت الكمية'}</div>`;
       }
 
       return `
         <div class="product-card" data-id="${p.id}">
-          <div class="card-tags">
-            ${p.isNew ? `<span class="product-tag tag-new">🆕 جديد</span>` : ''}
-            ${p.isBestSeller ? `<span class="product-tag tag-bestseller">⭐ الأكثر مبيعاً</span>` : ''}
-          </div>
+          <div class="card-tags">${tags}</div>
           <img src="${firstImage}" alt="${p.name}" loading="lazy" onerror="this.src='/public/images/products/1.jpg'" />
-          ${socialProofHtml}
+          ${hasMultiple ? `<span class="image-count-badge">+${p.images.length}</span>` : ''}
+          ${hasVideo ? `<span class="video-badge">▶</span>` : ''}
           <h4>${p.name}</h4>
-          ${scarcityHtml}
+          ${ratingHtml}
+          ${variantsHtml}
           ${priceDisplay}
           ${stockDisplay}
-          <button class="${btnClass}" data-id="${p.id}" ${!hasVariants && p.stock === 0 ? 'disabled' : ''}>${btnText}</button>
+          <button class="add-to-cart" data-id="${p.id}" ${!hasVariants && p.stock === 0 ? 'disabled' : ''}>
+            ${inCart ? `🔄 في السلة (${inCart.quantity})` : '➕ أضف للسلة'}
+          </button>
         </div>
       `;
     }
@@ -644,130 +907,72 @@
     function bindProductEvents() {
       grid.querySelectorAll('.add-to-cart').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          e.stopPropagation(); const card = btn.closest('.product-card'); const select = card.querySelector('.variant-select');
-          addToCart(btn.dataset.id, select ? select.value : null);
+          e.stopPropagation();
+          const id = btn.dataset.id;
+          const card = btn.closest('.product-card');
+          const select = card.querySelector('.variant-select');
+          const selectedSize = select ? select.value : null;
+          addToCart(id, selectedSize);
         });
       });
+
       grid.querySelectorAll('.variant-select').forEach(select => {
         select.addEventListener('change', function() {
-          const card = this.closest('.product-card'); const selected = this.options[this.selectedIndex];
-          const price = parseFloat(selected.dataset.price); const stock = parseFloat(selected.dataset.stock);
+          const card = this.closest('.product-card');
+          const selected = this.options[this.selectedIndex];
+          const price = parseFloat(selected.dataset.price);
+          const stock = parseFloat(selected.dataset.stock);
           const priceDisplay = card.querySelector('.variant-price-display');
-          if (priceDisplay) {
-            const fakeOldPrice = (price * 1.15).toFixed(2);
-            priceDisplay.innerHTML = `${price.toFixed(2)} ريال<span class="price-anchor">${fakeOldPrice}</span>`;
-          }
+          if (priceDisplay) priceDisplay.textContent = `${price.toFixed(2)} ريال`;
           const stockDisplay = card.querySelector('.stock-display');
-          if (stockDisplay) { stockDisplay.textContent = stock > 0 ? `المتوفر: ${stock}` : 'نفدت الكمية'; stockDisplay.className = stock < 10 ? 'stock-display low-stock' : 'stock-display'; }
+          if (stockDisplay) {
+            stockDisplay.textContent = stock > 0 ? `المتوفر: ${stock}` : 'نفدت الكمية';
+            stockDisplay.className = stock < 10 ? 'stock-display low-stock' : 'stock-display';
+          }
         });
       });
+
       grid.querySelectorAll('.product-card').forEach(card => {
         card.addEventListener('click', (e) => {
           if (e.target.closest('button') || e.target.closest('select')) return;
-          openLightbox(card.dataset.id);
-          const rect = card.getBoundingClientRect(); try { lightning.spawn(rect.left + rect.width/2, rect.top + rect.height/2); } catch(e){}
+          const id = card.dataset.id;
+          openLightbox(id);
+          const rect = card.getBoundingClientRect();
+          try { lightning.spawn(rect.left + rect.width/2, rect.top + rect.height/2); } catch(e){}
         });
       });
     }
 
-    // ================================================================
-    // 🧮 المستشار الهندسي الذكي (Engineering Wizard)
-    // ================================================================
-    const wizardBtn = document.getElementById('openWizardBtn');
-    const wizardModal = document.getElementById('wizardModal');
-    const closeWizardBtn = document.getElementById('closeWizard');
-    const wizLoad = document.getElementById('wizLoad'); const valLoad = document.getElementById('valLoad');
-    const wizAc = document.getElementById('wizAc'); const valAc = document.getElementById('valAc');
-    const wizHours = document.getElementById('wizHours'); const valHours = document.getElementById('valHours');
-    const wizResult = document.getElementById('wizResult');
-    const addBundleBtn = document.getElementById('addBundleBtn');
-    
-    let currentBundleSpecs = null;
-
-    function calculateSystem() {
-      const baseLoad = parseInt(wizLoad.value);
-      const acCount = parseInt(wizAc.value);
-      const hours = parseInt(wizHours.value);
-      
-      valLoad.textContent = baseLoad;
-      valAc.textContent = acCount;
-      valHours.textContent = hours;
-
-      // الخوارزمية الهندسية
-      const acLoad = acCount * 1200; // نفترض مكيف 1 طن يسحب 1200 وات مستمر
-      const surgeAc = acCount > 0 ? 1500 : 0; // تيار الإقلاع
-      const totalContinuousLoad = baseLoad + acLoad;
-      const totalSurgeLoad = totalContinuousLoad + surgeAc;
-      
-      // تحديد المحول (Inverter) بمعامل أمان 25%
-      const requiredInverterWatts = Math.ceil(totalSurgeLoad * 1.25);
-      let inverterKva = 1;
-      if(requiredInverterWatts > 1000) inverterKva = 3;
-      if(requiredInverterWatts > 2500) inverterKva = 5;
-      if(requiredInverterWatts > 4500) inverterKva = 8;
-
-      // حساب البطاريات المطلوبة (على افتراض بطاريات 200Ah 12V - عمق تفريغ 50%)
-      const totalWattHours = totalContinuousLoad * hours;
-      const batteryCapacityWh = 200 * 12 * 0.5; // 1200Wh للبطارية الواحدة الآمنة
-      const requiredBatteries = Math.ceil(totalWattHours / batteryCapacityWh);
-
-      // حساب الألواح (نفترض لوح 550 وات - 5 ساعات شمس فعالة)
-      const dailyConsumption = totalWattHours * 1.2; // تعويض الفواقد
-      const requiredPanels = Math.ceil(dailyConsumption / (550 * 5));
-
-      wizResult.innerHTML = `
-        <strong style="color:var(--secondary); font-size:1rem;">✅ التقرير الهندسي لمنظومتك:</strong><br>
-        • إجمالي الأحمال: <strong>${totalContinuousLoad}W</strong><br>
-        • المحول (Inverter) المناسب: <strong>${inverterKva}KVA</strong> للتعامل مع أحمال الإقلاع.<br>
-        • البطاريات: <strong>${requiredBatteries}</strong> بطاريات (200Ah) لتشغيل ${hours} ساعات ليلاً.<br>
-        • الألواح الشمسية: <strong>${requiredPanels === 0 ? 1 : requiredPanels}</strong> ألواح (550W) لشحن مستقر.<br>
-        <span style="display:block; margin-top:10px; color:#fbbf24;">* تم حساب النتيجة مع معامل أمان هندسي للأجواء الحارة في عدن.</span>
-      `;
-
-      currentBundleSpecs = {
-        name: `باقة المنظومة المتكاملة (حسب استشارة المهندس)`,
-        price: (inverterKva * 1200) + (requiredBatteries * 800) + (requiredPanels * 400), // تسعيرة تقريبية برمجية
-        details: `محول ${inverterKva}KVA + ${requiredBatteries} بطاريات + ${requiredPanels} ألواح`
-      };
-    }
-
-    if(wizardBtn) wizardBtn.addEventListener('click', () => { wizardModal.classList.add('active'); calculateSystem(); });
-    if(closeWizardBtn) closeWizardBtn.addEventListener('click', () => wizardModal.classList.remove('active'));
-    [wizLoad, wizAc, wizHours].forEach(input => input.addEventListener('input', calculateSystem));
-
-    if(addBundleBtn) addBundleBtn.addEventListener('click', () => {
-      if(!currentBundleSpecs) return;
-      const bundleItem = {
-        id: 'BUN-' + Date.now(),
-        name: currentBundleSpecs.name,
-        size: currentBundleSpecs.details,
-        price: currentBundleSpecs.price,
-        stock: 99, quantity: 1, minOrder: 1, category: 'باقات',
-        image: '/public/images/products/30.jpg' // صورة افتراضية للمنظومة
-      };
-      cart.push(bundleItem);
-      saveCart(cart); updateCartUI();
-      wizardModal.classList.remove('active');
-      showToast('🛒 تم إضافة المنظومة المعتمدة إلى السلة!', 3000, '✅');
-      try { lightning.spawn(window.innerWidth/2, window.innerHeight/2, 2.0); thunder.play(1.0); } catch(e){}
-    });
-
-    // ================================================================
-    // إدارة السلة والربط مع واتساب بأسلوب "المواصفات الفنية"
-    // ================================================================
-    const cartSidebar = document.getElementById('cartSidebar'); const overlay = document.getElementById('cartOverlay'); const cartItems = document.getElementById('cartItems'); const cartCount = document.getElementById('cartCount'); const navCartBadge = document.getElementById('navCartBadge');
+    // السلة والتفاعل معها
+    const cartSidebar = document.getElementById('cartSidebar');
+    const overlay = document.getElementById('cartOverlay');
+    const cartItems = document.getElementById('cartItems');
+    const cartCount = document.getElementById('cartCount');
+    const navCartBadge = document.getElementById('navCartBadge');
 
     function addToCart(id, selectedSize = null) {
       productManager.getById(id).then(p => {
-        if (!p) return; let price = p.price; let stock = p.stock; let size = null;
+        if (!p) return;
+        let price = p.price; let stock = p.stock; let minOrder = p.minOrder || 1; let size = null;
         if (p.variants && p.variants.length > 0) {
-          if (selectedSize) { const variant = p.variants.find(v => v.size === selectedSize); if (variant) { price = variant.price; stock = variant.stock; size = selectedSize; } else return; } 
-          else { const sorted = [...p.variants].sort((a, b) => a.price - b.price); price = sorted[0].price; stock = sorted[0].stock; size = sorted[0].size; }
+          if (selectedSize) {
+            const variant = p.variants.find(v => v.size === selectedSize);
+            if (variant) { price = variant.price; stock = variant.stock; minOrder = variant.minOrder || 1; size = selectedSize; }
+            else { showToast('⚠️ المقاس غير متوفر', 2000, '⚠️'); return; }
+          } else {
+            const sorted = [...p.variants].sort((a, b) => a.price - b.price);
+            price = sorted[0].price; stock = sorted[0].stock; minOrder = sorted[0].minOrder || 1; size = sorted[0].size;
+          }
         }
         const ex = cart.find(i => i.id === id && i.size === size);
-        if (ex) { if (ex.quantity >= stock) { showToast('⚠️ المخزون محدود', 2000, '⚠️'); return; } ex.quantity++; } 
-        else { cart.push({ ...p, price, stock, size, quantity: p.minOrder || 1 }); }
-        saveCart(cart); updateCartUI(); renderProducts(currentFilter); showToast(`✅ أضيف للسلة`, 2000, '✅');
+        if (ex) {
+          if (ex.quantity >= stock) { showToast('⚠️ المخزون محدود', 2000, '⚠️'); return; }
+          ex.quantity++;
+        } else {
+          cart.push({ ...p, price, stock, minOrder, size, quantity: minOrder });
+        }
+        saveCart(cart); updateCartUI(); renderProducts(currentFilter);
+        showToast(`✅ أضيف للسلة`, 2000, '✅');
         try { thunder.play(0.8); } catch(e){} 
       });
     }
@@ -775,72 +980,301 @@
     function updateCartUI() {
       const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
       if(cartCount) cartCount.textContent = totalItems;
-      if(document.getElementById('cartItemCount')) document.getElementById('cartItemCount').textContent = `(${totalItems})`;
-      if(navCartBadge) { navCartBadge.textContent = totalItems; navCartBadge.style.display = totalItems > 0 ? 'block' : 'none'; }
-      const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0); const disc = sub > 200 ? sub * 0.05 : 0;
-      if(document.getElementById('cartTotal')) document.getElementById('cartTotal').textContent = sub.toFixed(2);
-      if(document.getElementById('cartDiscount')) document.getElementById('cartDiscount').textContent = disc.toFixed(2);
-      if(document.getElementById('cartFinal')) document.getElementById('cartFinal').textContent = (sub - disc).toFixed(2);
+      const cartItemCount = document.getElementById('cartItemCount');
+      if(cartItemCount) cartItemCount.textContent = `(${totalItems})`;
+      if(navCartBadge) {
+        navCartBadge.textContent = totalItems;
+        navCartBadge.style.display = totalItems > 0 ? 'block' : 'none';
+      }
+      
+      const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+      const disc = sub > 200 ? sub * 0.05 : 0;
+      
+      const cartTotal = document.getElementById('cartTotal');
+      const cartDiscount = document.getElementById('cartDiscount');
+      const cartFinal = document.getElementById('cartFinal');
+      
+      if(cartTotal) cartTotal.textContent = sub.toFixed(2);
+      if(cartDiscount) cartDiscount.textContent = disc.toFixed(2);
+      if(cartFinal) cartFinal.textContent = (sub - disc).toFixed(2);
+
       if (!cartItems) return;
-      if (cart.length === 0) { cartItems.innerHTML = '<p style="color:rgba(var(--text-rgb),0.5); text-align:center; padding: 2rem 0;">السلة فارغة 🛒</p>'; return; }
-      cartItems.innerHTML = cart.map(i => `<div class="cart-item" data-id="${i.id}" data-size="${i.size || ''}"><div class="item-info"><span class="item-name">${i.name}</span>${i.size ? `<span class="item-size">📏 ${i.size}</span>` : ''}</div><div class="controls"><button class="qty-dec" data-id="${i.id}" data-size="${i.size || ''}">−</button><input type="number" class="qty-input" data-id="${i.id}" data-size="${i.size || ''}" min="${i.minOrder || 1}" max="${i.stock}" value="${i.quantity}" readonly /><button class="qty-inc" data-id="${i.id}" data-size="${i.size || ''}">+</button><button class="remove-item" data-id="${i.id}" data-size="${i.size || ''}">✕</button></div></div>`).join('');
-      cartItems.querySelectorAll('.qty-inc').forEach(b => { b.addEventListener('click', () => { const item = cart.find(i => i.id === b.dataset.id && i.size === (b.dataset.size || null)); if (item && item.quantity < item.stock) { item.quantity++; saveCart(cart); updateCartUI(); renderProducts(currentFilter); } }); });
-      cartItems.querySelectorAll('.qty-dec').forEach(b => { b.addEventListener('click', () => { const item = cart.find(i => i.id === b.dataset.id && i.size === (b.dataset.size || null)); if (item) { if (item.quantity > (item.minOrder || 1)) { item.quantity--; saveCart(cart); updateCartUI(); renderProducts(currentFilter); } else { cart = cart.filter(i => !(i.id === b.dataset.id && i.size === (b.dataset.size || null))); saveCart(cart); updateCartUI(); renderProducts(currentFilter); } } }); });
-      cartItems.querySelectorAll('.remove-item').forEach(b => { b.addEventListener('click', () => { cart = cart.filter(i => !(i.id === b.dataset.id && i.size === (b.dataset.size || null))); saveCart(cart); updateCartUI(); renderProducts(currentFilter); }); });
+      
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p style="color:rgba(var(--text-rgb),0.5); text-align:center; padding: 2rem 0;">السلة فارغة 🛒</p>';
+        return;
+      }
+
+      cartItems.innerHTML = cart.map(i => `
+        <div class="cart-item" data-id="${i.id}" data-size="${i.size || ''}">
+          <div class="item-info">
+            <span class="item-name">${i.name}</span>
+            ${i.size ? `<span class="item-size">📏 ${i.size}</span>` : ''}
+          </div>
+          <div class="controls">
+            <button class="qty-dec" data-id="${i.id}" data-size="${i.size || ''}">−</button>
+            <input type="number" class="qty-input" data-id="${i.id}" data-size="${i.size || ''}" 
+                   min="${i.minOrder || 1}" max="${i.stock}" value="${i.quantity}" readonly />
+            <button class="qty-inc" data-id="${i.id}" data-size="${i.size || ''}">+</button>
+            <button class="remove-item" data-id="${i.id}" data-size="${i.size || ''}">✕</button>
+          </div>
+        </div>
+      `).join('');
+
+      cartItems.querySelectorAll('.qty-inc').forEach(b => {
+        b.addEventListener('click', () => {
+          const item = cart.find(i => i.id === b.dataset.id && i.size === (b.dataset.size || null));
+          if (item && item.quantity < item.stock) { item.quantity++; saveCart(cart); updateCartUI(); renderProducts(currentFilter); }
+        });
+      });
+
+      cartItems.querySelectorAll('.qty-dec').forEach(b => {
+        b.addEventListener('click', () => {
+          const item = cart.find(i => i.id === b.dataset.id && i.size === (b.dataset.size || null));
+          if (item) {
+            if (item.quantity > (item.minOrder || 1)) { item.quantity--; saveCart(cart); updateCartUI(); renderProducts(currentFilter); }
+            else { cart = cart.filter(i => !(i.id === b.dataset.id && i.size === (b.dataset.size || null))); saveCart(cart); updateCartUI(); renderProducts(currentFilter); }
+          }
+        });
+      });
+
+      cartItems.querySelectorAll('.remove-item').forEach(b => {
+        b.addEventListener('click', () => {
+          cart = cart.filter(i => !(i.id === b.dataset.id && i.size === (b.dataset.size || null)));
+          saveCart(cart); updateCartUI(); renderProducts(currentFilter);
+        });
+      });
     }
 
-    function toggleCart(open) { if(cartSidebar) cartSidebar.classList.toggle('open', open); if(overlay) overlay.classList.toggle('active', open); if (open) updateCartUI(); }
+    function toggleCart(open) {
+      if(cartSidebar) cartSidebar.classList.toggle('open', open);
+      if(overlay) overlay.classList.toggle('active', open);
+      if (open) updateCartUI();
+    }
 
+    // إرسال الطلب
     function sendOrder() {
       if (!cart.length) { showToast('⚠️ السلة فارغة', 2000, '⚠️'); return; }
-      const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0); const disc = sub > 200 ? sub * 0.05 : 0; const fin = sub - disc;
-      
-      // تنسيق المواصفات الفنية
-      let message = '⚡ *وثيقة طلب واعتماد فني - النخبة للكهربائيات* ⚡\n=============================\n';
-      cart.forEach((item, index) => { message += `*${index + 1}. ${item.name}*\n  المواصفة: ${item.size || 'قياسي'} | الكمية: ${item.quantity} | الإجمالي: ${(item.price * item.quantity).toFixed(2)} SAR\n`; });
+      const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+      const disc = sub > 200 ? sub * 0.05 : 0;
+      const fin = sub - disc;
+
+      let message = '⚡ *طلب جديد من متجر النخبة للكهربائيات* ⚡\n=============================\n';
+      cart.forEach((item, index) => {
+        message += `*${index + 1}. ${item.name}${item.size ? ' (' + item.size + ')' : ''}*\n  الكمية: ${item.quantity} | السعر: ${(item.price * item.quantity).toFixed(2)} SAR\n`;
+      });
       message += `\n*الإجمالي النهائي:* *${fin.toFixed(2)} SAR*\n`;
-      message += `_(تم حساب الخصم الفني المعتمد بقيمة ${disc.toFixed(2)} SAR)_\n`;
 
       window.open(`https://wa.me/967782826727?text=${encodeURIComponent(message)}`, '_blank');
-      const orders = getOrders(); orders.push({ id: 'ORD-' + Date.now(), date: new Date().toISOString(), items: cart, total: fin, status: 'جديد' }); saveOrders(orders);
+      
+      const orders = getOrders();
+      orders.push({ id: 'ORD-' + Date.now(), date: new Date().toISOString(), items: cart, total: fin, status: 'جديد' });
+      saveOrders(orders);
+      
       cart = []; saveCart(cart); updateCartUI(); toggleCart(false); renderProducts(currentFilter);
-      if(document.getElementById('orderCount')) document.getElementById('orderCount').textContent = orders.length;
+      updateOrderCount();
     }
 
-    if(applyBtn) applyBtn.addEventListener('click', () => { renderProducts({ search: search ? search.value.trim() : '', category: catFilter ? catFilter.value : '', minPrice: minP ? minP.value : undefined, maxPrice: maxP ? maxP.value : undefined }); });
-    if(resetFiltersBtn) resetFiltersBtn.addEventListener('click', () => { if(search) search.value = ''; if(catFilter) catFilter.value = ''; if(minP) minP.value = ''; if(maxP) maxP.value = ''; if(applyBtn) applyBtn.click(); });
+    function updateOrderCount() {
+      const orders = getOrders();
+      const orderCountEl = document.getElementById('orderCount');
+      if(orderCountEl) orderCountEl.textContent = orders.length;
+    }
 
-    // نظام التكبير والـ Lightbox
-    const lightbox = document.getElementById('productLightbox'); const lbClose = document.getElementById('lbClose'); const lbDisplay = document.getElementById('lbDisplay'); const lbImg = document.getElementById('lbImage');
+    // الفلاتر
+    if(applyBtn){
+      applyBtn.addEventListener('click', () => {
+        renderProducts({
+          search: search ? search.value.trim() : '',
+          category: catFilter ? catFilter.value : '',
+          minPrice: minP ? minP.value : undefined,
+          maxPrice: maxP ? maxP.value : undefined
+        });
+      });
+    }
+
+    if(resetFiltersBtn){
+      resetFiltersBtn.addEventListener('click', () => {
+        if(search) search.value = ''; if(catFilter) catFilter.value = '';
+        if(minP) minP.value = ''; if(maxP) maxP.value = '';
+        if(applyBtn) applyBtn.click();
+      });
+    }
+
+    // ================================================================
+    // نظام التكبير الذكي للصور (Smart Zoom) & Lightbox
+    // ================================================================
+    const lightbox = document.getElementById('productLightbox');
+    const lbClose = document.getElementById('lbClose');
+    const lbDisplay = document.getElementById('lbDisplay');
+    const lbImg = document.getElementById('lbImage');
+
     async function openLightbox(id) {
-      const p = await productManager.getById(id); if(!p || !lightbox) return;
-      document.getElementById('lbTitle').textContent = p.name; document.getElementById('lbName').textContent = p.name;
-      document.getElementById('lbPrice').textContent = p.price + ' ريال'; document.getElementById('lbPriceTag').textContent = p.price + ' ريال';
-      document.getElementById('lbDesc').textContent = p.desc || 'لا يوجد وصف'; document.getElementById('lbImage').src = p.image || '/public/images/products/1.jpg'; document.getElementById('lbImage').style.display = 'block';
-      if(lbImg) { lbImg.style.transformOrigin = 'center center'; lbImg.style.transform = 'scale(1)'; }
-      document.getElementById('lbAddToCart').onclick = () => addToCart(p.id);
+      const p = await productManager.getById(id);
+      if(!p || !lightbox) return;
+      document.getElementById('lbTitle').textContent = p.name;
+      document.getElementById('lbName').textContent = p.name;
+      document.getElementById('lbPrice').textContent = p.price + ' ريال';
+      document.getElementById('lbPriceTag').textContent = p.price + ' ريال';
+      document.getElementById('lbDesc').textContent = p.desc || 'لا يوجد وصف';
+      document.getElementById('lbImage').src = p.image || '/public/images/products/1.jpg';
+      document.getElementById('lbImage').style.display = 'block';
+      if(lbImg) {
+        lbImg.style.transformOrigin = 'center center';
+        lbImg.style.transform = 'scale(1)';
+      }
+      
+      const addBtn = document.getElementById('lbAddToCart');
+      addBtn.onclick = () => addToCart(p.id);
+      
+      // ربط زر التركيب
+      const installBtn = document.getElementById('installBtn');
+      installBtn.onclick = () => addInstallationToCart(p.id);
+      
       lightbox.classList.add('active');
     }
-    if(lbClose) lbClose.addEventListener('click', () => { lightbox.classList.remove('active'); playClickSound(0.05); });
+    
+    if(lbClose) {
+      lbClose.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+        playClickSound(0.05);
+      });
+    }
     if(lightbox) lightbox.addEventListener('click', (e) => { if(e.target === lightbox) lightbox.classList.remove('active') });
 
+    // تفعيل التكبير
     if (lbDisplay && lbImg) {
-      lbDisplay.addEventListener('mousemove', (e) => { if (window.innerWidth > 768 && lbImg.style.display !== 'none') { const rect = lbDisplay.getBoundingClientRect(); const x = ((e.clientX - rect.left) / rect.width) * 100; const y = ((e.clientY - rect.top) / rect.height) * 100; lbImg.style.transformOrigin = `${x}% ${y}%`; lbImg.style.transform = 'scale(2.5)'; lbImg.style.cursor = 'zoom-in'; } });
-      lbDisplay.addEventListener('mouseleave', () => { lbImg.style.transformOrigin = 'center center'; lbImg.style.transform = 'scale(1)'; });
-      let lastTap = 0; lbDisplay.addEventListener('touchstart', (e) => { const currentTime = new Date().getTime(); const tapLength = currentTime - lastTap; if (tapLength < 300 && tapLength > 0 && lbImg.style.display !== 'none') { e.preventDefault(); if(lbImg.style.transform === 'scale(2.5)') { lbImg.style.transform = 'scale(1)'; } else { lbImg.style.transformOrigin = 'center center'; lbImg.style.transform = 'scale(2.5)'; } } lastTap = currentTime; }, {passive: false});
+      lbDisplay.addEventListener('mousemove', (e) => {
+          if (window.innerWidth > 768 && lbImg.style.display !== 'none') {
+              const rect = lbDisplay.getBoundingClientRect();
+              const x = ((e.clientX - rect.left) / rect.width) * 100;
+              const y = ((e.clientY - rect.top) / rect.height) * 100;
+              lbImg.style.transformOrigin = `${x}% ${y}%`;
+              lbImg.style.transform = 'scale(2.5)';
+              lbImg.style.cursor = 'zoom-in';
+          }
+      });
+      lbDisplay.addEventListener('mouseleave', () => {
+          lbImg.style.transformOrigin = 'center center';
+          lbImg.style.transform = 'scale(1)';
+      });
+      let lastTap = 0;
+      lbDisplay.addEventListener('touchstart', (e) => {
+          const currentTime = new Date().getTime();
+          const tapLength = currentTime - lastTap;
+          if (tapLength < 300 && tapLength > 0 && lbImg.style.display !== 'none') {
+              e.preventDefault();
+              if(lbImg.style.transform === 'scale(2.5)') {
+                  lbImg.style.transform = 'scale(1)';
+              } else {
+                  lbImg.style.transformOrigin = 'center center';
+                  lbImg.style.transform = 'scale(2.5)';
+              }
+          }
+          lastTap = currentTime;
+      }, {passive: false});
     }
 
-    async function renderBlogPosts() { const posts = await blogManager.getAll(); const blogGrid = document.getElementById('blogGrid'); if(!blogGrid) return; if (posts.length === 0) { blogGrid.innerHTML = '<p style="text-align:center;">لا توجد مقالات.</p>'; return; } blogGrid.innerHTML = posts.map(p => `<div class="blog-card"><img src="${p.image}" alt="${p.title}" onerror="this.src='/public/images/products/1.jpg'" /><div class="blog-body"><h3>${p.title}</h3><div class="blog-excerpt">${p.excerpt || ''}</div></div></div>`).join(''); }
-    async function renderContactInfo() { const info = await contactManager.get(); const display = document.getElementById('contactInfoDisplay'); if(display) { display.innerHTML = `<div class="info-item">📍 ${info.address || ''}</div><div class="info-item">📞 ${info.phone || ''}</div>`; } }
+    // المدونة والتواصل
+    async function renderBlogPosts() {
+      const posts = await blogManager.getAll();
+      const blogGrid = document.getElementById('blogGrid');
+      if(!blogGrid) return;
+      if (posts.length === 0) { blogGrid.innerHTML = '<p style="text-align:center;">لا توجد مقالات.</p>'; return; }
+      blogGrid.innerHTML = posts.map(p => `
+        <div class="blog-card">
+          <img src="${p.image}" alt="${p.title}" onerror="this.src='/public/images/products/1.jpg'" />
+          <div class="blog-body">
+            <h3>${p.title}</h3>
+            <div class="blog-excerpt">${p.excerpt || ''}</div>
+          </div>
+        </div>
+      `).join('');
+    }
 
-    const closeCartBtn = document.getElementById('closeCart'); if(closeCartBtn) closeCartBtn.addEventListener('click', () => toggleCart(false));
+    async function renderContactInfo() {
+      const info = await contactManager.get();
+      const display = document.getElementById('contactInfoDisplay');
+      if(display) {
+        display.innerHTML = `
+          <div class="info-item">📍 ${info.address || ''}</div>
+          <div class="info-item">📞 ${info.phone || ''}</div>
+        `;
+      }
+    }
+
+    // ================================================================
+    // تشغيل الميزات الجديدة (المجتمع، الخريطة، الساعة، التحدي)
+    // ================================================================
+    async function updateCommunityUI() {
+      try {
+        const stats = await getCommunityStats();
+        const powerEl = document.getElementById('communityPowerDisplay');
+        const customersEl = document.getElementById('communityCustomersDisplay');
+        const hoursEl = document.getElementById('communityHoursDisplay');
+        const totalPowerEl = document.getElementById('totalPowerDisplay');
+        const savedHoursEl = document.getElementById('savedHoursDisplay');
+        
+        const power = stats.totalPower || 0;
+        const customers = stats.totalCustomers || 0;
+        const hours = Math.round(stats.savedHours || 0);
+        
+        if (powerEl) powerEl.textContent = power.toLocaleString();
+        if (customersEl) customersEl.textContent = customers;
+        if (hoursEl) hoursEl.textContent = hours;
+        if (totalPowerEl) totalPowerEl.textContent = power.toLocaleString();
+        if (savedHoursEl) savedHoursEl.textContent = hours;
+      } catch (e) { /* تجاهل */ }
+    }
+
+    // تحديث المجتمع كل 30 ثانية
+    updateCommunityUI();
+    setInterval(updateCommunityUI, 30000);
+
+    // تشغيل الخريطة
+    setTimeout(() => {
+      try { initEnergyMap(); } catch(e) { console.warn('⚠️ خريطة الطاقة غير متوفرة'); }
+    }, 1500);
+
+    // تشغيل ساعة الطاقة
+    try { updateEnergyClock(); setInterval(updateEnergyClock, 30000); } catch(e) {}
+
+    // تشغيل تحدي المهندسين
+    try { initEngineeringChallenge(); updatePastWinners(); } catch(e) {}
+
+    // ================================================================
+    // أحداث إضافية
+    // ================================================================
+    const closeCartBtn = document.getElementById('closeCart');
+    if(closeCartBtn) closeCartBtn.addEventListener('click', () => toggleCart(false));
     if(overlay) overlay.addEventListener('click', () => toggleCart(false));
-    const checkoutBtn = document.getElementById('checkoutBtn'); if(checkoutBtn) checkoutBtn.addEventListener('click', sendOrder);
-    const clearCartBtn = document.getElementById('clearCartBtn'); if(clearCartBtn) clearCartBtn.addEventListener('click', () => { if(confirm('تفريغ السلة؟')){ cart = []; saveCart(cart); updateCartUI(); renderProducts(); } });
-    const scrollTopBtn = document.getElementById('scrollTopBtn'); if(scrollTopBtn) { window.addEventListener('scroll', () => { scrollTopBtn.style.display = window.scrollY > 400 ? 'flex' : 'none'; }); scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' })); }
+    
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if(checkoutBtn) checkoutBtn.addEventListener('click', sendOrder);
+    
+    const clearCartBtn = document.getElementById('clearCartBtn');
+    if(clearCartBtn){
+      clearCartBtn.addEventListener('click', () => {
+        if(confirm('تفريغ السلة؟')){ cart = []; saveCart(cart); updateCartUI(); renderProducts(); }
+      });
+    }
 
-    renderProducts(); updateCartUI(); 
-    if(document.getElementById('orderCount')) document.getElementById('orderCount').textContent = getOrders().length;
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if(scrollTopBtn){
+      window.addEventListener('scroll', () => { scrollTopBtn.style.display = window.scrollY > 400 ? 'flex' : 'none'; });
+      scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+
+    // ================================================================
+    // التشغيل الأولي
+    // ================================================================
+    renderProducts();
+    updateCartUI();
+    updateOrderCount();
+    renderBlogPosts();
+    renderContactInfo();
+    
+    console.log('⚡ النخبة – المتجر الأسطوري (الإصدار النهائي المتكامل) جاهز!');
   </script>
 </body>
 </html>
