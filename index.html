@@ -5,11 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
   <title>النخبة للكهربائيات – المتجر الأسطوري</title>
   
-  <!-- ===== Google Fonts – خطوط عصرية ===== -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Readex+Pro:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
-  
-  <!-- أيقونات FontAwesome للمستشار الهندسي -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- ===== Google Fonts ===== -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
@@ -19,23 +16,113 @@
     { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
   </script>
 
-  <!-- ===== أنماط إضافية صغيرة للتجاوزات ===== -->
+  <!-- ===== أنماط إضافية للميزات السيكولوجية والمستشار الهندسي ===== -->
   <style>
-    .cart-item .controls .qty-input {
-      width: 44px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius-sm); background: rgba(0, 0, 0, 0.2); color: var(--text);
-      padding: 2px 0; font-size: 0.8rem; transition: border-color 0.2s; -moz-appearance: textfield;
+    /* 🧠 التسويق النفسي: تأثير الإرساء */
+    .price-anchor {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: line-through;
+      margin-left: 0.5rem;
+      font-weight: 400;
     }
+    
+    /* 🧠 التسويق النفسي: محفز الندرة */
+    .scarcity-badge {
+      font-size: 0.75rem;
+      color: #ef4444;
+      font-weight: 800;
+      background: rgba(239, 68, 68, 0.1);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      animation: pulseAlert 1.5s infinite;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    @keyframes pulseAlert { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+    /* 🧠 التسويق النفسي: تأثير القطيع */
+    .social-proof {
+      font-size: 0.7rem;
+      color: #fbbf24;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(251, 191, 36, 0.05);
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--radius-sm);
+      border-right: 2px solid #fbbf24;
+    }
+
+    /* 🧠 زر خيار المهندسين (Authority Bias) */
+    .btn-authority {
+      background: linear-gradient(135deg, #1e3a8a, var(--primary));
+      border-color: #1e40af !important;
+      box-shadow: 0 0 15px rgba(30, 58, 138, 0.5) !important;
+    }
+
+    /* 🧮 المستشار الهندسي الذكي */
+    .wizard-btn-float {
+      position: fixed;
+      bottom: 90px;
+      left: 20px;
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: white;
+      border: none;
+      border-radius: var(--radius-full);
+      padding: 0.8rem 1.5rem;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      z-index: 998;
+      box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      animation: floatBtn 3s infinite ease-in-out;
+    }
+    .wizard-btn-float:hover { transform: scale(1.05); }
+    @keyframes floatBtn { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+    .wizard-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
+      z-index: 4000; display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.3s;
+    }
+    .wizard-modal.active { display: flex; opacity: 1; }
+    .wizard-content {
+      background: var(--panel-bg); border: 1px solid var(--primary); box-shadow: 0 0 40px var(--primary-glow);
+      border-radius: var(--radius-xl); width: 90%; max-width: 500px; padding: 2rem; position: relative;
+    }
+    .wizard-close { position: absolute; top: 15px; left: 15px; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+    .wizard-content h3 { color: var(--secondary); margin-bottom: 1.5rem; text-align: center; font-weight: 800; font-size: 1.4rem; }
+    .wizard-group { margin-bottom: 1.2rem; }
+    .wizard-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; }
+    .wizard-group input[type="range"] { width: 100%; accent-color: var(--primary); }
+    .wizard-val { color: var(--secondary); font-weight: 800; font-size: 1.1rem; float: left; }
+    .wizard-result {
+      background: rgba(0,0,0,0.4); padding: 1rem; border-radius: var(--radius-md); border-right: 4px solid var(--primary);
+      margin-top: 1.5rem; font-size: 0.85rem; line-height: 1.8;
+    }
+    .wizard-add-btn {
+      width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: var(--radius-full);
+      font-weight: 800; font-size: 1.1rem; margin-top: 1rem; cursor: pointer; transition: 0.3s; box-shadow: 0 0 20px var(--primary-glow);
+    }
+    .wizard-add-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+    /* 🌍 القائمة الجغرافية لقاطع التيار */
+    .district-select {
+      background: rgba(0,0,0,0.4); border: 1px solid var(--panel-border); color: var(--text);
+      padding: 0.3rem 0.8rem; border-radius: var(--radius-full); font-family: var(--font);
+      font-size: 0.75rem; font-weight: 600; outline: none; cursor: pointer;
+    }
+
+    .cart-item .controls .qty-input { width: 44px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: var(--radius-sm); background: rgba(0, 0, 0, 0.2); color: var(--text); padding: 2px 0; font-size: 0.8rem; transition: border-color 0.2s; -moz-appearance: textfield; }
     .cart-item .controls .qty-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-glow); }
     .cart-item .controls .qty-input::-webkit-inner-spin-button, .cart-item .controls .qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    @media (max-width: 400px) {
-      .product-grid { gap: 0.4rem; }
-      .product-card { padding: 0.4rem; }
-      .product-card h4 { font-size: 0.65rem; }
-      .product-card .price { font-size: 0.8rem; }
-      .variant-select { font-size: 0.6rem; }
-      .add-to-cart { font-size: 0.6rem; padding: 0.3rem; }
-    }
+    @media (max-width: 400px) { .product-grid { gap: 0.4rem; } .product-card { padding: 0.4rem; } .product-card h4 { font-size: 0.65rem; } .product-card .price { font-size: 0.8rem; } .variant-select { font-size: 0.6rem; } .add-to-cart { font-size: 0.6rem; padding: 0.3rem; } }
   </style>
 </head>
 <body>
@@ -47,6 +134,16 @@
   <header id="mainHeader">
     <div class="logo">⚡ النخبة</div>
     <div class="header-actions">
+      <!-- ميزة وضع الظلام المبرمج جغرافياً -->
+      <select id="districtSelect" class="district-select" aria-label="تحديد المنطقة">
+        <option value="cra">صيرة (كريتر)</option>
+        <option value="kho">خور مكسر</option>
+        <option value="she" selected>الشيخ عثمان</option>
+        <option value="man">المنصورة</option>
+        <option value="bur">البريقة</option>
+        <option value="mua">المعلا</option>
+      </select>
+      
       <button class="sound-toggle" id="soundToggle" aria-label="تشغيل/إيقاف الصوت">🔊</button>
       <button class="lang-btn" id="langToggle" aria-label="تبديل اللغة">🇸🇦 العربية</button>
       <button id="breakerToggle" class="breaker-btn" aria-label="قاطع التيار">🎚️</button>
@@ -60,16 +157,14 @@
   <!-- ===== المحتوى الرئيسي ===== -->
   <main style="position:relative; z-index:1; max-width:1400px; margin:0 auto; padding:0 0.8rem 90px;">
 
-    <!-- ===== أزرار التنقل بين الأقسام ===== -->
+    <!-- أزرار التنقل -->
     <div class="nav-tabs">
       <button class="active" data-section="store">🛍️ المتجر</button>
       <button data-section="blog">📝 المدونة</button>
       <button data-section="contact">📞 تواصل معنا</button>
     </div>
 
-    <!-- ========================================================== -->
-    <!-- تأثير الكتابة الديناميكي (Typewriter Effect) -->
-    <!-- ========================================================== -->
+    <!-- تأثير الكتابة الديناميكي -->
     <section class="typing-section" id="typingSection">
       <div class="typing-container" id="typingContainer">
         <div class="terminal-prefix" id="terminalPrefix">
@@ -83,17 +178,13 @@
       </div>
     </section>
 
-    <!-- ========================================================== -->
-    <!-- الشاشة الإعلانية التفاعلية (Hero Billboard) -->
-    <!-- ========================================================== -->
+    <!-- الشاشة الإعلانية -->
     <section class="hero-section" id="heroSection">
       <div class="hero-track" id="heroTrack"></div>
       <div class="hero-dots" id="heroDots"></div>
     </section>
 
-    <!-- ========================================================== -->
-    <!-- شريط الأقسام السريعة (Quick Categories) -->
-    <!-- ========================================================== -->
+    <!-- شريط الأقسام السريعة -->
     <section class="categories-scroll" id="categoriesScroll">
       <span class="cat-pill active" data-category="all">🔥 الكل</span>
       <span class="cat-pill" data-category="إضاءة">💡 إضاءة</span>
@@ -102,16 +193,10 @@
       <span class="cat-pill" data-category="قوابس">🔌 قوابس</span>
       <span class="cat-pill" data-category="محولات">⚡ محولات</span>
       <span class="cat-pill" data-category="مقابس">🔌 مقابس</span>
-      <span class="cat-pill" data-category="قواطع">🎚️ قواطع</span>
-      <span class="cat-pill" data-category="بطاريات">🔋 بطاريات</span>
-      <span class="cat-pill" data-category="ألواح">☀️ ألواح شمسية</span>
     </section>
 
-    <!-- ========================================================== -->
-    <!-- قسم المتجر (Store) -->
-    <!-- ========================================================== -->
+    <!-- قسم المتجر -->
     <div id="section-store" class="page-section active">
-
       <div class="info-bar">
         <span class="info-item">🛍️ <span class="count" id="productCount">0</span> منتج</span>
         <span class="info-item">📦 <span class="count" id="orderCount">0</span> طلب سابق</span>
@@ -137,21 +222,29 @@
 
       <section class="testimonials-section">
         <h2>💬 آراء عملائنا</h2>
-        <div class="testimonials-scroll" id="testimonialsScroll"></div>
+        <div class="testimonials-scroll" id="testimonialsScroll">
+          <!-- نماذج للآراء لتعزيز الدليل الاجتماعي -->
+          <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>"استشرت المستشار الهندسي واشتريت منظومة متكاملة.. دقة في الحسابات وجودة في المنتجات!"</p>
+            <div class="author">- م. أحمد، عدن</div>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>"سرعة خيالية في التوصيل، والكابلات أصلية 100%. شكراً النخبة."</p>
+            <div class="author">- محمد اليافعي</div>
+          </div>
+        </div>
       </section>
     </div>
 
-    <!-- ========================================================== -->
-    <!-- قسم المدونة (Blog) -->
-    <!-- ========================================================== -->
+    <!-- قسم المدونة -->
     <div id="section-blog" class="page-section">
       <h2 style="font-weight:700; margin-bottom:1.5rem;">📝 المدونة التقنية</h2>
       <div id="blogGrid" class="blog-grid"></div>
     </div>
 
-    <!-- ========================================================== -->
-    <!-- قسم التواصل (Contact) -->
-    <!-- ========================================================== -->
+    <!-- قسم التواصل -->
     <div id="section-contact" class="page-section">
       <h2 style="font-weight:700; margin-bottom:1.5rem;">📞 تواصل معنا</h2>
       <div class="contact-page">
@@ -170,9 +263,7 @@
       <div class="map-container" id="contactMapDisplay"></div>
     </div>
 
-    <!-- ========================================================== -->
-    <!-- السلة الجانبية (Cart Sidebar) -->
-    <!-- ========================================================== -->
+    <!-- السلة الجانبية -->
     <div id="cartSidebar" class="cart-sidebar">
       <h3>🛒 سلة المشتريات <span class="cart-count-badge" id="cartItemCount">(0)</span></h3>
       <div id="cartItems"></div>
@@ -181,15 +272,13 @@
         <div>الخصم: <span id="cartDiscount">0</span> ريال</div>
         <div class="total-final"><strong>الإجمالي: <span id="cartFinal">0</span> ريال</strong></div>
       </div>
-      <button id="checkoutBtn" class="primary-btn">📤 إرسال الطلب عبر واتساب</button>
+      <button id="checkoutBtn" class="primary-btn">📤 اعتماد هندسي وإرسال عبر واتساب</button>
       <button id="clearCartBtn" class="secondary-btn">🗑️ تفريغ</button>
       <button id="closeCart" class="secondary-btn">إغلاق</button>
     </div>
     <div id="cartOverlay" class="overlay"></div>
 
-    <!-- ========================================================== -->
-    <!-- الـ Lightbox (معرض المنتج المحصن) -->
-    <!-- ========================================================== -->
+    <!-- الـ Lightbox (معرض المنتج) -->
     <div id="productLightbox" class="lightbox-overlay">
       <div class="lightbox-container" id="lightboxContainer">
         <div class="lightbox-header">
@@ -197,7 +286,6 @@
             <span id="lbTitle">اسم المنتج</span>
             <span class="price-tag" id="lbPriceTag">0 ريال</span>
           </div>
-          <!-- زر الإغلاق المحصن الداخلي -->
           <button class="lightbox-close" id="lbClose">✕</button>
         </div>
         <div class="lightbox-body">
@@ -240,92 +328,7 @@
       </div>
     </div>
 
-    <!-- ========================================================== -->
-    <!-- المستشار الهندسي الذكي لمنظومات عدن (The AI Wizard) 🧮⚡ -->
-    <!-- ========================================================== -->
-    <button class="fab-calculator" id="openCalcBtn" aria-label="المستشار الذكي"><i class="fas fa-calculator"></i></button>
-
-    <div class="calc-modal" id="calcModal">
-      <div class="calc-container">
-        <div class="calc-header">
-          <h2><i class="fas fa-bolt"></i> المستشار الهندسي لمنظومات عدن</h2>
-          <button class="calc-close" id="closeCalcBtn"><i class="fas fa-times"></i></button>
-        </div>
-        
-        <div class="calc-body">
-          <div class="calc-step active" id="step1">
-            <div class="calc-group">
-              <label>1. كم مساحة المنزل التقريبية؟</label>
-              <span class="calc-desc">لتحديد احتياج الإنارة والمراوح والمقابس العادية.</span>
-              <input type="range" id="areaSlider" class="range-slider" min="20" max="300" step="10" value="80">
-              <div class="range-value"><span id="areaVal">80</span> م²</div>
-            </div>
-            <div class="calc-group">
-              <label>الأجهزة الأساسية (اختر الموجود):</label>
-              <div class="appliance-grid">
-                <div class="app-btn selected" data-load="150" data-type="basic" id="appTv"><i class="fas fa-tv"></i> شاشة تلفزيون</div>
-                <div class="app-btn selected" data-load="300" data-type="basic" id="appFridge"><i class="fas fa-snowflake"></i> ثلاجة منزلية</div>
-                <div class="app-btn" data-load="150" data-type="basic" id="appPc"><i class="fas fa-desktop"></i> كمبيوتر / لابتوب</div>
-                <div class="app-btn" data-load="400" data-type="basic" id="appWater"><i class="fas fa-tint"></i> دينمو ماء (صغير)</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="calc-step" id="step2">
-            <div class="calc-group">
-              <label>2. الأحمال الثقيلة والتكييف</label>
-              <span class="calc-desc">ملاحظة: المكيفات تستهلك طاقة هائلة، حدد بدقة.</span>
-              <div class="appliance-grid">
-                <div class="app-btn" data-load="1200" data-type="heavy" id="appAc1"><i class="fas fa-wind"></i> مكيف 1 طن</div>
-                <div class="app-btn" data-load="1800" data-type="heavy" id="appAc15"><i class="fas fa-wind"></i> مكيف 1.5 طن</div>
-                <div class="app-btn" data-load="1500" data-type="heavy" id="appHeater"><i class="fas fa-fire"></i> سخان ماء</div>
-                <div class="app-btn" data-load="1000" data-type="heavy" id="appWash"><i class="fas fa-tshirt"></i> غسالة أوتوماتيك</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="calc-step" id="step3">
-            <div class="calc-group">
-              <label>3. متوسط انقطاع الكهرباء (في عدن)</label>
-              <span class="calc-desc">كم ساعة تنطفئ الكهرباء يومياً بشكل تقريبي؟</span>
-              <input type="range" id="outageSlider" class="range-slider" min="0" max="24" step="1" value="16">
-              <div class="range-value"><span id="outageVal">16</span> ساعة طافي</div>
-            </div>
-            
-            <div class="calc-group" id="nightAcGroup" style="display: none; background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3);">
-              <label style="color: #ef4444;"><i class="fas fa-exclamation-triangle"></i> سؤال حاسم للبطاريات!</label>
-              <span class="calc-desc" style="color: #fff;">لقد اخترت (مكيف). هل تريد تشغيل المكيف أثناء الانقطاع في **الليل**؟ (سيزيد التكلفة).</span>
-              <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                <button class="calc-btn" id="nightAcYes" style="background: rgba(0,0,0,0.5); border: 1px solid #ef4444;">نعم، أريد برودة</button>
-                <button class="calc-btn" id="nightAcNo" style="background: #10b981;">لا، في النهار فقط</button>
-              </div>
-              <input type="hidden" id="nightAcChoice" value="no">
-            </div>
-          </div>
-
-          <div class="calc-step" id="step4">
-            <div style="text-align: center; margin-bottom: 1rem;">
-              <i class="fas fa-check-circle" style="font-size: 3rem; color: #10b981; margin-bottom: 0.5rem;"></i>
-              <h3 style="color: #10b981;">تم الحساب بنجاح!</h3>
-              <p style="font-size: 0.85rem; color: #aaa;">هذه المنظومة الهجينة مصممة لتتحمل أحمالك وانقطاعات منطقتك.</p>
-            </div>
-            <div class="result-card" id="calcResultDisplay"></div>
-            <button class="add-bundle-btn" id="addBundleToCartBtn">
-              <i class="fas fa-cart-plus"></i> أضف المنظومة للسلة الآن
-            </button>
-          </div>
-        </div>
-
-        <div class="calc-footer" id="calcFooter">
-          <button class="calc-btn btn-prev" id="calcPrevBtn" style="display: none;">السابق</button>
-          <button class="calc-btn btn-next" id="calcNextBtn">التالي</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================================== -->
-    <!-- الفوتر (Footer) -->
-    <!-- ========================================================== -->
+    <!-- الفوتر -->
     <footer id="siteFooter">
       <div class="footer-brand">⚡ النخبة للكهربائيات</div>
       <div class="footer-links">
@@ -346,23 +349,57 @@
 
   </main>
 
-  <!-- ===== شريط التنقل السفلي العائم (Bottom Navigation) ===== -->
+  <!-- زر تشغيل المستشار الهندسي -->
+  <button id="openWizardBtn" class="wizard-btn-float">
+    🧮 المستشار الهندسي الذكي
+  </button>
+
+  <!-- نافذة المستشار الهندسي (Engineering Wizard Modal) -->
+  <div id="wizardModal" class="wizard-modal">
+    <div class="wizard-content">
+      <button id="closeWizard" class="wizard-close">✕</button>
+      <h3>🧮 صمم منظومتك الشمسية</h3>
+      
+      <div class="wizard-group">
+        <label>الأحمال الأساسية (إنارة، شاشات، مراوح) - <span class="wizard-val" id="valLoad">500</span> وات</label>
+        <input type="range" id="wizLoad" min="100" max="3000" step="100" value="500">
+      </div>
+      
+      <div class="wizard-group">
+        <label>عدد المكيفات (اقتصادي 1 طن) - <span class="wizard-val" id="valAc">0</span> مكيف</label>
+        <input type="range" id="wizAc" min="0" max="3" step="1" value="0">
+      </div>
+      
+      <div class="wizard-group">
+        <label>ساعات التشغيل المطلوبة ليلاً - <span class="wizard-val" id="valHours">8</span> ساعات</label>
+        <input type="range" id="wizHours" min="4" max="12" step="1" value="8">
+      </div>
+
+      <div class="wizard-result" id="wizResult">
+        <i>💡 جاري الحساب الهندسي...</i>
+      </div>
+      
+      <button id="addBundleBtn" class="wizard-add-btn">🛒 اعتماد الباقة وإضافتها للسلة</button>
+    </div>
+  </div>
+
+  <!-- شريط التنقل السفلي -->
   <nav class="bottom-nav" id="bottomNav">
     <button class="nav-item active" data-section="store" aria-label="الرئيسية"><span class="nav-icon">🏠</span><span class="nav-label">الرئيسية</span></button>
     <button class="nav-item" id="navSearch" aria-label="بحث"><span class="nav-icon">🔍</span><span class="nav-label">بحث</span></button>
     <button class="whatsapp-btn" id="navWhatsapp" aria-label="واتساب">💬</button>
-    <button class="nav-item" id="navCart" aria-label="السلة"><span class="nav-icon">🛒</span><span class="nav-label">السلة</span><span id="navCartBadge" class="badge" style="position:absolute;top:-4px;right:-4px;font-size:0.5rem;min-width:0.8rem;display:none;">0</span></button>
+    <button class="nav-item" id="navCart" aria-label="السلة"><span class="nav-icon">🛒</span><span class="nav-label">السلة</span><span id="navCartBadge" class="badge" style="position:absolute;top:-4px;right:-4px;font-size:0.5rem;min-width:0.8rem;">0</span></button>
     <button class="nav-item" data-section="contact" aria-label="تواصل"><span class="nav-icon">📞</span><span class="nav-label">تواصل</span></button>
   </nav>
 
-  <!-- ===== الإشعارات (Toast) ===== -->
+  <!-- الإشعارات -->
   <div id="toast" class="toast"></div>
 
-  <!-- ===== زر العودة للأعلى ===== -->
+  <!-- زر العودة للأعلى -->
   <button id="scrollTopBtn">↑</button>
 
   <!-- ========================================================== -->
-  <!-- JavaScript – تشغيل المتجر  -->
+  <!-- JavaScript – النواة البرمجية (الإصدار الاستثنائي المحدث) -->
   <!-- ========================================================== -->
   <script type="module">
     import { 
@@ -373,65 +410,140 @@
       getFooterImage, applyFooterImage
     } from './main.js';
 
-    // إعدادات تأثير الكتابة
     function loadTypingSettings() {
-      try { const saved = localStorage.getItem('nokhba_typing_settings'); if (saved) return JSON.parse(saved); } catch (e) { }
-      return { enabled: true, phrases: ['مرحباً بك في النخبة للكهربائيات', 'جودة عالية وأسعار تنافسية', 'توصيل سريع إلى جميع أنحاء عدن'], speed: 50, deleteSpeed: 30, pause: 2000, cursorEnabled: true, cursorEmojis: ['🔌', '💡', '⚡'], showPrefix: true, prefixText: 'النخبة NBA: ~_' };
+      try {
+        const saved = localStorage.getItem('nokhba_typing_settings');
+        if (saved) return JSON.parse(saved);
+      } catch (e) { }
+      return { enabled: true, phrases: ['مرحباً بك في النخبة للكهربائيات', 'جودة عالية وأسعار تنافسية', 'الخيار الأول لمهندسي عدن'], speed: 50, deleteSpeed: 30, pause: 2000, cursorEnabled: true, cursorEmojis: ['🔌', '💡', '⚡'], showPrefix: true, prefixText: 'النخبة NBA: ~_' };
     }
-    const typingSettings = loadTypingSettings();
 
-    const productManager = new ProductManager(); const blogManager = new BlogManager(); const contactManager = new ContactManager(); const heroImagesManager = new HeroImagesManager();
-    const lightning = new LightningEngine(); const thunder = new ThunderEngine(); const typingEngine = new TypingEngine();
+    const typingSettings = loadTypingSettings();
+    const productManager = new ProductManager();
+    const blogManager = new BlogManager();
+    const contactManager = new ContactManager();
+    const heroImagesManager = new HeroImagesManager();
+    const lightning = new LightningEngine();
+    const thunder = new ThunderEngine();
+    const typingEngine = new TypingEngine();
 
     try { lightning.init(document.getElementById('lightning-container')); } catch(e) {}
     try { thunder.init(); } catch(e) {}
 
-    const typingText = document.getElementById('typingText'); const typingCursor = document.getElementById('typingCursor'); const prefixText = document.getElementById('prefixText'); const prefixCursor = document.getElementById('prefixCursor');
-    if (typingSettings.showPrefix && prefixText) { prefixText.textContent = typingSettings.prefixText; document.getElementById('terminalPrefix').style.display = 'flex'; } else if (document.getElementById('terminalPrefix')) { document.getElementById('terminalPrefix').style.display = 'none'; }
+    // إعداد واجهة تأثير الكتابة
+    const typingText = document.getElementById('typingText');
+    const typingCursor = document.getElementById('typingCursor');
+    const prefixText = document.getElementById('prefixText');
+    const prefixCursor = document.getElementById('prefixCursor');
+
+    if (typingSettings.showPrefix && prefixText) {
+      prefixText.textContent = typingSettings.prefixText;
+      document.getElementById('terminalPrefix').style.display = 'flex';
+    } else if (document.getElementById('terminalPrefix')) {
+      document.getElementById('terminalPrefix').style.display = 'none';
+    }
+
+    let cursorEmojis = typingSettings.cursorEmojis || ['⚡'];
+    let cursorEmojiIndex = 0;
+    function updateCursorEmoji() { if (cursorEmojis.length > 0 && prefixCursor) { prefixCursor.textContent = cursorEmojis[cursorEmojiIndex % cursorEmojis.length]; cursorEmojiIndex++; } }
+    if (typingSettings.cursorEnabled && prefixCursor) { setInterval(updateCursorEmoji, 2000); updateCursorEmoji(); } else if (prefixCursor) { prefixCursor.style.display = 'none'; }
     if (typingSettings.enabled && typingText && typingCursor) { typingEngine.setSpeed(typingSettings.speed); typingEngine.setDeleteSpeed(typingSettings.deleteSpeed); typingEngine.setPause(typingSettings.pause); setTimeout(() => { typingEngine.start(typingText, typingCursor); }, 600); }
 
-    // نظام الصوت المانع للتداخل (Zero-Latency)
-    let soundEnabled = localStorage.getItem('nokhba_sound') !== 'off'; const soundToggle = document.getElementById('soundToggle');
-    let audioCtx = null; let isHeavySoundPlaying = false; 
+    // إدارة الصوت (Zero-Latency)
+    let soundEnabled = localStorage.getItem('nokhba_sound') !== 'off';
+    const soundToggle = document.getElementById('soundToggle');
+    let audioCtx = null;
+    function initAudio() { if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } if (audioCtx.state === 'suspended') audioCtx.resume(); }
+    document.body.addEventListener('click', initAudio, { once: true });
+    document.body.addEventListener('touchstart', initAudio, { once: true });
 
-    function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); }
-    document.body.addEventListener('click', initAudio, { once: true }); document.body.addEventListener('touchstart', initAudio, { once: true });
-
-    function updateSoundUI() { if(soundToggle){ soundToggle.textContent = soundEnabled ? '🔊' : '🔇'; soundToggle.classList.toggle('sound-off', !soundEnabled); } document.documentElement.style.setProperty('--sound-enabled', soundEnabled ? '1' : '0'); }
+    function updateSoundUI() {
+      if(soundToggle){ soundToggle.textContent = soundEnabled ? '🔊' : '🔇'; soundToggle.classList.toggle('sound-off', !soundEnabled); }
+      document.documentElement.style.setProperty('--sound-enabled', soundEnabled ? '1' : '0');
+    }
     updateSoundUI();
-    
     if(soundToggle){ soundToggle.addEventListener('click', () => { soundEnabled = !soundEnabled; localStorage.setItem('nokhba_sound', soundEnabled ? 'on' : 'off'); updateSoundUI(); showToast(soundEnabled ? '🔊 تم تشغيل الصوت' : '🔇 تم إيقاف الصوت', 1500, soundEnabled ? '🔊' : '🔇'); }); }
 
     function playClickSound(volume = 0.08) {
-      if (!soundEnabled || !audioCtx || isHeavySoundPlaying) return;
-      try { const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(1500, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05); gain.gain.setValueAtTime(volume, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05); osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.05); } catch (e) {}
+      if (!soundEnabled || !audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'sawtooth'; osc.frequency.setValueAtTime(1500, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
+        gain.gain.setValueAtTime(volume, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+        osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.05);
+      } catch (e) {}
     }
-    document.addEventListener('click', (e) => { const target = e.target.closest('button, .product-card, .cat-pill, .nav-item, .whatsapp-btn'); if (target && !target.closest('.sound-toggle') && !target.closest('#breakerToggle') && !target.closest('#lbClose') && !target.closest('#openCalcBtn')) playClickSound(); });
+    document.addEventListener('click', (e) => { const target = e.target.closest('button, .product-card, .cat-pill, .nav-item, .whatsapp-btn'); if (target && !target.closest('.sound-toggle') && !target.closest('#lbClose')) playClickSound(); });
 
-    // قاطع التيار (Circuit Breaker)
-    applyBackground(getBackground()); applyFooterImage(getFooterImage()); setTheme('dark'); 
-    const breakerToggle = document.getElementById('breakerToggle'); let isBlackout = false;
+    applyBackground(getBackground()); applyFooterImage(getFooterImage()); setTheme('dark');
+
+    // 💡 وضع قاطع التيار وتزامن المناطق (Geotargeted Blackout Sync)
+    const breakerToggle = document.getElementById('breakerToggle');
+    const districtSelect = document.getElementById('districtSelect');
+    let isBlackout = false;
+
     function playBreakerSound() {
-      if (!soundEnabled || !audioCtx) return; isHeavySoundPlaying = true; setTimeout(() => { isHeavySoundPlaying = false; }, 400);
-      try { const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); osc.type = 'square'; osc.frequency.setValueAtTime(60, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.25); gain.gain.setValueAtTime(1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25); osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.25); } catch(e){}
+      if (!soundEnabled || !audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'square'; osc.frequency.setValueAtTime(60, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.25);
+        gain.gain.setValueAtTime(1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+        osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.25);
+      } catch(e){}
     }
-    if (breakerToggle) {
-      breakerToggle.addEventListener('click', () => {
-        isBlackout = !isBlackout; playBreakerSound();
-        if (isBlackout) { breakerToggle.textContent = '🔌'; breakerToggle.classList.add('is-off'); document.body.classList.add('blackout-mode'); showToast('⚠️ تم فصل التيار الرئيسي!', 3000, '🔌'); setTimeout(() => { document.querySelectorAll('.product-card img').forEach(img => { img.style.filter = 'drop-shadow(0 0 35px rgba(255, 245, 150, 1)) brightness(1.5)'; }); try { thunder.play(0.5); } catch(e){} }, 800); } 
-        else { breakerToggle.textContent = '🎚️'; breakerToggle.classList.remove('is-off'); document.body.classList.remove('blackout-mode'); document.querySelectorAll('.product-card img').forEach(img => { img.style.filter = ''; }); showToast('⚡ عاد التيار الكهربائي', 2000, '⚡'); }
+
+    function toggleBlackout(forceState = null, triggerMsg = null) {
+      isBlackout = forceState !== null ? forceState : !isBlackout;
+      playBreakerSound();
+      if (isBlackout) {
+        if(breakerToggle) { breakerToggle.textContent = '🔌'; breakerToggle.classList.add('is-off'); }
+        document.body.classList.add('blackout-mode');
+        showToast(triggerMsg || '⚠️ تم فصل التيار الرئيسي!', 3000, '🔌');
+        setTimeout(() => { document.querySelectorAll('.product-card img').forEach(img => { img.style.filter = 'drop-shadow(0 0 35px rgba(255, 245, 150, 1)) brightness(1.5)'; }); try { thunder.play(0.5); } catch(e){} }, 800);
+      } else {
+        if(breakerToggle) { breakerToggle.textContent = '🎚️'; breakerToggle.classList.remove('is-off'); }
+        document.body.classList.remove('blackout-mode');
+        document.querySelectorAll('.product-card img').forEach(img => { img.style.filter = ''; });
+        showToast('⚡ عاد التيار الكهربائي', 2000, '⚡');
+      }
+    }
+
+    if (breakerToggle) breakerToggle.addEventListener('click', () => toggleBlackout());
+    
+    // محاكاة الانقطاع حسب مديريات عدن
+    if(districtSelect) {
+      districtSelect.addEventListener('change', (e) => {
+        const districtName = e.target.options[e.target.selectedIndex].text;
+        showToast(`📍 جاري مزامنة شبكة ${districtName}...`, 2000, '📡');
+        // محاكاة جدول الإطفاء (عشوائي لأغراض العرض)
+        setTimeout(() => {
+          if (Math.random() > 0.4) {
+            toggleBlackout(true, `⚠️ تنبيه: جدول إطفاء حالي في ${districtName}`);
+          } else {
+            if(isBlackout) toggleBlackout(false);
+            showToast(`✅ التيار مستقر حالياً في ${districtName}`, 2000, '⚡');
+          }
+        }, 1500);
       });
     }
 
-    // إعدادات اللغة وتأثير الهيدر
-    let currentLang = localStorage.getItem('nokhba_lang') || 'ar'; const langToggle = document.getElementById('langToggle');
-    function updateLangUI(lang) { const html = document.documentElement; if (lang === 'en') { html.setAttribute('dir', 'ltr'); html.setAttribute('lang', 'en'); if(langToggle) langToggle.textContent = '🇸🇦 العربية'; document.body.style.direction = 'ltr'; document.body.style.textAlign = 'left'; document.querySelectorAll('.product-card, .filters, .cart-sidebar, .info-bar, .contact-page, .blog-card, .testimonial-card').forEach(el => { el.style.direction = 'ltr'; el.style.textAlign = 'left'; }); document.querySelectorAll('.header-actions button').forEach(btn => { btn.style.marginLeft = '0'; btn.style.marginRight = '0.6rem'; }); } else { html.setAttribute('dir', 'rtl'); html.setAttribute('lang', 'ar'); if(langToggle) langToggle.textContent = '🇬🇧 English'; document.body.style.direction = 'rtl'; document.body.style.textAlign = 'right'; document.querySelectorAll('.product-card, .filters, .cart-sidebar, .info-bar, .contact-page, .blog-card, .testimonial-card').forEach(el => { el.style.direction = 'rtl'; el.style.textAlign = 'right'; }); document.querySelectorAll('.header-actions button').forEach(btn => { btn.style.marginLeft = '0.6rem'; btn.style.marginRight = '0'; }); } localStorage.setItem('nokhba_lang', lang); currentLang = lang; }
-    updateLangUI(currentLang); if(langToggle){ langToggle.addEventListener('click', () => { const newLang = currentLang === 'ar' ? 'en' : 'ar'; updateLangUI(newLang); showToast(newLang === 'ar' ? '🌐 تم التبديل إلى العربية' : '🌐 Switched to English', 1500); }); }
+    // إعدادات اللغة، الهيدر، والـ Hero Slider كما هي في الكود الأصلي
+    let currentLang = localStorage.getItem('nokhba_lang') || 'ar';
+    const langToggle = document.getElementById('langToggle');
+    function updateLangUI(lang) {
+      const html = document.documentElement;
+      if (lang === 'en') { html.setAttribute('dir', 'ltr'); html.setAttribute('lang', 'en'); if(langToggle) langToggle.textContent = '🇸🇦 العربية'; document.body.style.direction = 'ltr'; document.body.style.textAlign = 'left'; document.querySelectorAll('.product-card, .filters, .cart-sidebar, .info-bar, .contact-page, .blog-card, .testimonial-card').forEach(el => { el.style.direction = 'ltr'; el.style.textAlign = 'left'; }); document.querySelectorAll('.header-actions button').forEach(btn => { btn.style.marginLeft = '0'; btn.style.marginRight = '0.6rem'; }); } 
+      else { html.setAttribute('dir', 'rtl'); html.setAttribute('lang', 'ar'); if(langToggle) langToggle.textContent = '🇬🇧 English'; document.body.style.direction = 'rtl'; document.body.style.textAlign = 'right'; document.querySelectorAll('.product-card, .filters, .cart-sidebar, .info-bar, .contact-page, .blog-card, .testimonial-card').forEach(el => { el.style.direction = 'rtl'; el.style.textAlign = 'right'; }); document.querySelectorAll('.header-actions button').forEach(btn => { btn.style.marginLeft = '0.6rem'; btn.style.marginRight = '0'; }); }
+      localStorage.setItem('nokhba_lang', lang); currentLang = lang;
+    }
+    updateLangUI(currentLang);
+    if(langToggle) langToggle.addEventListener('click', () => { const newLang = currentLang === 'ar' ? 'en' : 'ar'; updateLangUI(newLang); showToast(newLang === 'ar' ? '🌐 تم التبديل إلى العربية' : '🌐 Switched to English', 1500); });
 
     const header = document.getElementById('mainHeader'); const bottomNav = document.getElementById('bottomNav'); let lastScrollY = 0;
     window.addEventListener('scroll', () => { const currentScrollY = window.scrollY; if (header) { currentScrollY > 50 ? header.classList.add('scrolled') : header.classList.remove('scrolled'); } if (bottomNav) { (currentScrollY > 200 && currentScrollY > lastScrollY) ? bottomNav.classList.add('hidden') : bottomNav.classList.remove('hidden'); } lastScrollY = currentScrollY; });
 
-    // الشاشة الإعلانية (Hero)
     const heroTrack = document.getElementById('heroTrack'); const heroDots = document.getElementById('heroDots'); let currentSlide = 0; let autoSlideInterval;
     function renderHero() {
       const heroImages = heroImagesManager.getAll(); if(!heroTrack || heroImages.length === 0) return;
@@ -445,238 +557,290 @@
     function resetAutoSlide(length) { if (autoSlideInterval) { clearInterval(autoSlideInterval); startAutoSlide(length); } }
     renderHero();
 
-    // المنتجات والتأثيرات السلوكية
-    let cart = getCart(); let currentFilter = {}; let isLoading = false;
-    const grid = document.getElementById('productGrid'); const search = document.getElementById('searchInput'); const minP = document.getElementById('minPrice'); const maxP = document.getElementById('maxPrice'); const catFilter = document.getElementById('categoryFilter'); const loadingSpinner = document.getElementById('loadingSpinner'); const loadingBar = document.getElementById('loadingBar'); const productCount = document.getElementById('productCount'); const catPills = document.querySelectorAll('.cat-pill');
+    const catPills = document.querySelectorAll('.cat-pill'); const catFilter = document.getElementById('categoryFilter'); const applyBtn = document.getElementById('applyFilters');
+    catPills.forEach(pill => { pill.addEventListener('click', () => { catPills.forEach(p => p.classList.remove('active')); pill.classList.add('active'); if(catFilter) { catFilter.value = pill.dataset.category === 'all' ? '' : pill.dataset.category; if(applyBtn) applyBtn.click(); } document.querySelector('.filters').scrollIntoView({ behavior: 'smooth', block: 'center' }); }); });
+    document.querySelectorAll('.nav-tabs button, .footer-links a[data-section], .nav-item[data-section]').forEach(btn => { btn.addEventListener('click', (e) => { e.preventDefault(); const section = btn.dataset.section || 'store'; document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active')); const secEl = document.getElementById('section-' + section); if(secEl) secEl.classList.add('active'); document.querySelectorAll('.nav-tabs button, .nav-item[data-section]').forEach(b => b.classList.remove('active')); const tabBtn = document.querySelector(`.nav-tabs button[data-section="${section}"]`); if(tabBtn) tabBtn.classList.add('active'); const navItem = document.querySelector(`.nav-item[data-section="${section}"]`); if(navItem) navItem.classList.add('active'); if (section === 'blog') renderBlogPosts(); if (section === 'contact') renderContactInfo(); if (section === 'store') renderProducts(currentFilter); if (document.getElementById('cartSidebar').classList.contains('open')) toggleCart(false); }); });
+    const navSearch = document.getElementById('navSearch'); if(navSearch) navSearch.addEventListener('click', () => { document.querySelector('.filters').scrollIntoView({ behavior: 'smooth', block: 'center' }); document.getElementById('searchInput').focus(); });
+    const navCart = document.getElementById('navCart'); if(navCart) navCart.addEventListener('click', () => toggleCart(true));
+    const navWhatsapp = document.getElementById('navWhatsapp'); if(navWhatsapp) navWhatsapp.addEventListener('click', () => sendOrder());
 
+    let cart = getCart(); let currentFilter = {}; let isLoading = false;
+    const grid = document.getElementById('productGrid'); const search = document.getElementById('searchInput'); const minP = document.getElementById('minPrice'); const maxP = document.getElementById('maxPrice'); const resetFiltersBtn = document.getElementById('resetFiltersBtn'); const loadingSpinner = document.getElementById('loadingSpinner'); const loadingBar = document.getElementById('loadingBar'); const productCount = document.getElementById('productCount');
+
+    // ================================================================
+    // 🧠 بناء المنتجات (مع محرك التسويق النفسي والهندسة الاجتماعية)
+    // ================================================================
     async function renderProducts(filter = {}) {
-      if (isLoading || !grid) return; isLoading = true; if(loadingSpinner) loadingSpinner.classList.add('active'); if(loadingBar) loadingBar.style.width = '20%'; currentFilter = filter;
+      if (isLoading || !grid) return; isLoading = true;
+      if(loadingSpinner) loadingSpinner.classList.add('active'); if(loadingBar) loadingBar.style.width = '20%';
+      currentFilter = filter;
       try {
-        const products = await productManager.query(filter); if(loadingBar) loadingBar.style.width = '80%';
-        if (products.length === 0) { grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2rem;color:rgba(var(--text-rgb),0.5);font-size:1.2rem;"><span style="font-size:3rem;display:block;margin-bottom:1rem;">📦</span>لم يتم العثور على منتجات.</div>`; } 
+        const products = await productManager.query(filter);
+        if(loadingBar) loadingBar.style.width = '80%';
+        if (products.length === 0) { grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2rem;color:rgba(var(--text-rgb),0.5);font-size:1.2rem;"><span style="font-size:3rem;display:block;margin-bottom:1rem;">📦</span>لا توجد نتائج للبحث.</div>`; } 
         else { grid.innerHTML = products.map(p => buildProductCard(p)).join(''); bindProductEvents(); }
         const cats = [...new Set(products.map(p => p.category).filter(Boolean))];
         if(catFilter) catFilter.innerHTML = '<option value="">جميع الفئات</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
-        if(productCount) productCount.textContent = products.length; if(loadingBar) loadingBar.style.width = '100%';
+        if(productCount) productCount.textContent = products.length;
+        if(loadingBar) loadingBar.style.width = '100%';
         catPills.forEach(pill => { const cat = pill.dataset.category; if (cat === 'all') return; pill.style.display = cats.includes(cat) ? 'flex' : 'none'; });
-      } catch (err) { showToast('⚠️ حدث خطأ أثناء تحميل المنتجات', 3000, '⚠️'); grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:1.5rem;color:#ef4444;"><span style="font-size:2rem;">⚠️</span><br>تأكد من اتصالك بالإنترنت.</div>`; } 
+      } catch (err) { console.error(err); showToast('⚠️ خطأ في التحميل', 3000, '⚠️'); } 
       finally { isLoading = false; if(loadingSpinner) loadingSpinner.classList.remove('active'); setTimeout(() => { if(loadingBar) loadingBar.style.width = '0%'; }, 300); }
     }
 
     function buildProductCard(p) {
-      const inCart = cart.find(i => i.id === p.id && !i.size); const firstImage = p.images && p.images.length > 0 ? p.images[0] : (p.image || '/public/images/products/1.jpg'); const hasMultiple = p.images && p.images.length > 1; const hasVideo = p.video; const stars = '⭐'.repeat(Math.floor(p.rating || 0)) + (p.rating % 1 >= 0.5 ? '✨' : ''); const ratingHtml = p.rating > 0 ? `<div class="product-rating">${stars}</div>` : '';
-      let tags = ''; if (p.isNew) tags += `<span class="product-tag tag-new">🆕 جديد</span>`; if (p.isBestSeller) tags += `<span class="product-tag tag-bestseller">⭐ الأكثر مبيعاً</span>`;
+      const inCart = cart.find(i => i.id === p.id && !i.size);
+      const firstImage = p.images && p.images.length > 0 ? p.images[0] : (p.image || '/public/images/products/1.jpg');
+      const hasVariants = p.variants && p.variants.length > 0;
       
-      const isBehavioralActive = localStorage.getItem('nokhba_behavioral_hacks') !== 'off'; const isSocialActive = localStorage.getItem('nokhba_social_hacks') !== 'off';
-      let socialProofHtml = ''; let cartBtnClass = 'add-to-cart'; let cartBtnText = '➕ أضف للسلة';
-      if (isSocialActive) { let hash = 0; for (let i = 0; i < p.id.length; i++) hash = p.id.charCodeAt(i) + ((hash << 5) - hash); socialProofHtml = `<div class="social-proof"><span class="fire-icon">🔥</span> تم شراءه <b>${Math.abs(hash) % 180 + 24}</b> مرة</div>`; if (['كابلات', 'مفاتيح', 'قوابس', 'مقابس', 'قواطع', 'محولات', 'بطاريات', 'ألواح'].includes(p.category)) { cartBtnText = '🛡️ خيار المهندسين'; cartBtnClass += ' authority-btn'; } }
-      if (inCart) cartBtnText = `🔄 في السلة (${inCart.quantity})`;
+      // 🧠 التسويق النفسي: الدليل الاجتماعي (Social Proof) - توليد ذكي ثابت لكل منتج
+      const fakeSales = (parseInt(p.id.replace(/\D/g, '') || 12) * 7 % 43) + 12;
+      const socialProofHtml = `<div class="social-proof">🔥 اشتراه ${fakeSales} شخصاً هذا الأسبوع</div>`;
 
-      const hasVariants = p.variants && p.variants.length > 0; let variantsHtml = ''; let priceDisplay = ''; let stockDisplay = '';
+      // 🧠 التسويق النفسي: انحياز السلطة (Authority Bias) للأقسام المعقدة
+      const isEngineeringCat = ['كابلات', 'قواطع', 'محولات'].includes(p.category);
+      let btnText = isEngineeringCat ? '🛡️ خيار المهندسين' : '➕ أضف للسلة';
+      if (inCart) btnText = `🔄 في السلة (${inCart.quantity})`;
+      const btnClass = isEngineeringCat ? 'add-to-cart btn-authority' : 'add-to-cart';
+
+      let priceDisplay = '';
+      let stockDisplay = '';
+      let scarcityHtml = '';
+
       if (hasVariants) {
-        const sortedVariants = [...p.variants].sort((a, b) => a.price - b.price); variantsHtml = `<select class="variant-select" data-id="${p.id}">${sortedVariants.map((v, idx) => `<option value="${v.size}" data-price="${v.price}" data-stock="${v.stock}" data-minorder="${v.minOrder}" ${idx === 0 ? 'selected' : ''}>${v.size} - ${v.price.toFixed(2)} ريال</option>`).join('')}</select>`;
-        const fv = sortedVariants[0]; priceDisplay = isBehavioralActive ? `<div class="variant-price-display" data-id="${p.id}"><span class="old-price">${(fv.price * 1.15).toFixed(2)}</span>${fv.price.toFixed(2)} ريال</div>` : `<div class="variant-price-display" data-id="${p.id}">${fv.price.toFixed(2)} ريال</div>`; stockDisplay = (isBehavioralActive && fv.stock > 0 && fv.stock < 10) ? `<div class="scarcity-badge" data-id="${p.id}"><span class="scarcity-icon">⏳</span> باقي ${fv.stock} فقط!</div>` : `<div class="${fv.stock < 10 ? 'stock-display low-stock' : 'stock-display'}" data-id="${p.id}">${fv.stock > 0 ? `المتوفر: ${fv.stock}` : 'نفدت الكمية'}</div>`;
+        const sortedVariants = [...p.variants].sort((a, b) => a.price - b.price);
+        const optionsHtml = sortedVariants.map((v, idx) => `<option value="${v.size}" data-price="${v.price}" data-stock="${v.stock}"> ${v.size} - ${v.price.toFixed(2)} ريال </option>`).join('');
+        const firstVar = sortedVariants[0];
+        // 🧠 تأثير الإرساء (Anchoring): رفع السعر 15% لشطبه
+        const fakeOldPrice = (firstVar.price * 1.15).toFixed(2);
+        priceDisplay = `<select class="variant-select" data-id="${p.id}">${optionsHtml}</select><div class="variant-price-display" data-id="${p.id}">${firstVar.price.toFixed(2)} ريال<span class="price-anchor">${fakeOldPrice}</span></div>`;
+        stockDisplay = `<div class="${firstVar.stock < 10 ? 'stock-display low-stock' : 'stock-display'}" data-id="${p.id}">${firstVar.stock > 0 ? `المتوفر: ${firstVar.stock}` : 'نفدت الكمية'}</div>`;
+        // 🧠 محفز الندرة
+        if (firstVar.stock > 0 && firstVar.stock < 10) scarcityHtml = `<div class="scarcity-badge">⏳ أسرع! باقي ${firstVar.stock} فقط!</div>`;
       } else {
-        priceDisplay = isBehavioralActive ? `<div class="price"><span class="old-price">${(p.price * 1.15).toFixed(2)}</span>${p.price.toFixed(2)} ريال</div>` : `<div class="price">${p.price.toFixed(2)} ريال</div>`; stockDisplay = (isBehavioralActive && p.stock > 0 && p.stock < 10) ? `<div class="scarcity-badge"><span class="scarcity-icon">⏳</span> باقي ${p.stock} فقط!</div>` : `<div class="${p.stock < 10 ? 'stock-display low-stock' : 'stock-display'}">${p.stock > 0 ? `المتوفر: ${p.stock}` : 'نفدت الكمية'}</div>`;
+        const fakeOldPrice = (p.price * 1.15).toFixed(2);
+        priceDisplay = `<div class="price">${p.price.toFixed(2)} ريال<span class="price-anchor">${fakeOldPrice}</span></div>`;
+        stockDisplay = `<div class="${p.stock < 10 ? 'stock-display low-stock' : 'stock-display'}">${p.stock > 0 ? `المتوفر: ${p.stock}` : 'نفدت الكمية'}</div>`;
+        if (p.stock > 0 && p.stock < 10) scarcityHtml = `<div class="scarcity-badge">⏳ أسرع! باقي ${p.stock} فقط!</div>`;
       }
 
-      return `<div class="product-card" data-id="${p.id}"><div class="card-tags">${tags}</div><img src="${firstImage}" alt="${p.name}" loading="lazy" onerror="this.src='/public/images/products/1.jpg'" />${hasMultiple ? `<span class="image-count-badge">+${p.images.length}</span>` : ''}${hasVideo ? `<span class="video-badge">▶</span>` : ''}<h4>${p.name}</h4>${ratingHtml}${socialProofHtml}${variantsHtml}${priceDisplay}${stockDisplay}<button class="${cartBtnClass}" data-id="${p.id}" ${!hasVariants && p.stock === 0 ? 'disabled' : ''}>${cartBtnText}</button></div>`;
+      return `
+        <div class="product-card" data-id="${p.id}">
+          <div class="card-tags">
+            ${p.isNew ? `<span class="product-tag tag-new">🆕 جديد</span>` : ''}
+            ${p.isBestSeller ? `<span class="product-tag tag-bestseller">⭐ الأكثر مبيعاً</span>` : ''}
+          </div>
+          <img src="${firstImage}" alt="${p.name}" loading="lazy" onerror="this.src='/public/images/products/1.jpg'" />
+          ${socialProofHtml}
+          <h4>${p.name}</h4>
+          ${scarcityHtml}
+          ${priceDisplay}
+          ${stockDisplay}
+          <button class="${btnClass}" data-id="${p.id}" ${!hasVariants && p.stock === 0 ? 'disabled' : ''}>${btnText}</button>
+        </div>
+      `;
     }
 
     function bindProductEvents() {
-      grid.querySelectorAll('.add-to-cart').forEach(btn => { btn.addEventListener('click', (e) => { e.stopPropagation(); const id = btn.dataset.id; const select = btn.closest('.product-card').querySelector('.variant-select'); addToCart(id, select ? select.value : null); }); });
-      grid.querySelectorAll('.variant-select').forEach(select => { select.addEventListener('change', function() { const card = this.closest('.product-card'); const selected = this.options[this.selectedIndex]; const price = parseFloat(selected.dataset.price); const stock = parseFloat(selected.dataset.stock); const priceDisplay = card.querySelector('.variant-price-display'); if (priceDisplay) priceDisplay.innerHTML = localStorage.getItem('nokhba_behavioral_hacks') !== 'off' ? `<span class="old-price">${(price * 1.15).toFixed(2)}</span>${price.toFixed(2)} ريال` : `${price.toFixed(2)} ريال`; const stockDisplay = card.querySelector('.stock-display') || card.querySelector('.scarcity-badge'); if (stockDisplay) { if (localStorage.getItem('nokhba_behavioral_hacks') !== 'off' && stock > 0 && stock < 10) stockDisplay.outerHTML = `<div class="scarcity-badge" data-id="${card.dataset.id}"><span class="scarcity-icon">⏳</span> باقي ${stock} فقط!</div>`; else stockDisplay.outerHTML = `<div class="${stock < 10 ? 'stock-display low-stock' : 'stock-display'}" data-id="${card.dataset.id}">${stock > 0 ? `المتوفر: ${stock}` : 'نفدت الكمية'}</div>`; } }); });
-      grid.querySelectorAll('.product-card').forEach(card => { card.addEventListener('click', (e) => { if (e.target.closest('button') || e.target.closest('select')) return; openLightbox(card.dataset.id); try { lightning.spawn(card.getBoundingClientRect().left + card.getBoundingClientRect().width/2, card.getBoundingClientRect().top + card.getBoundingClientRect().height/2); } catch(err){} }); });
+      grid.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation(); const card = btn.closest('.product-card'); const select = card.querySelector('.variant-select');
+          addToCart(btn.dataset.id, select ? select.value : null);
+        });
+      });
+      grid.querySelectorAll('.variant-select').forEach(select => {
+        select.addEventListener('change', function() {
+          const card = this.closest('.product-card'); const selected = this.options[this.selectedIndex];
+          const price = parseFloat(selected.dataset.price); const stock = parseFloat(selected.dataset.stock);
+          const priceDisplay = card.querySelector('.variant-price-display');
+          if (priceDisplay) {
+            const fakeOldPrice = (price * 1.15).toFixed(2);
+            priceDisplay.innerHTML = `${price.toFixed(2)} ريال<span class="price-anchor">${fakeOldPrice}</span>`;
+          }
+          const stockDisplay = card.querySelector('.stock-display');
+          if (stockDisplay) { stockDisplay.textContent = stock > 0 ? `المتوفر: ${stock}` : 'نفدت الكمية'; stockDisplay.className = stock < 10 ? 'stock-display low-stock' : 'stock-display'; }
+        });
+      });
+      grid.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('button') || e.target.closest('select')) return;
+          openLightbox(card.dataset.id);
+          const rect = card.getBoundingClientRect(); try { lightning.spawn(rect.left + rect.width/2, rect.top + rect.height/2); } catch(e){}
+        });
+      });
     }
 
-    // السلة
-    const cartSidebar = document.getElementById('cartSidebar'); const overlay = document.getElementById('cartOverlay'); const cartItems = document.getElementById('cartItems'); const cartCount = document.getElementById('cartCount'); const navCartBadge = document.getElementById('navCartBadge');
+    // ================================================================
+    // 🧮 المستشار الهندسي الذكي (Engineering Wizard)
+    // ================================================================
+    const wizardBtn = document.getElementById('openWizardBtn');
+    const wizardModal = document.getElementById('wizardModal');
+    const closeWizardBtn = document.getElementById('closeWizard');
+    const wizLoad = document.getElementById('wizLoad'); const valLoad = document.getElementById('valLoad');
+    const wizAc = document.getElementById('wizAc'); const valAc = document.getElementById('valAc');
+    const wizHours = document.getElementById('wizHours'); const valHours = document.getElementById('valHours');
+    const wizResult = document.getElementById('wizResult');
+    const addBundleBtn = document.getElementById('addBundleBtn');
     
-    // إصلاح زر السلة العلوي 🛒
-    const topCartBtn = document.getElementById('cartBtn'); if(topCartBtn) topCartBtn.addEventListener('click', () => toggleCart(true));
-    const navCart = document.getElementById('navCart'); if(navCart) navCart.addEventListener('click', () => toggleCart(true));
-    
-    function toggleCart(open) { if(cartSidebar) cartSidebar.classList.toggle('open', open); if(overlay) overlay.classList.toggle('active', open); if (open) updateCartUI(); }
+    let currentBundleSpecs = null;
 
-    function addToCart(id, selectedSize = null, quantityOverride = null) {
+    function calculateSystem() {
+      const baseLoad = parseInt(wizLoad.value);
+      const acCount = parseInt(wizAc.value);
+      const hours = parseInt(wizHours.value);
+      
+      valLoad.textContent = baseLoad;
+      valAc.textContent = acCount;
+      valHours.textContent = hours;
+
+      // الخوارزمية الهندسية
+      const acLoad = acCount * 1200; // نفترض مكيف 1 طن يسحب 1200 وات مستمر
+      const surgeAc = acCount > 0 ? 1500 : 0; // تيار الإقلاع
+      const totalContinuousLoad = baseLoad + acLoad;
+      const totalSurgeLoad = totalContinuousLoad + surgeAc;
+      
+      // تحديد المحول (Inverter) بمعامل أمان 25%
+      const requiredInverterWatts = Math.ceil(totalSurgeLoad * 1.25);
+      let inverterKva = 1;
+      if(requiredInverterWatts > 1000) inverterKva = 3;
+      if(requiredInverterWatts > 2500) inverterKva = 5;
+      if(requiredInverterWatts > 4500) inverterKva = 8;
+
+      // حساب البطاريات المطلوبة (على افتراض بطاريات 200Ah 12V - عمق تفريغ 50%)
+      const totalWattHours = totalContinuousLoad * hours;
+      const batteryCapacityWh = 200 * 12 * 0.5; // 1200Wh للبطارية الواحدة الآمنة
+      const requiredBatteries = Math.ceil(totalWattHours / batteryCapacityWh);
+
+      // حساب الألواح (نفترض لوح 550 وات - 5 ساعات شمس فعالة)
+      const dailyConsumption = totalWattHours * 1.2; // تعويض الفواقد
+      const requiredPanels = Math.ceil(dailyConsumption / (550 * 5));
+
+      wizResult.innerHTML = `
+        <strong style="color:var(--secondary); font-size:1rem;">✅ التقرير الهندسي لمنظومتك:</strong><br>
+        • إجمالي الأحمال: <strong>${totalContinuousLoad}W</strong><br>
+        • المحول (Inverter) المناسب: <strong>${inverterKva}KVA</strong> للتعامل مع أحمال الإقلاع.<br>
+        • البطاريات: <strong>${requiredBatteries}</strong> بطاريات (200Ah) لتشغيل ${hours} ساعات ليلاً.<br>
+        • الألواح الشمسية: <strong>${requiredPanels === 0 ? 1 : requiredPanels}</strong> ألواح (550W) لشحن مستقر.<br>
+        <span style="display:block; margin-top:10px; color:#fbbf24;">* تم حساب النتيجة مع معامل أمان هندسي للأجواء الحارة في عدن.</span>
+      `;
+
+      currentBundleSpecs = {
+        name: `باقة المنظومة المتكاملة (حسب استشارة المهندس)`,
+        price: (inverterKva * 1200) + (requiredBatteries * 800) + (requiredPanels * 400), // تسعيرة تقريبية برمجية
+        details: `محول ${inverterKva}KVA + ${requiredBatteries} بطاريات + ${requiredPanels} ألواح`
+      };
+    }
+
+    if(wizardBtn) wizardBtn.addEventListener('click', () => { wizardModal.classList.add('active'); calculateSystem(); });
+    if(closeWizardBtn) closeWizardBtn.addEventListener('click', () => wizardModal.classList.remove('active'));
+    [wizLoad, wizAc, wizHours].forEach(input => input.addEventListener('input', calculateSystem));
+
+    if(addBundleBtn) addBundleBtn.addEventListener('click', () => {
+      if(!currentBundleSpecs) return;
+      const bundleItem = {
+        id: 'BUN-' + Date.now(),
+        name: currentBundleSpecs.name,
+        size: currentBundleSpecs.details,
+        price: currentBundleSpecs.price,
+        stock: 99, quantity: 1, minOrder: 1, category: 'باقات',
+        image: '/public/images/products/30.jpg' // صورة افتراضية للمنظومة
+      };
+      cart.push(bundleItem);
+      saveCart(cart); updateCartUI();
+      wizardModal.classList.remove('active');
+      showToast('🛒 تم إضافة المنظومة المعتمدة إلى السلة!', 3000, '✅');
+      try { lightning.spawn(window.innerWidth/2, window.innerHeight/2, 2.0); thunder.play(1.0); } catch(e){}
+    });
+
+    // ================================================================
+    // إدارة السلة والربط مع واتساب بأسلوب "المواصفات الفنية"
+    // ================================================================
+    const cartSidebar = document.getElementById('cartSidebar'); const overlay = document.getElementById('cartOverlay'); const cartItems = document.getElementById('cartItems'); const cartCount = document.getElementById('cartCount'); const navCartBadge = document.getElementById('navCartBadge');
+
+    function addToCart(id, selectedSize = null) {
       productManager.getById(id).then(p => {
-        if (!p) return; let price = p.price; let stock = p.stock; let minOrder = p.minOrder || 1; let size = null;
-        if (p.variants && p.variants.length > 0) { const variant = selectedSize ? p.variants.find(v => v.size === selectedSize) : [...p.variants].sort((a, b) => a.price - b.price)[0]; if (variant) { price = variant.price; stock = variant.stock; minOrder = variant.minOrder || 1; size = variant.size; } else { showToast('⚠️ المقاس غير متوفر', 2000, '⚠️'); return; } }
-        const qtyToAdd = quantityOverride || minOrder; const ex = cart.find(i => i.id === id && i.size === size);
-        if (ex) { if (ex.quantity + qtyToAdd > stock && id !== 'bndl_acc' && id !== 'bndl_bat') { showToast('⚠️ المخزون محدود', 2000, '⚠️'); return; } ex.quantity += qtyToAdd; } 
-        else { cart.push({ ...p, price, stock, minOrder, size, quantity: qtyToAdd }); }
+        if (!p) return; let price = p.price; let stock = p.stock; let size = null;
+        if (p.variants && p.variants.length > 0) {
+          if (selectedSize) { const variant = p.variants.find(v => v.size === selectedSize); if (variant) { price = variant.price; stock = variant.stock; size = selectedSize; } else return; } 
+          else { const sorted = [...p.variants].sort((a, b) => a.price - b.price); price = sorted[0].price; stock = sorted[0].stock; size = sorted[0].size; }
+        }
+        const ex = cart.find(i => i.id === id && i.size === size);
+        if (ex) { if (ex.quantity >= stock) { showToast('⚠️ المخزون محدود', 2000, '⚠️'); return; } ex.quantity++; } 
+        else { cart.push({ ...p, price, stock, size, quantity: p.minOrder || 1 }); }
         saveCart(cart); updateCartUI(); renderProducts(currentFilter); showToast(`✅ أضيف للسلة`, 2000, '✅');
-        isHeavySoundPlaying = true; setTimeout(() => { isHeavySoundPlaying = false; }, 400); try { thunder.play(0.8); } catch(e){} 
+        try { thunder.play(0.8); } catch(e){} 
       });
     }
 
     function updateCartUI() {
-      const totalItems = cart.reduce((s, i) => s + i.quantity, 0); if(cartCount) cartCount.textContent = totalItems; if(document.getElementById('cartItemCount')) document.getElementById('cartItemCount').textContent = `(${totalItems})`; if(navCartBadge) { navCartBadge.textContent = totalItems; navCartBadge.style.display = totalItems > 0 ? 'block' : 'none'; }
+      const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
+      if(cartCount) cartCount.textContent = totalItems;
+      if(document.getElementById('cartItemCount')) document.getElementById('cartItemCount').textContent = `(${totalItems})`;
+      if(navCartBadge) { navCartBadge.textContent = totalItems; navCartBadge.style.display = totalItems > 0 ? 'block' : 'none'; }
       const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0); const disc = sub > 200 ? sub * 0.05 : 0;
-      if(document.getElementById('cartTotal')) document.getElementById('cartTotal').textContent = sub.toFixed(2); if(document.getElementById('cartDiscount')) document.getElementById('cartDiscount').textContent = disc.toFixed(2); if(document.getElementById('cartFinal')) document.getElementById('cartFinal').textContent = (sub - disc).toFixed(2);
-      if (!cartItems) return; if (cart.length === 0) { cartItems.innerHTML = '<p style="color:rgba(var(--text-rgb),0.5); text-align:center; padding: 2rem 0;">السلة فارغة 🛒</p>'; return; }
-      cartItems.innerHTML = cart.map(i => `<div class="cart-item" data-id="${i.id}" data-size="${i.size || ''}"><div class="item-info"><span class="item-name">${i.name}</span>${i.size ? `<span class="item-size">📏 ${i.size}</span>` : ''}</div><div class="controls"><button class="qty-dec" data-id="${i.id}" data-size="${i.size || ''}">−</button><input type="number" class="qty-input" data-id="${i.id}" data-size="${i.size || ''}" min="${i.minOrder || 1}" max="${i.stock}" value="${i.quantity}" /><button class="qty-inc" data-id="${i.id}" data-size="${i.size || ''}">+</button><button class="remove-item" data-id="${i.id}" data-size="${i.size || ''}">✕</button></div></div>`).join('');
-      cartItems.querySelectorAll('.qty-input').forEach(input => { input.addEventListener('change', (e) => { let newVal = parseInt(e.target.value); const item = cart.find(i => i.id === input.dataset.id && i.size === (input.dataset.size || null)); if (item) { if (isNaN(newVal) || newVal < (item.minOrder || 1)) newVal = item.minOrder || 1; if (newVal > item.stock && item.id !== 'bndl_acc') { newVal = item.stock; showToast(`أقصى كمية ${item.stock}`, 2000, '⚠️'); } item.quantity = newVal; input.value = newVal; saveCart(cart); updateCartUI(); renderProducts(currentFilter); } }); });
-      cartItems.querySelectorAll('.qty-inc').forEach(b => { b.addEventListener('click', () => { const item = cart.find(i => i.id === b.dataset.id && i.size === (b.dataset.size || null)); if (item && (item.quantity < item.stock || item.id === 'bndl_acc')) { item.quantity++; saveCart(cart); updateCartUI(); renderProducts(currentFilter); } }); });
+      if(document.getElementById('cartTotal')) document.getElementById('cartTotal').textContent = sub.toFixed(2);
+      if(document.getElementById('cartDiscount')) document.getElementById('cartDiscount').textContent = disc.toFixed(2);
+      if(document.getElementById('cartFinal')) document.getElementById('cartFinal').textContent = (sub - disc).toFixed(2);
+      if (!cartItems) return;
+      if (cart.length === 0) { cartItems.innerHTML = '<p style="color:rgba(var(--text-rgb),0.5); text-align:center; padding: 2rem 0;">السلة فارغة 🛒</p>'; return; }
+      cartItems.innerHTML = cart.map(i => `<div class="cart-item" data-id="${i.id}" data-size="${i.size || ''}"><div class="item-info"><span class="item-name">${i.name}</span>${i.size ? `<span class="item-size">📏 ${i.size}</span>` : ''}</div><div class="controls"><button class="qty-dec" data-id="${i.id}" data-size="${i.size || ''}">−</button><input type="number" class="qty-input" data-id="${i.id}" data-size="${i.size || ''}" min="${i.minOrder || 1}" max="${i.stock}" value="${i.quantity}" readonly /><button class="qty-inc" data-id="${i.id}" data-size="${i.size || ''}">+</button><button class="remove-item" data-id="${i.id}" data-size="${i.size || ''}">✕</button></div></div>`).join('');
+      cartItems.querySelectorAll('.qty-inc').forEach(b => { b.addEventListener('click', () => { const item = cart.find(i => i.id === b.dataset.id && i.size === (b.dataset.size || null)); if (item && item.quantity < item.stock) { item.quantity++; saveCart(cart); updateCartUI(); renderProducts(currentFilter); } }); });
       cartItems.querySelectorAll('.qty-dec').forEach(b => { b.addEventListener('click', () => { const item = cart.find(i => i.id === b.dataset.id && i.size === (b.dataset.size || null)); if (item) { if (item.quantity > (item.minOrder || 1)) { item.quantity--; saveCart(cart); updateCartUI(); renderProducts(currentFilter); } else { cart = cart.filter(i => !(i.id === b.dataset.id && i.size === (b.dataset.size || null))); saveCart(cart); updateCartUI(); renderProducts(currentFilter); } } }); });
       cartItems.querySelectorAll('.remove-item').forEach(b => { b.addEventListener('click', () => { cart = cart.filter(i => !(i.id === b.dataset.id && i.size === (b.dataset.size || null))); saveCart(cart); updateCartUI(); renderProducts(currentFilter); }); });
     }
 
+    function toggleCart(open) { if(cartSidebar) cartSidebar.classList.toggle('open', open); if(overlay) overlay.classList.toggle('active', open); if (open) updateCartUI(); }
+
     function sendOrder() {
       if (!cart.length) { showToast('⚠️ السلة فارغة', 2000, '⚠️'); return; }
       const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0); const disc = sub > 200 ? sub * 0.05 : 0; const fin = sub - disc;
-      let msg = '⚡ *طلب جديد من متجر النخبة للكهربائيات* ⚡\n=============================\n'; cart.forEach((i, idx) => { msg += `*${idx + 1}. ${i.name}${i.size ? ' (' + i.size + ')' : ''}*\n  الكمية: ${i.quantity} | السعر: ${(i.price * i.quantity).toFixed(2)} SAR\n`; }); msg += `\n*الإجمالي النهائي:* *${fin.toFixed(2)} SAR*\n`;
-      window.open(`https://wa.me/967782826727?text=${encodeURIComponent(msg)}`, '_blank');
+      
+      // تنسيق المواصفات الفنية
+      let message = '⚡ *وثيقة طلب واعتماد فني - النخبة للكهربائيات* ⚡\n=============================\n';
+      cart.forEach((item, index) => { message += `*${index + 1}. ${item.name}*\n  المواصفة: ${item.size || 'قياسي'} | الكمية: ${item.quantity} | الإجمالي: ${(item.price * item.quantity).toFixed(2)} SAR\n`; });
+      message += `\n*الإجمالي النهائي:* *${fin.toFixed(2)} SAR*\n`;
+      message += `_(تم حساب الخصم الفني المعتمد بقيمة ${disc.toFixed(2)} SAR)_\n`;
+
+      window.open(`https://wa.me/967782826727?text=${encodeURIComponent(message)}`, '_blank');
       const orders = getOrders(); orders.push({ id: 'ORD-' + Date.now(), date: new Date().toISOString(), items: cart, total: fin, status: 'جديد' }); saveOrders(orders);
-      cart = []; saveCart(cart); updateCartUI(); toggleCart(false); renderProducts(currentFilter); if(document.getElementById('orderCount')) document.getElementById('orderCount').textContent = getOrders().length;
+      cart = []; saveCart(cart); updateCartUI(); toggleCart(false); renderProducts(currentFilter);
+      if(document.getElementById('orderCount')) document.getElementById('orderCount').textContent = orders.length;
     }
 
-    const applyBtn = document.getElementById('applyFilters'); if(applyBtn){ applyBtn.addEventListener('click', () => { renderProducts({ search: search ? search.value.trim() : '', category: catFilter ? catFilter.value : '', minPrice: minP ? minP.value : undefined, maxPrice: maxP ? maxP.value : undefined }); }); }
-    const resetFiltersBtn = document.getElementById('resetFiltersBtn'); if(resetFiltersBtn){ resetFiltersBtn.addEventListener('click', () => { if(search) search.value = ''; if(catFilter) catFilter.value = ''; if(minP) minP.value = ''; if(maxP) maxP.value = ''; if(applyBtn) applyBtn.click(); }); }
+    if(applyBtn) applyBtn.addEventListener('click', () => { renderProducts({ search: search ? search.value.trim() : '', category: catFilter ? catFilter.value : '', minPrice: minP ? minP.value : undefined, maxPrice: maxP ? maxP.value : undefined }); });
+    if(resetFiltersBtn) resetFiltersBtn.addEventListener('click', () => { if(search) search.value = ''; if(catFilter) catFilter.value = ''; if(minP) minP.value = ''; if(maxP) maxP.value = ''; if(applyBtn) applyBtn.click(); });
 
-    // ================================================================
-    // Lightbox & الإصلاح الجذري للسحب والتكبير (Native Pan & Zoom) 📱
-    // ================================================================
+    // نظام التكبير والـ Lightbox
     const lightbox = document.getElementById('productLightbox'); const lbClose = document.getElementById('lbClose'); const lbDisplay = document.getElementById('lbDisplay'); const lbImg = document.getElementById('lbImage');
-
     async function openLightbox(id) {
       const p = await productManager.getById(id); if(!p || !lightbox) return;
-      document.getElementById('lbTitle').textContent = p.name; document.getElementById('lbName').textContent = p.name; document.getElementById('lbPrice').textContent = p.price + ' ريال'; document.getElementById('lbPriceTag').textContent = p.price + ' ريال'; document.getElementById('lbDesc').textContent = p.desc || 'لا يوجد وصف'; document.getElementById('lbImage').src = p.image || '/public/images/products/1.jpg'; document.getElementById('lbImage').style.display = 'block';
-      
-      // إرجاع الصورة للحجم الطبيعي عند الفتح
-      if(lbImg) { lbImg.style.width = '100%'; lbImg.style.maxWidth = '100%'; lbImg.style.height = '100%'; lbImg.style.objectFit = 'contain'; lbImg.style.transform = 'scale(1)'; lbDisplay.style.overflow = 'hidden'; }
-      document.getElementById('lbAddToCart').onclick = () => addToCart(p.id); lightbox.classList.add('active');
+      document.getElementById('lbTitle').textContent = p.name; document.getElementById('lbName').textContent = p.name;
+      document.getElementById('lbPrice').textContent = p.price + ' ريال'; document.getElementById('lbPriceTag').textContent = p.price + ' ريال';
+      document.getElementById('lbDesc').textContent = p.desc || 'لا يوجد وصف'; document.getElementById('lbImage').src = p.image || '/public/images/products/1.jpg'; document.getElementById('lbImage').style.display = 'block';
+      if(lbImg) { lbImg.style.transformOrigin = 'center center'; lbImg.style.transform = 'scale(1)'; }
+      document.getElementById('lbAddToCart').onclick = () => addToCart(p.id);
+      lightbox.classList.add('active');
     }
-    
-    if(lbClose) { lbClose.addEventListener('click', () => { lightbox.classList.remove('active'); playClickSound(0.05); }); }
+    if(lbClose) lbClose.addEventListener('click', () => { lightbox.classList.remove('active'); playClickSound(0.05); });
     if(lightbox) lightbox.addEventListener('click', (e) => { if(e.target === lightbox) lightbox.classList.remove('active') });
 
     if (lbDisplay && lbImg) {
-      // الكمبيوتر
-      lbDisplay.addEventListener('mousemove', (e) => {
-          if (window.innerWidth > 768 && lbImg.style.display !== 'none') {
-              const rect = lbDisplay.getBoundingClientRect(); const x = ((e.clientX - rect.left) / rect.width) * 100; const y = ((e.clientY - rect.top) / rect.height) * 100;
-              lbImg.style.transformOrigin = `${x}% ${y}%`; lbImg.style.transform = 'scale(2.5)'; lbImg.style.cursor = 'zoom-in';
-          }
-      });
+      lbDisplay.addEventListener('mousemove', (e) => { if (window.innerWidth > 768 && lbImg.style.display !== 'none') { const rect = lbDisplay.getBoundingClientRect(); const x = ((e.clientX - rect.left) / rect.width) * 100; const y = ((e.clientY - rect.top) / rect.height) * 100; lbImg.style.transformOrigin = `${x}% ${y}%`; lbImg.style.transform = 'scale(2.5)'; lbImg.style.cursor = 'zoom-in'; } });
       lbDisplay.addEventListener('mouseleave', () => { lbImg.style.transformOrigin = 'center center'; lbImg.style.transform = 'scale(1)'; });
-
-      // الجوال: تكبير وسحب مريح جداً
-      let lastTap = 0; let isZoomed = false;
-      lbDisplay.addEventListener('touchstart', (e) => {
-          const tapLength = new Date().getTime() - lastTap;
-          if (tapLength < 300 && tapLength > 0 && lbImg.style.display !== 'none') {
-              e.preventDefault();
-              if(isZoomed) { lbImg.style.width = '100%'; lbImg.style.maxWidth = '100%'; lbImg.style.height = '100%'; lbImg.style.objectFit = 'contain'; lbDisplay.style.overflow = 'hidden'; isZoomed = false; } 
-              else {
-                  lbImg.style.width = '250%'; lbImg.style.maxWidth = 'none'; lbImg.style.height = 'auto'; lbDisplay.style.overflow = 'auto';
-                  setTimeout(() => { lbDisplay.scrollLeft = (lbDisplay.scrollWidth - lbDisplay.clientWidth) / 2; lbDisplay.scrollTop = (lbDisplay.scrollHeight - lbDisplay.clientHeight) / 2; }, 50);
-                  isZoomed = true;
-              }
-          }
-          lastTap = new Date().getTime();
-      }, {passive: false});
+      let lastTap = 0; lbDisplay.addEventListener('touchstart', (e) => { const currentTime = new Date().getTime(); const tapLength = currentTime - lastTap; if (tapLength < 300 && tapLength > 0 && lbImg.style.display !== 'none') { e.preventDefault(); if(lbImg.style.transform === 'scale(2.5)') { lbImg.style.transform = 'scale(1)'; } else { lbImg.style.transformOrigin = 'center center'; lbImg.style.transform = 'scale(2.5)'; } } lastTap = currentTime; }, {passive: false});
     }
 
-    // التنقل العام
-    catPills.forEach(pill => { pill.addEventListener('click', () => { catPills.forEach(p => p.classList.remove('active')); pill.classList.add('active'); if(catFilter) { catFilter.value = pill.dataset.category === 'all' ? '' : pill.dataset.category; if(applyBtn) applyBtn.click(); } document.querySelector('.filters').scrollIntoView({ behavior: 'smooth', block: 'center' }); }); });
-    document.querySelectorAll('.nav-tabs button, .footer-links a[data-section], .nav-item[data-section]').forEach(btn => { btn.addEventListener('click', (e) => { e.preventDefault(); const section = btn.dataset.section || 'store'; document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active')); const secEl = document.getElementById('section-' + section); if(secEl) secEl.classList.add('active'); document.querySelectorAll('.nav-tabs button, .nav-item[data-section]').forEach(b => b.classList.remove('active')); const tabBtn = document.querySelector(`.nav-tabs button[data-section="${section}"]`); if(tabBtn) tabBtn.classList.add('active'); const navItem = document.querySelector(`.nav-item[data-section="${section}"]`); if(navItem) navItem.classList.add('active'); if (section === 'store') renderProducts(currentFilter); if (document.getElementById('cartSidebar').classList.contains('open')) toggleCart(false); }); });
+    async function renderBlogPosts() { const posts = await blogManager.getAll(); const blogGrid = document.getElementById('blogGrid'); if(!blogGrid) return; if (posts.length === 0) { blogGrid.innerHTML = '<p style="text-align:center;">لا توجد مقالات.</p>'; return; } blogGrid.innerHTML = posts.map(p => `<div class="blog-card"><img src="${p.image}" alt="${p.title}" onerror="this.src='/public/images/products/1.jpg'" /><div class="blog-body"><h3>${p.title}</h3><div class="blog-excerpt">${p.excerpt || ''}</div></div></div>`).join(''); }
+    async function renderContactInfo() { const info = await contactManager.get(); const display = document.getElementById('contactInfoDisplay'); if(display) { display.innerHTML = `<div class="info-item">📍 ${info.address || ''}</div><div class="info-item">📞 ${info.phone || ''}</div>`; } }
 
-    if(document.getElementById('navSearch')) document.getElementById('navSearch').addEventListener('click', () => { document.querySelector('.filters').scrollIntoView({ behavior: 'smooth', block: 'center' }); document.getElementById('searchInput').focus(); });
-    document.getElementById('closeCart').addEventListener('click', () => toggleCart(false)); overlay.addEventListener('click', () => toggleCart(false));
-    document.getElementById('checkoutBtn').addEventListener('click', sendOrder);
-    document.getElementById('clearCartBtn').addEventListener('click', () => { if(confirm('تفريغ السلة؟')){ cart = []; saveCart(cart); updateCartUI(); renderProducts(); } });
-    if(document.getElementById('scrollTopBtn')){ window.addEventListener('scroll', () => { document.getElementById('scrollTopBtn').style.display = window.scrollY > 400 ? 'flex' : 'none'; }); document.getElementById('scrollTopBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' })); }
+    const closeCartBtn = document.getElementById('closeCart'); if(closeCartBtn) closeCartBtn.addEventListener('click', () => toggleCart(false));
+    if(overlay) overlay.addEventListener('click', () => toggleCart(false));
+    const checkoutBtn = document.getElementById('checkoutBtn'); if(checkoutBtn) checkoutBtn.addEventListener('click', sendOrder);
+    const clearCartBtn = document.getElementById('clearCartBtn'); if(clearCartBtn) clearCartBtn.addEventListener('click', () => { if(confirm('تفريغ السلة؟')){ cart = []; saveCart(cart); updateCartUI(); renderProducts(); } });
+    const scrollTopBtn = document.getElementById('scrollTopBtn'); if(scrollTopBtn) { window.addEventListener('scroll', () => { scrollTopBtn.style.display = window.scrollY > 400 ? 'flex' : 'none'; }); scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' })); }
 
-    // =====================================================================
-    // 💡 المستشار الهندسي الخارق لمنظومات عدن (The AI Engineering Wizard)
-    // =====================================================================
-    const calcModal = document.getElementById('calcModal');
-    const openCalcBtn = document.getElementById('openCalcBtn');
-    const steps = [document.getElementById('step1'), document.getElementById('step2'), document.getElementById('step3'), document.getElementById('step4')];
-    let currentStep = 0; const calcFooter = document.getElementById('calcFooter');
-    const nightAcGroup = document.getElementById('nightAcGroup'); const nightAcChoice = document.getElementById('nightAcChoice'); const nightAcYes = document.getElementById('nightAcYes'); const nightAcNo = document.getElementById('nightAcNo');
-
-    if(openCalcBtn) {
-      openCalcBtn.addEventListener('click', () => { calcModal.classList.add('active'); currentStep = 0; updateCalcUI(); });
-      document.getElementById('closeCalcBtn').addEventListener('click', () => calcModal.classList.remove('active'));
-      document.getElementById('areaSlider').addEventListener('input', (e) => document.getElementById('areaVal').textContent = e.target.value);
-      document.getElementById('outageSlider').addEventListener('input', (e) => document.getElementById('outageVal').textContent = e.target.value);
-
-      document.querySelectorAll('.app-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          btn.classList.toggle('selected');
-          const hasAc = document.getElementById('appAc1').classList.contains('selected') || document.getElementById('appAc15').classList.contains('selected');
-          if(hasAc && currentStep === 2) nightAcGroup.style.display = 'block'; else nightAcGroup.style.display = 'none';
-        });
-      });
-
-      nightAcYes.addEventListener('click', () => { nightAcChoice.value = 'yes'; nightAcYes.style.background = '#ef4444'; nightAcNo.style.background = 'rgba(0,0,0,0.5)'; });
-      nightAcNo.addEventListener('click', () => { nightAcChoice.value = 'no'; nightAcNo.style.background = '#10b981'; nightAcYes.style.background = 'rgba(0,0,0,0.5)'; });
-
-      document.getElementById('calcNextBtn').addEventListener('click', () => {
-        if(currentStep < 3) {
-          const hasAc = document.getElementById('appAc1').classList.contains('selected') || document.getElementById('appAc15').classList.contains('selected');
-          if (currentStep === 1 && hasAc) nightAcGroup.style.display = 'block';
-          steps[currentStep].classList.remove('active'); currentStep++; steps[currentStep].classList.add('active');
-          if (currentStep === 3) calculateSystem(); updateCalcUI();
-        }
-      });
-      document.getElementById('calcPrevBtn').addEventListener('click', () => { if(currentStep > 0) { steps[currentStep].classList.remove('active'); currentStep--; steps[currentStep].classList.add('active'); updateCalcUI(); } });
-    }
-
-    function updateCalcUI() {
-      document.getElementById('calcPrevBtn').style.display = currentStep === 0 ? 'none' : 'block';
-      if (currentStep === 3) calcFooter.style.display = 'none'; else { calcFooter.style.display = 'flex'; document.getElementById('calcNextBtn').textContent = currentStep === 2 ? '⚡ احسب المنظومة' : 'التالي'; }
-    }
-
-    let generatedBundle = [];
-    function calculateSystem() {
-      const area = parseInt(document.getElementById('areaSlider').value); let baseLoad = area * 5; let heavyLoad = 0; let hasAc = false;
-      document.querySelectorAll('.app-btn').forEach(btn => { if (btn.classList.contains('selected')) { const load = parseInt(btn.dataset.load); if (btn.dataset.type === 'heavy') heavyLoad += load; else baseLoad += load; if (btn.id.includes('appAc')) hasAc = true; } });
-
-      const peakLoad = baseLoad + heavyLoad; const requiredInverterW = peakLoad * 1.25;
-      let inverterSize = '', inverterVolt = 24, invPrice = 0;
-      if (requiredInverterW <= 1200) { inverterSize = 'محول 1.5KW'; inverterVolt = 12; invPrice = 450; } else if (requiredInverterW <= 2800) { inverterSize = 'محول هجين 3KW MPPT'; inverterVolt = 24; invPrice = 950; } else if (requiredInverterW <= 4500) { inverterSize = 'محول هجين 5KW MPPT'; inverterVolt = 48; invPrice = 1600; } else { inverterSize = 'محول هجين 8KW MPPT'; inverterVolt = 48; invPrice = 2800; }
-
-      const outageHours = parseInt(document.getElementById('outageSlider').value); const nightOutage = Math.ceil(outageHours / 2);
-      let nightEnergyReq = baseLoad * nightOutage; if (hasAc && nightAcChoice.value === 'yes') nightEnergyReq += (heavyLoad * Math.min(nightOutage, 6));
-
-      const requiredAh = nightEnergyReq / (inverterVolt * 0.5); let batteryCount = 0; let batteryType = 'بطارية تيوبلر 200Ah'; let batPrice = 650;
-      if (requiredAh <= 100) batteryCount = 1; else if (requiredAh <= 220) batteryCount = (inverterVolt/12); else if (requiredAh <= 440) batteryCount = (inverterVolt/12) * 2; else { batteryCount = (inverterVolt/12) * 3; batteryType = 'بطارية ليثيوم 48V 100Ah'; batPrice = 3500; batteryCount = Math.ceil(requiredAh/100); }
-      if(batteryCount === 0) batteryCount = 1;
-
-      const totalDailyEnergy = (baseLoad * outageHours) + (heavyLoad * Math.min(outageHours, 8)); const requiredSolarW = totalDailyEnergy / 5.5; 
-      let panelCount = Math.ceil(requiredSolarW / 550); if (panelCount < (inverterVolt/12)) panelCount = (inverterVolt/12); if (panelCount > 18) panelCount = 18; let panelPrice = 380;
-      const totalEstimate = invPrice + (batteryCount * batPrice) + (panelCount * panelPrice) + 400;
-
-      document.getElementById('calcResultDisplay').innerHTML = `
-        <div class="result-item"><strong>⚡ المحول (Inverter):</strong> <span>${inverterSize}</span></div>
-        <div class="result-item"><strong>🔋 البطاريات (تخزين الليل):</strong> <span>${batteryCount}x ${batteryType}</span></div>
-        <div class="result-item"><strong>☀️ الألواح (التوليد):</strong> <span>${panelCount}x لوح مونو 550W</span></div>
-        <div class="result-item"><strong>🛡️ الحماية والكابلات:</strong> <span>قواطع DC/AC + كابلات ${inverterVolt >= 48 ? '35mm' : '25mm'}</span></div>
-        <div class="result-item" style="margin-top:1rem; border:none; border-top:2px solid #10b981; padding-top:1rem; font-size:1.1rem;"><strong>💰 التكلفة التقريبية:</strong> <span style="color:#10b981; font-weight:900; font-family:var(--font-mono);">${totalEstimate} ريال</span></div>`;
-
-      generatedBundle = [
-        { id: 'bndl_inv', name: inverterSize, price: invPrice, stock: 10, quantity: 1, category: 'محولات' }, { id: 'bndl_bat', name: batteryType, price: batPrice, stock: 20, quantity: batteryCount, category: 'بطاريات' },
-        { id: 'bndl_pnl', name: 'لوح طاقة شمسية 550W', price: panelPrice, stock: 50, quantity: panelCount, category: 'ألواح' }, { id: 'bndl_acc', name: 'باقة حماية وكابلات وتوصيل', price: 400, stock: 100, quantity: 1, category: 'كابلات' }
-      ];
-    }
-
-    if(document.getElementById('addBundleToCartBtn')) {
-      document.getElementById('addBundleToCartBtn').addEventListener('click', (e) => {
-        generatedBundle.forEach(item => { const ex = cart.find(i => i.id === item.id); if (ex) { ex.quantity += item.quantity; } else { cart.push(item); } });
-        saveCart(cart); updateCartUI(); calcModal.classList.remove('active');
-        
-        const btnRect = e.target.getBoundingClientRect(); const cartRect = document.getElementById('cartBtn').getBoundingClientRect();
-        try { lightning.spawn(btnRect.left + btnRect.width/2, btnRect.top, cartRect.left + cartRect.width/2, cartRect.top + cartRect.height/2); thunder.play(1.0); } catch(err){}
-        showToast('✅ تم إضافة المنظومة الهندسية للسلة بنجاح!', 3000, '🛡️'); toggleCart(true); 
-      });
-    }
-
-    // التشغيل الأولي
-    renderProducts(); updateCartUI(); if(document.getElementById('orderCount')) document.getElementById('orderCount').textContent = getOrders().length;
-    
+    renderProducts(); updateCartUI(); 
+    if(document.getElementById('orderCount')) document.getElementById('orderCount').textContent = getOrders().length;
   </script>
 </body>
 </html>
