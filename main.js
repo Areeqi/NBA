@@ -1482,7 +1482,35 @@ export class EmotionalEngine {
     this.#moodBtn.addEventListener('click', () => this.#openMoodModal());
   }
 
-  #openMoodModal() { /* ... نفس الكود السابق ... */ }
+  #openMoodModal() {
+    if (document.getElementById('moodModal')) return;
+    const overlay = document.createElement('div');
+    overlay.id = 'moodModal';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(16px);z-index:9999;display:flex;align-items:center;justify-content:center;';
+    const modal = document.createElement('div');
+    modal.style.cssText = 'background:var(--panel-bg);backdrop-filter:blur(24px);border:1px solid var(--panel-border);border-radius:var(--radius-xl);padding:2rem;max-width:400px;width:90%;box-shadow:var(--shadow-xl);text-align:center;';
+    const moods = [
+      { id: 'optimistic', emoji: '😊', label: 'متفائل' },
+      { id: 'tired', emoji: '😔', label: 'متعب من الانقطاع' },
+      { id: 'excited', emoji: '🔥', label: 'متحمس للطاقة' },
+      { id: 'neutral', emoji: '🧐', label: 'محايد' }
+    ];
+    modal.innerHTML = `<h3 style="margin-bottom:1.5rem;">💭 كيف تشعر اليوم؟</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        ${moods.map(m => `<button data-mood="${m.id}" style="padding:1rem;border-radius:var(--radius-md);border:2px solid transparent;background:rgba(255,255,255,0.05);cursor:pointer;"><div style="font-size:2rem;">${m.emoji}</div><div>${m.label}</div></button>`).join('')}
+      </div>
+      <button id="closeMoodModal" style="margin-top:1.5rem;background:transparent;border:1px solid var(--panel-border);padding:0.5rem 1.5rem;border-radius:var(--radius-full);cursor:pointer;">إغلاق</button>`;
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    modal.querySelectorAll('[data-mood]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.#setMood(btn.dataset.mood);
+        overlay.remove();
+      });
+    });
+    modal.querySelector('#closeMoodModal').addEventListener('click', () => overlay.remove());
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  }
 
   #setMood(mood) {
     this.#currentMood = mood;
@@ -1583,10 +1611,28 @@ export function applyFooterImage(base64) {
   }
 }
 
-export function getVariantPrice(product, variantSize) { /* ... */ }
-export function getVariantStock(product, variantSize) { /* ... */ }
-export function getVariantMinOrder(product, variantSize) { /* ... */ }
-export function getAvailableSizes(product) { /* ... */ }
+export function getVariantPrice(product, variantSize) {
+  if (!product.variants || product.variants.length === 0) return product.price;
+  const variant = product.variants.find(v => v.size === variantSize);
+  return variant ? variant.price : product.price;
+}
+
+export function getVariantStock(product, variantSize) {
+  if (!product.variants || product.variants.length === 0) return product.stock;
+  const variant = product.variants.find(v => v.size === variantSize);
+  return variant ? variant.stock : 0;
+}
+
+export function getVariantMinOrder(product, variantSize) {
+  if (!product.variants || product.variants.length === 0) return product.minOrder || 1;
+  const variant = product.variants.find(v => v.size === variantSize);
+  return variant ? variant.minOrder : 1;
+}
+
+export function getAvailableSizes(product) {
+  if (!product.variants || product.variants.length === 0) return [];
+  return product.variants.map(v => v.size);
+}
 
 // ================================================================
 // 14. SALES SETTINGS – إعدادات التسويق الجديدة
@@ -1629,22 +1675,127 @@ export function saveSalesSettings(settings) {
 }
 
 // ================================================================
-// 15. COMMUNITY & OTHER FUNCTIONS
+// 15. COMMUNITY & ENERGY FUNCTIONS
 // ================================================================
 
-export async function updateCommunityStatsOnOrder(orderItems) { /* ... */ }
-export async function getCommunityStats() { /* ... */ }
-export async function updateEnergyClock() { /* ... */ }
+export async function updateCommunityStatsOnOrder(orderItems) {
+  try {
+    const statsManager = new CommunityStatsManager();
+    let totalPower = 0;
+    orderItems.forEach(item => {
+      if (item.variants && item.size) {
+        const variant = item.variants.find(v => v.size === item.size);
+        if (variant && variant.power) totalPower += variant.power * item.quantity;
+      } else if (item.power) {
+        totalPower += item.power * item.quantity;
+      }
+    });
+    if (totalPower > 0) await statsManager.incrementPower(totalPower);
+    return totalPower;
+  } catch (e) {
+    console.error('خطأ في تحديث إحصائيات المجتمع:', e);
+    return 0;
+  }
+}
 
-export async function initEnergyMap() { /* ... */ }
-export function initEngineeringChallenge() { /* ... */ }
-export function updatePastWinners() { /* ... */ }
-export function addInstallationToCart(productId) { /* ... */ }
+export async function getCommunityStats() {
+  try {
+    const statsManager = new CommunityStatsManager();
+    return await statsManager.getStats();
+  } catch (e) {
+    return { totalPower: 0, totalCustomers: 0, savedHours: 0 };
+  }
+}
+
+export async function updateEnergyClock() {
+  try {
+    const stats = await getCommunityStats();
+    const hours = Math.round(stats.savedHours || 0);
+    const el = document.getElementById('savedHoursDisplay');
+    if (el) el.textContent = hours;
+  } catch (e) { /* تجاهل */ }
+}
+
+let mapInstance = null;
+export async function initEnergyMap() {
+  try {
+    const L = await import('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(link);
+    const container = document.getElementById('energyMap');
+    if (!container) return;
+    document.getElementById('energyMapSection').style.display = 'block';
+    mapInstance = L.map('energyMap').setView([12.8, 45.0], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(mapInstance);
+    const stats = await getCommunityStats();
+    const totalCustomers = stats.totalCustomers || 0;
+    const areas = [
+      { name: 'الشيخ عثمان', lat: 12.82, lng: 44.98, systems: Math.max(8, Math.floor(totalCustomers * 0.3)) },
+      { name: 'خور مكسر', lat: 12.79, lng: 45.02, systems: Math.max(6, Math.floor(totalCustomers * 0.25)) },
+      { name: 'كريتر', lat: 12.77, lng: 45.04, systems: Math.max(4, Math.floor(totalCustomers * 0.2)) },
+      { name: 'المعلا', lat: 12.75, lng: 44.99, systems: Math.max(3, Math.floor(totalCustomers * 0.15)) },
+      { name: 'التواهي', lat: 12.78, lng: 44.96, systems: Math.max(2, Math.floor(totalCustomers * 0.1)) }
+    ];
+    areas.forEach(area => {
+      const marker = L.circleMarker([area.lat, area.lng], {
+        radius: Math.min(30, 8 + (area.systems / (totalCustomers || 1)) * 20),
+        fillColor: '#4f46e5', fillOpacity: 0.7, color: '#fff', weight: 1
+      }).addTo(mapInstance);
+      marker.bindPopup(`<strong>${area.name}</strong><br>⚡ ${area.systems} نظام شمسي<br>🔋 قدرة تقديرية: ${(area.systems * 3).toFixed(1)} كيلووات`);
+    });
+  } catch (e) {
+    console.warn('⚠️ خطأ في تحميل الخريطة:', e);
+  }
+}
+
+// ================================================================
+// 16. ENGINEERING CHALLENGE & INSTALLATION
+// ================================================================
+
+export function initEngineeringChallenge() {
+  const btn = document.getElementById('submitChallengeBtn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const name = document.getElementById('engineerName')?.value.trim();
+    const desc = document.getElementById('designDesc')?.value.trim();
+    if (!name || !desc) { showToast('⚠️ يرجى ملء جميع الحقول', 2000, '⚠️'); return; }
+    const entries = JSON.parse(localStorage.getItem('nokhba_challenges') || '[]');
+    entries.push({ name, desc, date: new Date().toISOString() });
+    localStorage.setItem('nokhba_challenges', JSON.stringify(entries));
+    showToast('✅ تم تقديم تصميمك بنجاح!', 3000, '✅');
+    document.getElementById('engineerName').value = '';
+    document.getElementById('designDesc').value = '';
+    updatePastWinners();
+  });
+}
+
+export function updatePastWinners() {
+  const entries = JSON.parse(localStorage.getItem('nokhba_challenges') || '[]');
+  const el = document.getElementById('pastWinners');
+  if (!el) return;
+  if (entries.length === 0) { el.textContent = '🏅 لا يوجد مشاركات حتى الآن.'; return; }
+  const lastThree = entries.slice(-3).map(e => e.name).join('، ');
+  el.textContent = `🏅 أحدث المشاركين: ${lastThree}`;
+}
+
+export function addInstallationToCart(productId) {
+  const productManager = new ProductManager();
+  productManager.getById(productId).then(p => {
+    if (!p) return;
+    const installCost = p.price * 0.15;
+    const installItem = { ...p, id: p.id + '_install', name: p.name + ' (خدمة تركيب)', price: installCost, isInstallation: true, quantity: 1, stock: 999 };
+    const cart = getCart();
+    cart.push(installItem);
+    saveCart(cart);
+    showToast('🛠️ تم إضافة خدمة التركيب للسلة', 2500, '🛠️');
+  });
+}
 
 // ================================================================
 // FINAL SETUP
 // ================================================================
-
 if (typeof THREE !== 'undefined' && !window.__THREE_LOADED) {
   window.__THREE_LOADED = true;
 }
