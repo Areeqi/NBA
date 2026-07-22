@@ -1,6 +1,6 @@
 // ================================================================
 // main.js – النواة الأسطورية لمتجر النخبة
-// الإصدار النهائي المتكامل – v9.0 (مع الثيم المشمس وأدوات البيع)
+// الإصدار النهائي المتكامل – v8.0 (مع جميع الميزات الجديدة)
 // ================================================================
 
 import * as THREE from 'three';
@@ -157,6 +157,7 @@ export class CategoryManager {
 // 3. PRODUCT MANAGER – إدارة المنتجات المتطورة
 // ================================================================
 
+// Keep data saved by older deployments working after asset filenames change.
 const STATIC_IMAGE_MIGRATIONS = {
   '/public/images/products/10.00 SAR.jpg': '/public/images/products/1.jpg',
   '/public/images/products/10.00 SAR-2.jpg': '/public/images/products/1.jpg',
@@ -219,9 +220,7 @@ export class ProductManager {
         name: 'مفتاح تيار 32A',
         category: 'مفاتيح',
         price: 45,
-        oldPrice: 0,
         stock: 100,
-        maxStock: 100,
         minOrder: 1,
         rating: 4.5,
         isNew: true,
@@ -240,9 +239,7 @@ export class ProductManager {
         name: 'كابل نحاس 10مم',
         category: 'كابلات',
         price: 120,
-        oldPrice: 0,
         stock: 50,
-        maxStock: 50,
         minOrder: 1,
         rating: 4.2,
         isNew: false,
@@ -261,9 +258,7 @@ export class ProductManager {
         name: 'لمبة Hifi LED 40W',
         category: 'إضاءة',
         price: 8.30,
-        oldPrice: 12,
         stock: 200,
-        maxStock: 200,
         minOrder: 2,
         rating: 4.8,
         isNew: true,
@@ -282,9 +277,7 @@ export class ProductManager {
         name: 'مفتاح 14.00 SAR',
         category: 'مفاتيح',
         price: 14,
-        oldPrice: 0,
         stock: 80,
-        maxStock: 80,
         minOrder: 1,
         rating: 3.8,
         isNew: false,
@@ -303,9 +296,7 @@ export class ProductManager {
         name: 'كابل 0Y - 35.00 SAR',
         category: 'كابلات',
         price: 35,
-        oldPrice: 0,
         stock: 30,
-        maxStock: 30,
         minOrder: 1,
         rating: 4.0,
         isNew: false,
@@ -324,9 +315,7 @@ export class ProductManager {
         name: 'قابس 7 - 2.20 SAR',
         category: 'قوابس',
         price: 2.20,
-        oldPrice: 0,
         stock: 500,
-        maxStock: 500,
         minOrder: 5,
         rating: 4.3,
         isNew: false,
@@ -345,9 +334,7 @@ export class ProductManager {
         name: 'مقبس E27 - 2.20 SAR',
         category: 'مقابس',
         price: 2.20,
-        oldPrice: 0,
         stock: 300,
-        maxStock: 300,
         minOrder: 3,
         rating: 4.1,
         isNew: false,
@@ -366,9 +353,7 @@ export class ProductManager {
         name: 'مفتاح 15.00 SAR',
         category: 'مفاتيح',
         price: 15,
-        oldPrice: 0,
         stock: 60,
-        maxStock: 60,
         minOrder: 1,
         rating: 3.5,
         isNew: false,
@@ -387,9 +372,7 @@ export class ProductManager {
         name: 'كابل 20W - 15.00 SAR',
         category: 'كابلات',
         price: 15,
-        oldPrice: 0,
         stock: 40,
-        maxStock: 40,
         minOrder: 1,
         rating: 4.4,
         isNew: true,
@@ -408,9 +391,7 @@ export class ProductManager {
         name: 'محول 3.50 SAR',
         category: 'محولات',
         price: 3.50,
-        oldPrice: 0,
         stock: 150,
-        maxStock: 150,
         minOrder: 2,
         rating: 4.6,
         isNew: false,
@@ -429,9 +410,7 @@ export class ProductManager {
         name: 'محول 6.00 SAR',
         category: 'محولات',
         price: 6,
-        oldPrice: 0,
         stock: 120,
-        maxStock: 120,
         minOrder: 1,
         rating: 4.0,
         isNew: false,
@@ -450,9 +429,7 @@ export class ProductManager {
         name: 'لمبة LED متعددة المقاسات',
         category: 'إضاءة',
         price: 10,
-        oldPrice: 0,
         stock: 0,
-        maxStock: 100,
         minOrder: 1,
         rating: 4.7,
         isNew: true,
@@ -477,9 +454,7 @@ export class ProductManager {
       p.image = migrateStaticImage(p.image);
       if (Array.isArray(p.images)) p.images = p.images.map(migrateStaticImage);
       p.price = parseFloat(p.price) || 0;
-      p.oldPrice = parseFloat(p.oldPrice) || 0;
       p.stock = parseFloat(p.stock) || 0;
-      p.maxStock = parseFloat(p.maxStock) || p.stock || 100;
       p.minOrder = parseFloat(p.minOrder) || 1;
       p.rating = parseFloat(p.rating) || 0;
       p.sortOrder = parseFloat(p.sortOrder) || 0;
@@ -573,9 +548,7 @@ export class ProductManager {
           createdAt: new Date().toISOString()
         };
         np.price = parseFloat(np.price) || 0;
-        np.oldPrice = parseFloat(np.oldPrice) || 0;
         np.stock = parseFloat(np.stock) || 0;
-        np.maxStock = parseFloat(np.maxStock) || np.stock || 100;
         np.minOrder = parseFloat(np.minOrder) || 1;
         np.rating = parseFloat(np.rating) || 0;
         np.sortOrder = parseFloat(np.sortOrder) || 0;
@@ -597,9 +570,7 @@ export class ProductManager {
         if (idx === -1) throw new Error('المنتج غير موجود');
         const updated = { ...products[idx], ...command.payload };
         updated.price = parseFloat(updated.price) || 0;
-        updated.oldPrice = parseFloat(updated.oldPrice) || 0;
         updated.stock = parseFloat(updated.stock) || 0;
-        updated.maxStock = parseFloat(updated.maxStock) || updated.stock || 100;
         updated.minOrder = parseFloat(updated.minOrder) || 1;
         updated.rating = parseFloat(updated.rating) || 0;
         updated.sortOrder = parseFloat(updated.sortOrder) || 0;
@@ -1014,9 +985,11 @@ export class LightningEngine {
     this.#container = container;
     this.#isMobile = window.innerWidth < 768 ||
                      (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4);
+
     if (this.#isMobile) {
       console.log('⚡ LightningEngine: وضع الأداء المنخفض للجوال');
     }
+
     this.#init3D();
   }
 
@@ -1024,6 +997,7 @@ export class LightningEngine {
     this.#scene = new THREE.Scene();
     this.#camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
     this.#camera.position.z = 1;
+
     this.#renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
@@ -1033,6 +1007,7 @@ export class LightningEngine {
     this.#renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.#isMobile ? 1 : 1.5));
     this.#renderer.setClearColor(0x000000, 0);
     this.#container.appendChild(this.#renderer.domElement);
+
     this.#animate3D();
     window.addEventListener('resize', () => {
       this.#renderer?.setSize(this.#container.clientWidth, this.#container.clientHeight);
@@ -1042,6 +1017,7 @@ export class LightningEngine {
   #animate3D = () => {
     requestAnimationFrame(this.#animate3D);
     if (!this.#enabled || !this.#renderer) return;
+
     const delta = Math.min(this.#clock.getDelta(), 0.05);
     for (let i = this.#bolts.length - 1; i >= 0; i--) {
       const b = this.#bolts[i];
@@ -1074,28 +1050,39 @@ export class LightningEngine {
 
   spawn(x, y, intensity = 1) {
     if (!this.#enabled) return;
+
     const nx = (x / window.innerWidth) * 2 - 1;
     const ny = -(y / window.innerHeight) * 2 + 1;
-    const numSegments = this.#isMobile ? 12 + Math.floor(intensity * 6) : 18 + Math.floor(intensity * 10);
+
+    const numSegments = this.#isMobile ?
+      12 + Math.floor(intensity * 6) :
+      18 + Math.floor(intensity * 10);
+
     const mainPath = this.#generateLightningPath(nx, ny, numSegments, intensity);
     const branches = this.#generateBranches(mainPath, intensity);
     const parts = [];
     const allPaths = [mainPath, ...branches];
+
     allPaths.forEach(path => {
       if (path.length < 2) return;
       const points = path.map(p => new THREE.Vector3(p.x, p.y, 0));
       const geom = new THREE.BufferGeometry().setFromPoints(points);
+
       const coreMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, linewidth: 1 });
       const coreLine = new THREE.Line(geom.clone(), coreMat);
       this.#scene.add(coreLine);
+
       const glowMat = new THREE.LineBasicMaterial({ color: 0x88ccff, transparent: true, opacity: 0.5, linewidth: 2 });
       const glowLine = new THREE.Line(geom.clone(), glowMat);
       this.#scene.add(glowLine);
+
       const shadowMat = new THREE.LineBasicMaterial({ color: 0x4466ff, transparent: true, opacity: 0.25, linewidth: 3 });
       const shadowLine = new THREE.Line(geom.clone(), shadowMat);
       this.#scene.add(shadowLine);
+
       parts.push({ line: coreLine, glow: glowLine, shadow: shadowLine });
     });
+
     const sparkCount = this.#isMobile ? 20 : 40 + Math.floor(intensity * 20);
     const positions = [];
     for (let i = 0; i < sparkCount; i++) {
@@ -1114,6 +1101,7 @@ export class LightningEngine {
     });
     const sparks = new THREE.Points(sparkGeom, sparkMat);
     this.#scene.add(sparks);
+
     this.#bolts.push({
       parts: parts,
       sparks: sparks,
@@ -1126,16 +1114,21 @@ export class LightningEngine {
     const path = [{ x: startX, y: startY }];
     let dx = (Math.random() - 0.5) * 0.15;
     let dy = -0.04 - Math.random() * 0.03;
+
     for (let i = 0; i < numPoints; i++) {
       const step = i / numPoints;
       const jitter = 0.04 + step * 0.12;
       const prev = path[path.length - 1];
+
       dx += (Math.random() - 0.5) * 0.04;
       dy += (Math.random() - 0.5) * 0.015;
+
       dx = Math.max(-0.12, Math.min(0.12, dx));
       dy = Math.max(-0.08, Math.min(-0.01, dy));
+
       const newX = prev.x + dx + (Math.random() - 0.5) * jitter;
       const newY = prev.y + dy + (Math.random() - 0.5) * jitter * 0.5;
+
       path.push({ x: newX, y: newY });
     }
     return path;
@@ -1149,10 +1142,12 @@ export class LightningEngine {
       const idx = Math.floor(2 + Math.random() * (mainPath.length - 4));
       if (!indices.includes(idx)) indices.push(idx);
     }
+
     indices.forEach((idx, order) => {
       const start = mainPath[idx];
       const dir = (order % 2 === 0) ? 1 : -1;
       const angle = (Math.random() * 0.8 + 0.3) * dir;
+
       const branch = [{ x: start.x, y: start.y }];
       let cx = start.x, cy = start.y;
       for (let i = 0; i < 6 + Math.floor(intensity * 3); i++) {
@@ -1164,6 +1159,7 @@ export class LightningEngine {
         branch.push({ x: cx, y: cy });
       }
       branches.push(branch);
+
       if (intensity > 0.7 && !this.#isMobile) {
         const subIdx = Math.floor(branch.length * 0.5);
         const subStart = branch[subIdx];
@@ -1206,21 +1202,38 @@ export class ThunderEngine {
       return;
     }
     this.#initAttempts++;
+
     try {
       this.#audio = new Audio('/public/sounds/thunder.mp3');
       this.#audio.preload = 'auto';
       this.#audio.volume = 0.7;
       this.#audio.loop = false;
-      this.#audio.oncanplaythrough = () => { this.#ready = true; };
-      this.#audio.onloadeddata = () => { this.#ready = true; };
+
+      this.#audio.oncanplaythrough = () => {
+        this.#ready = true;
+      };
+
+      this.#audio.onloadeddata = () => {
+        this.#ready = true;
+      };
+
       this.#audio.onerror = (e) => {
         this.#ready = false;
         setTimeout(() => {
-          if (this.#initAttempts < this.#maxInitAttempts) this.init();
+          if (this.#initAttempts < this.#maxInitAttempts) {
+            this.init();
+          }
         }, 2000);
       };
+
       this.#audio.load();
-      setTimeout(() => { if (!this.#ready && this.#audio) this.#ready = true; }, 3000);
+
+      setTimeout(() => {
+        if (!this.#ready && this.#audio) {
+          this.#ready = true;
+        }
+      }, 3000);
+
     } catch (err) {
       this.#ready = false;
     }
@@ -1229,7 +1242,11 @@ export class ThunderEngine {
   play(intensity = 1) {
     if (!this.#ready || !this.#audio) {
       this.init();
-      setTimeout(() => { if (this.#ready && this.#audio) this._playInternal(intensity); }, 500);
+      setTimeout(() => {
+        if (this.#ready && this.#audio) {
+          this._playInternal(intensity);
+        }
+      }, 500);
       return false;
     }
     return this._playInternal(intensity);
@@ -1244,7 +1261,9 @@ export class ThunderEngine {
       if (playPromise !== undefined) {
         playPromise.catch(() => {
           this.#audio.load();
-          setTimeout(() => { this.#audio.play().catch(() => {}); }, 300);
+          setTimeout(() => {
+            this.#audio.play().catch(() => {});
+          }, 300);
         });
         return true;
       }
@@ -1364,15 +1383,20 @@ export class HeroImagesManager {
 export class ImageUploader {
   static async uploadFile(file) {
     if (!file) return null;
+
     const apiKey = "a2429d609080c139ccdaa5a789cf6928";
+
     const formData = new FormData();
     formData.append("image", file);
+
     try {
       const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
         method: "POST",
         body: formData
       });
+
       const data = await response.json();
+
       if (data.success) {
         return data.data.url;
       } else {
@@ -1471,43 +1495,97 @@ export class EmotionalEngine {
 
   #initUI() {
     if (document.getElementById('moodBtn')) return;
-    this.#moodBtn = document.getElementById('moodBtn');
-    if (!this.#moodBtn) {
-      this.#moodBtn = document.createElement('button');
-      this.#moodBtn.id = 'moodBtn';
-      this.#moodBtn.innerHTML = '💓';
-      document.body.appendChild(this.#moodBtn);
-    }
-    this.#moodBtn.style.display = 'flex';
+
+    this.#moodBtn = document.createElement('button');
+    this.#moodBtn.id = 'moodBtn';
+    this.#moodBtn.innerHTML = '🌐';
+    this.#moodBtn.style.cssText = `
+      position: fixed; bottom: 140px; right: 20px;
+      width: 50px; height: 50px; border-radius: 50%;
+      background: var(--panel-bg); backdrop-filter: blur(12px);
+      border: 1px solid var(--panel-border);
+      color: var(--text); font-size: 1.5rem;
+      cursor: pointer; z-index: 999;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s ease;
+      display: flex; align-items: center; justify-content: center;
+      animation: pulseGlow 2s infinite;
+    `;
     this.#moodBtn.addEventListener('click', () => this.#openMoodModal());
+    document.body.appendChild(this.#moodBtn);
+
+    if (this.#currentMood !== 'neutral') {
+      this.#applyMood(this.#currentMood);
+    }
   }
 
   #openMoodModal() {
     if (document.getElementById('moodModal')) return;
+
     const overlay = document.createElement('div');
     overlay.id = 'moodModal';
-    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(16px);z-index:9999;display:flex;align-items:center;justify-content:center;';
+    overlay.style.cssText = `
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(16px);
+      z-index: 9999; display: flex;
+      align-items: center; justify-content: center;
+      animation: fadeIn 0.3s ease;
+    `;
+
     const modal = document.createElement('div');
-    modal.style.cssText = 'background:var(--panel-bg);backdrop-filter:blur(24px);border:1px solid var(--panel-border);border-radius:var(--radius-xl);padding:2rem;max-width:400px;width:90%;box-shadow:var(--shadow-xl);text-align:center;';
+    modal.style.cssText = `
+      background: var(--panel-bg); backdrop-filter: blur(24px);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      max-width: 400px; width: 90%;
+      box-shadow: var(--shadow-xl);
+      text-align: center;
+      animation: modalSlide 0.3s ease;
+    `;
+
     const moods = [
-      { id: 'optimistic', emoji: '😊', label: 'متفائل' },
-      { id: 'tired', emoji: '😔', label: 'متعب من الانقطاع' },
-      { id: 'excited', emoji: '🔥', label: 'متحمس للطاقة' },
-      { id: 'neutral', emoji: '🧐', label: 'محايد' }
+      { id: 'optimistic', emoji: '✴️', label: '', color: '#f59e0b' },
+      { id: 'tired', emoji: '💠', label: '', color: '#3b82f6' },
+      { id: 'excited', emoji: '♨️', label: '', color: '#ef4444' },
+      { id: 'neutral', emoji: '♻️', label: '', color: 'var(--text)' }
     ];
-    modal.innerHTML = `<h3 style="margin-bottom:1.5rem;">💭 كيف تشعر اليوم؟</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-        ${moods.map(m => `<button data-mood="${m.id}" style="padding:1rem;border-radius:var(--radius-md);border:2px solid transparent;background:rgba(255,255,255,0.05);cursor:pointer;"><div style="font-size:2rem;">${m.emoji}</div><div>${m.label}</div></button>`).join('')}
+
+    modal.innerHTML = `
+      <h3 style="margin-bottom: 1.5rem; font-size: 1.3rem;">💭 كيف تشعر اليوم؟</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        ${moods.map(m => `
+          <button class="mood-option" data-mood="${m.id}" style="
+            padding: 1rem; border-radius: var(--radius-md);
+            border: 2px solid transparent;
+            background: ${m.id === 'neutral' ? 'rgba(255,255,255,0.05)' : `rgba(${m.id === 'optimistic' ? '245,158,11' : m.id === 'tired' ? '59,130,246' : '239,68,68'},0.1)`};
+            color: ${m.color}; cursor: pointer; transition: 0.3s;
+          ">
+            <div style="font-size: 2rem;">${m.emoji}</div>
+            <div style="font-weight: 700; font-size: 0.9rem;">${m.label}</div>
+          </button>
+        `).join('')}
       </div>
-      <button id="closeMoodModal" style="margin-top:1.5rem;background:transparent;border:1px solid var(--panel-border);padding:0.5rem 1.5rem;border-radius:var(--radius-full);cursor:pointer;">إغلاق</button>`;
+      <button id="closeMoodModal" style="
+        margin-top: 1.5rem; background: transparent;
+        border: 1px solid var(--panel-border); color: var(--text);
+        padding: 0.5rem 1.5rem; border-radius: var(--radius-full);
+        cursor: pointer;
+      ">إغلاق</button>
+    `;
+
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
-    modal.querySelectorAll('[data-mood]').forEach(btn => {
+
+    modal.querySelectorAll('.mood-option').forEach(btn => {
       btn.addEventListener('click', () => {
-        this.#setMood(btn.dataset.mood);
+        const mood = btn.dataset.mood;
+        this.#setMood(mood);
         overlay.remove();
+        showToast(`✅ تم تغيير الحالة إلى: ${btn.textContent.trim()}`, 2000, '🌐');
       });
     });
+
     modal.querySelector('#closeMoodModal').addEventListener('click', () => overlay.remove());
     overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
   }
@@ -1520,16 +1598,42 @@ export class EmotionalEngine {
 
   #applyMood(mood) {
     const root = document.documentElement;
+    const heroTitle = document.querySelector('.hero-content h1');
+    const heroDesc = document.querySelector('.hero-content p');
+
+    root.style.setProperty('--primary', '#4f46e5');
+    root.style.setProperty('--secondary', '#0ea5e9');
+    root.style.setProperty('--primary-glow', 'rgba(79,70,229,0.6)');
+
     const moods = {
-      optimistic: { primary: '#f59e0b', secondary: '#fbbf24', glow: 'rgba(245,158,11,0.6)' },
-      tired: { primary: '#3b82f6', secondary: '#60a5fa', glow: 'rgba(59,130,246,0.6)' },
-      excited: { primary: '#ef4444', secondary: '#f87171', glow: 'rgba(239,68,68,0.6)' },
-      neutral: { primary: '#4f46e5', secondary: '#0ea5e9', glow: 'rgba(79,70,229,0.6)' }
+      optimistic: {
+        primary: '#f59e0b', secondary: '#fbbf24', glow: 'rgba(245,158,11,0.6)',
+        title: '☀️ يوم <span class="highlight">مشرق</span> مع النخبة!',
+        desc: 'اكتشف حلول الطاقة التي تضيء حياتك.'
+      },
+      tired: {
+        primary: '#3b82f6', secondary: '#60a5fa', glow: 'rgba(59,130,246,0.6)',
+        title: '💡 انقطع التيار؟ <span class="highlight">نحن هنا</span> لدعمك!',
+        desc: 'حلول طاقة موثوقة تناسب احتياجاتك.'
+      },
+      excited: {
+        primary: '#ef4444', secondary: '#f87171', glow: 'rgba(239,68,68,0.6)',
+        title: '🔥 استعد للثورة <span class="highlight">الطاقية</span>!',
+        desc: 'أفضل منتجات الطاقة الشمسية بأسعار لا تُقهر.'
+      },
+      neutral: {
+        primary: '#4f46e5', secondary: '#0ea5e9', glow: 'rgba(79,70,229,0.6)',
+        title: '⚡ <span class="highlight">النخبة</span> للكهربائيات',
+        desc: 'جودة عالية، ضمان طويل، وأسعار تنافسية.'
+      }
     };
+
     const config = moods[mood] || moods.neutral;
     root.style.setProperty('--primary', config.primary);
     root.style.setProperty('--secondary', config.secondary);
     root.style.setProperty('--primary-glow', config.glow);
+    if (heroTitle) heroTitle.innerHTML = config.title;
+    if (heroDesc) heroDesc.textContent = config.desc;
   }
 }
 
@@ -1612,70 +1716,38 @@ export function applyFooterImage(base64) {
 }
 
 export function getVariantPrice(product, variantSize) {
-  if (!product.variants || product.variants.length === 0) return product.price;
+  if (!product.variants || product.variants.length === 0) {
+    return product.price;
+  }
   const variant = product.variants.find(v => v.size === variantSize);
   return variant ? variant.price : product.price;
 }
 
 export function getVariantStock(product, variantSize) {
-  if (!product.variants || product.variants.length === 0) return product.stock;
+  if (!product.variants || product.variants.length === 0) {
+    return product.stock;
+  }
   const variant = product.variants.find(v => v.size === variantSize);
   return variant ? variant.stock : 0;
 }
 
 export function getVariantMinOrder(product, variantSize) {
-  if (!product.variants || product.variants.length === 0) return product.minOrder || 1;
+  if (!product.variants || product.variants.length === 0) {
+    return product.minOrder || 1;
+  }
   const variant = product.variants.find(v => v.size === variantSize);
   return variant ? variant.minOrder : 1;
 }
 
 export function getAvailableSizes(product) {
-  if (!product.variants || product.variants.length === 0) return [];
+  if (!product.variants || product.variants.length === 0) {
+    return [];
+  }
   return product.variants.map(v => v.size);
 }
 
 // ================================================================
-// 14. SALES SETTINGS – إعدادات التسويق الجديدة
-// ================================================================
-
-export function getSalesSettings() {
-  try {
-    return JSON.parse(localStorage.getItem('nokhba_sales_settings')) || getDefaultSalesSettings();
-  } catch {
-    return getDefaultSalesSettings();
-  }
-}
-
-export function getDefaultSalesSettings() {
-  return {
-    announcementBar: {
-      enabled: true,
-      text: "🚚 توصيل مجاني للطلبات فوق 100 ريال | ⭐ منتجات أصلية 100%",
-      backgroundColor: "#4f46e5",
-      textColor: "#ffffff"
-    },
-    dailyDeal: {
-      enabled: true,
-      productId: "p3",
-      endTime: new Date(Date.now() + 86400000).toISOString(),
-      badgeText: "عرض اليوم"
-    },
-    socialProof: {
-      enabled: true,
-      showInterval: 8000
-    },
-    quickBuyEnabled: true,
-    showStockBar: true,
-    bundles: []
-  };
-}
-
-export function saveSalesSettings(settings) {
-  localStorage.setItem('nokhba_sales_settings', JSON.stringify(settings));
-}
-
-// ================================================================
-// 15. COMMUNITY & ENERGY FUNCTIONS
+// 14. COMMUNITY FUNCTIONS – دوال المجتمع
 // ================================================================
 
 export async function updateCommunityStatsOnOrder(orderItems) {
@@ -1685,12 +1757,17 @@ export async function updateCommunityStatsOnOrder(orderItems) {
     orderItems.forEach(item => {
       if (item.variants && item.size) {
         const variant = item.variants.find(v => v.size === item.size);
-        if (variant && variant.power) totalPower += variant.power * item.quantity;
+        if (variant && variant.power) {
+          totalPower += variant.power * item.quantity;
+        }
       } else if (item.power) {
         totalPower += item.power * item.quantity;
       }
     });
-    if (totalPower > 0) await statsManager.incrementPower(totalPower);
+    if (totalPower > 0) {
+      await statsManager.incrementPower(totalPower);
+      console.log(`⚡ تم تحديث إحصائيات المجتمع: +${totalPower} وات`);
+    }
     return totalPower;
   } catch (e) {
     console.error('خطأ في تحديث إحصائيات المجتمع:', e);
@@ -1703,6 +1780,7 @@ export async function getCommunityStats() {
     const statsManager = new CommunityStatsManager();
     return await statsManager.getStats();
   } catch (e) {
+    console.error('خطأ في جلب إحصائيات المجتمع:', e);
     return { totalPower: 0, totalCustomers: 0, savedHours: 0 };
   }
 }
@@ -1716,7 +1794,12 @@ export async function updateEnergyClock() {
   } catch (e) { /* تجاهل */ }
 }
 
+// ================================================================
+// 15. ENERGY MAP – خريطة الطاقة
+// ================================================================
+
 let mapInstance = null;
+
 export async function initEnergyMap() {
   try {
     const L = await import('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
@@ -1724,13 +1807,22 @@ export async function initEnergyMap() {
     link.rel = 'stylesheet';
     link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
     document.head.appendChild(link);
+
     const container = document.getElementById('energyMap');
     if (!container) return;
+
     document.getElementById('energyMapSection').style.display = 'block';
+
     mapInstance = L.map('energyMap').setView([12.8, 45.0], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(mapInstance);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(mapInstance);
+
     const stats = await getCommunityStats();
     const totalCustomers = stats.totalCustomers || 0;
+
     const areas = [
       { name: 'الشيخ عثمان', lat: 12.82, lng: 44.98, systems: Math.max(8, Math.floor(totalCustomers * 0.3)) },
       { name: 'خور مكسر', lat: 12.79, lng: 45.02, systems: Math.max(6, Math.floor(totalCustomers * 0.25)) },
@@ -1738,29 +1830,54 @@ export async function initEnergyMap() {
       { name: 'المعلا', lat: 12.75, lng: 44.99, systems: Math.max(3, Math.floor(totalCustomers * 0.15)) },
       { name: 'التواهي', lat: 12.78, lng: 44.96, systems: Math.max(2, Math.floor(totalCustomers * 0.1)) }
     ];
+
     areas.forEach(area => {
+      const radius = Math.max(6, 8 + (area.systems / totalCustomers) * 20 || 8);
       const marker = L.circleMarker([area.lat, area.lng], {
-        radius: Math.min(30, 8 + (area.systems / (totalCustomers || 1)) * 20),
-        fillColor: '#4f46e5', fillOpacity: 0.7, color: '#fff', weight: 1
+        radius: Math.min(radius, 30),
+        fillColor: '#4f46e5',
+        fillOpacity: 0.7,
+        color: '#fff',
+        weight: 1
       }).addTo(mapInstance);
-      marker.bindPopup(`<strong>${area.name}</strong><br>⚡ ${area.systems} نظام شمسي<br>🔋 قدرة تقديرية: ${(area.systems * 3).toFixed(1)} كيلووات`);
+
+      marker.bindPopup(`
+        <strong>${area.name}</strong><br>
+        ⚡ ${area.systems} نظام شمسي<br>
+        🔋 قدرة تقديرية: ${(area.systems * 3).toFixed(1)} كيلووات
+      `);
     });
+
+    const mapBtn = document.createElement('button');
+    mapBtn.innerHTML = '🗺️';
+    mapBtn.title = 'خريطة الطاقة';
+    mapBtn.style.cssText = 'background:transparent; border:none; font-size:1.3rem; cursor:pointer; color:var(--text);';
+    mapBtn.addEventListener('click', () => {
+      document.getElementById('energyMapSection').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => { if (mapInstance) mapInstance.invalidateSize(); }, 500);
+    });
+    document.querySelector('.header-actions').appendChild(mapBtn);
+
   } catch (e) {
     console.warn('⚠️ خطأ في تحميل الخريطة:', e);
   }
 }
 
 // ================================================================
-// 16. ENGINEERING CHALLENGE & INSTALLATION
+// 16. ENGINEERING CHALLENGE – نظام المنافسة الهندسية
 // ================================================================
 
 export function initEngineeringChallenge() {
   const btn = document.getElementById('submitChallengeBtn');
   if (!btn) return;
+
   btn.addEventListener('click', () => {
     const name = document.getElementById('engineerName')?.value.trim();
     const desc = document.getElementById('designDesc')?.value.trim();
-    if (!name || !desc) { showToast('⚠️ يرجى ملء جميع الحقول', 2000, '⚠️'); return; }
+    if (!name || !desc) {
+      showToast('⚠️ يرجى ملء جميع الحقول', 2000, '⚠️');
+      return;
+    }
     const entries = JSON.parse(localStorage.getItem('nokhba_challenges') || '[]');
     entries.push({ name, desc, date: new Date().toISOString() });
     localStorage.setItem('nokhba_challenges', JSON.stringify(entries));
@@ -1775,29 +1892,54 @@ export function updatePastWinners() {
   const entries = JSON.parse(localStorage.getItem('nokhba_challenges') || '[]');
   const el = document.getElementById('pastWinners');
   if (!el) return;
-  if (entries.length === 0) { el.textContent = '🏅 لا يوجد مشاركات حتى الآن.'; return; }
+  if (entries.length === 0) {
+    el.textContent = '🏅 لا يوجد مشاركات حتى الآن. كن أول من يشارك!';
+    return;
+  }
   const lastThree = entries.slice(-3).map(e => e.name).join('، ');
   el.textContent = `🏅 أحدث المشاركين: ${lastThree}`;
 }
+
+// ================================================================
+// 17. INSTALLATION SERVICE – خدمة التركيب
+// ================================================================
 
 export function addInstallationToCart(productId) {
   const productManager = new ProductManager();
   productManager.getById(productId).then(p => {
     if (!p) return;
     const installCost = p.price * 0.15;
-    const installItem = { ...p, id: p.id + '_install', name: p.name + ' (خدمة تركيب)', price: installCost, isInstallation: true, quantity: 1, stock: 999 };
+    const installItem = {
+      ...p,
+      id: p.id + '_install',
+      name: p.name + ' (خدمة تركيب)',
+      price: installCost,
+      isInstallation: true,
+      quantity: 1,
+      stock: 999
+    };
     const cart = getCart();
     cart.push(installItem);
     saveCart(cart);
+    updateCartUI();
     showToast('🛠️ تم إضافة خدمة التركيب للسلة', 2500, '🛠️');
   });
 }
 
 // ================================================================
-// FINAL SETUP
+// 18. منع التصادم مع Three.js
 // ================================================================
+
 if (typeof THREE !== 'undefined' && !window.__THREE_LOADED) {
   window.__THREE_LOADED = true;
 }
 
-console.log('⚡ النخبة – النواة الأسطورية v9.0 (مع الثيم المشمس وأدوات البيع) جاهزة');
+console.log('⚡ النخبة – النواة الأسطورية v8.0 (مع جميع الميزات الجديدة) جاهزة');
+console.log('📞 رقم الهاتف: +967782826727');
+console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
+console.log('🔊 ThunderEngine: تم تهيئة صوت الرعد');
+console.log('⌨️ TypingEngine: جاهز لتأثير الكتابة الديناميكي');
+console.log('⚡ LightningEngine: محرك برق واقعي');
+console.log('💓 EmotionalEngine: المحرك العاطفي جاهز');
+console.log('🗺️ Energy Map: خريطة الطاقة جاهزة');
+console.log('🏆 Engineering Challenge: نظام المنافسة جاهز');
