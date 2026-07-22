@@ -1,6 +1,6 @@
 /* ================================================================
    style.css – النخبة للكهربائيات – التصميم الزجاجي المظلم المتطور
-   الإصدار النهائي المتكامل – v9.0 (مع الثيم المشمس وأدوات البيع)
+   الإصدار النهائي المتكامل – v8.0 (مع جميع الميزات الجديدة)
    ================================================================ */
 
 /* ================================================================
@@ -19,7 +19,6 @@
   --primary-dark: #4338ca;
   --primary-light: #818cf8;
   --primary-glow: rgba(79, 70, 229, 0.5);
-  --secondary: #0ea5e9;
 
   /* ألوان الواتساب والنيون */
   --whatsapp: #25d366;
@@ -76,12 +75,9 @@
 
   /* متغيرات أصوات النقر */
   --sound-enabled: 1;
-
-  /* تدرج البطاقات الجديد */
-  --gradient-card: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(168, 85, 247, 0.05));
 }
 
-/* ===== الثيم الفاتح ===== */
+/* ===== الثيم الفاتح (دعم احتياطي) ===== */
 [data-theme="light"] {
   --bg-color: #f1f5f9;
   --bg-rgb: 241, 245, 249;
@@ -100,38 +96,6 @@
   --primary-glow: rgba(79, 70, 229, 0.2);
   --bg-overlay: rgba(255, 255, 255, 0.1);
   --footer-overlay: rgba(0, 0, 0, 0.05);
-  --gradient-card: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(168, 85, 247, 0.04));
-}
-
-/* ===== الثيم المشمس (الجديد) ===== */
-[data-theme="sunshine"] {
-  --primary: #f59e0b;
-  --primary-rgb: 245, 158, 11;
-  --primary-dark: #d97706;
-  --primary-light: #fbbf24;
-  --primary-glow: rgba(245, 158, 11, 0.6);
-  --secondary: #f97316;
-
-  --bg-color: #fef9e7;
-  --bg-rgb: 254, 249, 231;
-  --text: #1e293b;
-  --text-rgb: 30, 41, 59;
-  --panel-bg: rgba(255, 255, 255, 0.7);
-  --card: rgba(255, 255, 255, 0.6);
-  --card-rgb: 255, 255, 255;
-  --card-hover: rgba(255, 251, 235, 0.85);
-  --border: rgba(0, 0, 0, 0.05);
-  --border-rgb: 0, 0, 0;
-
-  --shadow-sm: 0 4px 20px rgba(245, 158, 11, 0.1);
-  --shadow-md: 0 10px 48px rgba(245, 158, 11, 0.15);
-  --shadow-lg: 0 20px 72px rgba(245, 158, 11, 0.2);
-  --shadow-xl: 0 30px 96px rgba(245, 158, 11, 0.25);
-
-  --bg-overlay: rgba(254, 249, 231, 0.3);
-  --footer-overlay: rgba(0, 0, 0, 0.02);
-
-  --gradient-card: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(255, 255, 255, 0.4));
 }
 
 /* ================================================================
@@ -177,10 +141,6 @@ body {
 
 [data-theme="light"] body {
   background-color: rgba(241, 245, 249, 0.9);
-}
-
-[data-theme="sunshine"] body {
-  background-color: rgba(254, 249, 231, 0.9);
 }
 
 /* دعم اللغة الإنجليزية */
@@ -252,12 +212,6 @@ header {
   border-color: rgba(0, 0, 0, 0.03);
 }
 
-[data-theme="sunshine"] header {
-  background: rgba(255, 255, 255, 0.65);
-  border-color: rgba(245, 158, 11, 0.15);
-  box-shadow: 0 8px 40px rgba(245, 158, 11, 0.1);
-}
-
 header.scrolled {
   padding: 0.25rem 1rem;
   max-width: 80%;
@@ -267,10 +221,6 @@ header.scrolled {
 
 [data-theme="light"] header.scrolled {
   background: rgba(255, 255, 255, 0.75);
-}
-
-[data-theme="sunshine"] header.scrolled {
-  background: rgba(255, 255, 255, 0.85);
 }
 
 .logo {
@@ -328,10 +278,6 @@ header.scrolled {
 
 .header-actions .sound-toggle.sound-off {
   opacity: 0.4;
-}
-
-.theme-btn {
-  font-size: 1.2rem;
 }
 
 .power-counter {
@@ -394,31 +340,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   5. شريط الإعلانات العلوي (Announcement Bar)
-   ================================================================ */
-
-#announcementBar {
-  display: none;
-  text-align: center;
-  padding: 0.5rem;
-  font-weight: 700;
-  font-size: 0.9rem;
-  background: var(--primary);
-  color: white;
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-
-[data-theme="sunshine"] #announcementBar {
-  box-shadow: 0 4px 20px var(--primary-glow);
-}
-
-/* ================================================================
-   6. شريط التحميل (Loading Bar)
+   5. شريط التحميل (Loading Bar)
    ================================================================ */
 
 #loadingBar {
@@ -441,7 +363,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   7. تأثير الكتابة والمؤشر الوامض (Typing & Cursor Effects)
+   6. تأثير الكتابة والمؤشر الوامض (Typing & Cursor Effects)
    ================================================================ */
 
 .typing-section {
@@ -477,11 +399,6 @@ header.scrolled {
 
 [data-theme="light"] .typing-container {
   background: rgba(255, 255, 255, 0.15);
-}
-
-[data-theme="sunshine"] .typing-container {
-  background: rgba(255, 255, 255, 0.4);
-  border-color: rgba(245, 158, 11, 0.2);
 }
 
 .terminal-prefix {
@@ -553,7 +470,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   8. شريط المجتمع (Community Bar)
+   7. شريط المجتمع (Community Bar)
    ================================================================ */
 
 .community-bar {
@@ -573,11 +490,6 @@ header.scrolled {
   animation: pulseGlow 3s infinite ease-in-out;
 }
 
-[data-theme="sunshine"] .community-bar {
-  border-color: rgba(245, 158, 11, 0.2);
-  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);
-}
-
 .community-bar strong { color: var(--primary); }
 .community-bar .highlight { color: var(--secondary); font-weight: 800; }
 
@@ -587,13 +499,13 @@ header.scrolled {
 }
 
 /* ================================================================
-   9. الشاشة الإعلانية التفاعلية (Hero Billboard)
+   8. الشاشة الإعلانية التفاعلية (Hero Billboard)
    ================================================================ */
 
 .hero-section {
   position: relative;
   width: 100%;
-  height: 240px;
+  height: 220px;
   margin-bottom: 2rem;
   border-radius: var(--radius-xl);
   overflow: hidden;
@@ -604,9 +516,8 @@ header.scrolled {
   touch-action: pan-y;
 }
 
-[data-theme="sunshine"] .hero-section {
+[data-theme="light"] .hero-section {
   background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(245, 158, 11, 0.15);
 }
 
 .hero-track {
@@ -732,87 +643,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   10. عرض اليوم (Daily Deal) مع المؤقت التنازلي
-   ================================================================ */
-
-.daily-deal-section {
-  margin: 1.5rem 0;
-  padding: 1.2rem;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(239, 68, 68, 0.1));
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  border-radius: var(--radius-xl);
-  backdrop-filter: blur(12px);
-  display: none;
-}
-
-[data-theme="sunshine"] .daily-deal-section {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(249, 115, 22, 0.15));
-  border-color: rgba(245, 158, 11, 0.5);
-}
-
-.daily-deal-section h2 {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #f59e0b;
-  margin-bottom: 0.8rem;
-  flex-wrap: wrap;
-}
-
-.countdown {
-  font-family: var(--font-mono);
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #ef4444;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 0.2rem 1rem;
-  border-radius: var(--radius-full);
-  margin-right: 1rem;
-  letter-spacing: 2px;
-}
-
-.deal-card {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.deal-card img {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-lg);
-  padding: 0.5rem;
-  backdrop-filter: blur(4px);
-}
-
-.deal-info {
-  flex: 1;
-  min-width: 200px;
-}
-
-.deal-info h3 {
-  font-size: 1.3rem;
-  font-weight: 700;
-}
-
-.deal-info .old-price {
-  text-decoration: line-through;
-  color: rgba(var(--text-rgb), 0.5);
-  font-size: 1rem;
-  margin-left: 0.5rem;
-}
-
-.deal-info .new-price {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #f59e0b;
-}
-
-/* ================================================================
-   11. شريط الأقسام السريعة (Quick Categories – Horizontal Scroll)
+   9. شريط الأقسام السريعة (Quick Categories – Horizontal Scroll)
    ================================================================ */
 
 .categories-scroll {
@@ -851,11 +682,6 @@ header.scrolled {
   background: rgba(255, 255, 255, 0.2);
 }
 
-[data-theme="sunshine"] .categories-scroll .cat-pill {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(245, 158, 11, 0.2);
-}
-
 .categories-scroll .cat-pill:hover {
   background: rgba(var(--primary-rgb), 0.08);
   color: var(--text);
@@ -869,7 +695,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   12. أزرار التنقل بين الأقسام (Tabs)
+   10. أزرار التنقل بين الأقسام (Tabs)
    ================================================================ */
 
 .nav-tabs {
@@ -894,11 +720,6 @@ header.scrolled {
 
 [data-theme="light"] .nav-tabs {
   background: rgba(255, 255, 255, 0.2);
-}
-
-[data-theme="sunshine"] .nav-tabs {
-  background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(245, 158, 11, 0.2);
 }
 
 .nav-tabs button {
@@ -927,7 +748,7 @@ header.scrolled {
 .nav-tabs button:hover { opacity: 1; }
 
 /* ================================================================
-   13. شريط المعلومات السريعة (Info Bar)
+   11. شريط المعلومات السريعة (Info Bar)
    ================================================================ */
 
 .info-bar {
@@ -947,11 +768,6 @@ header.scrolled {
 
 [data-theme="light"] .info-bar {
   background: rgba(255, 255, 255, 0.15);
-}
-
-[data-theme="sunshine"] .info-bar {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(245, 158, 11, 0.15);
 }
 
 .info-bar .info-item {
@@ -985,7 +801,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   14. الفلاتر (Filters)
+   12. الفلاتر (Filters)
    ================================================================ */
 
 .filters {
@@ -1005,11 +821,6 @@ header.scrolled {
 
 [data-theme="light"] .filters {
   background: rgba(255, 255, 255, 0.15);
-}
-
-[data-theme="sunshine"] .filters {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(245, 158, 11, 0.15);
 }
 
 .filters:focus-within {
@@ -1036,12 +847,6 @@ header.scrolled {
 [data-theme="light"] .filters input,
 [data-theme="light"] .filters select {
   background: rgba(255, 255, 255, 0.1);
-}
-
-[data-theme="sunshine"] .filters input,
-[data-theme="sunshine"] .filters select {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(245, 158, 11, 0.2);
 }
 
 .filters input:focus,
@@ -1089,7 +894,7 @@ header.scrolled {
 #applyFilters:active { transform: scale(0.95); }
 
 /* ================================================================
-   15. شبكة المنتجات (Product Grid)
+   13. شبكة المنتجات (Product Grid)
    ================================================================ */
 
 .product-grid {
@@ -1102,10 +907,10 @@ header.scrolled {
 /* ===== بطاقة المنتج – زجاجية مع توهج نيوني ===== */
 .product-card {
   position: relative;
-  background: var(--gradient-card);
+  background: var(--panel-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--panel-border);
   border-radius: var(--radius-xl);
   padding: 1rem;
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -1113,11 +918,12 @@ header.scrolled {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 600px;
 }
 
-[data-theme="sunshine"] .product-card {
-  border-color: rgba(245, 158, 11, 0.2);
-  background: var(--card);
+[data-theme="light"] .product-card {
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .product-card:hover {
@@ -1163,7 +969,6 @@ header.scrolled {
   transition: transform 0.5s ease;
   background: rgba(255,255,255,0.02);
   padding: 0.5rem;
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5));
 }
 
 .product-card:hover img { transform: scale(1.06); }
@@ -1187,78 +992,6 @@ header.scrolled {
   color: #f59e0b;
 }
 
-/* السعر والخصم */
-.price-wrapper {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.price {
-  font-size: 1.3rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--primary), #a855f7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0.2rem;
-}
-
-.variant-price-display {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--primary);
-  margin-bottom: 0.2rem;
-}
-
-.discount-badge {
-  background: #ef4444;
-  color: white;
-  font-size: 0.7rem;
-  padding: 0.1rem 0.5rem;
-  border-radius: var(--radius-full);
-  font-weight: 700;
-  animation: pulseDiscount 2s infinite;
-}
-
-@keyframes pulseDiscount {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-/* شريط المخزون */
-.stock-bar {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-  margin: 0.3rem 0;
-  overflow: hidden;
-}
-
-.stock-bar .stock-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #22c55e, #f59e0b);
-  border-radius: 2px;
-  transition: width 0.3s ease;
-}
-
-.stock-text {
-  font-size: 0.7rem;
-  color: rgba(var(--text-rgb), 0.6);
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.4rem;
-}
-
-.stock-display {
-  font-size: 0.75rem;
-  color: #22c55e;
-  margin-bottom: 0.4rem;
-  font-weight: 600;
-}
-
-.stock-display.low-stock { color: #ef4444; }
-
 /* المقاسات */
 .variant-select {
   width: 100%;
@@ -1272,46 +1005,40 @@ header.scrolled {
   margin-bottom: 0.4rem;
 }
 
-/* أزرار الإضافة وتحكم الكمية */
-.quantity-control {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-top: 0.5rem;
+[data-theme="light"] .variant-select {
+  background: rgba(255, 255, 255, 0.5);
 }
 
-.quantity-control button {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: none;
-  background: var(--primary);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-  font-size: 1rem;
+.price {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.2rem;
 }
 
-.quantity-control button:hover {
-  background: var(--primary-dark);
+.variant-price-display {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.2rem;
 }
 
-.quantity-control .qty {
-  width: 30px;
-  text-align: center;
-  font-weight: 700;
-  background: transparent;
-  border: none;
-  color: var(--text);
+.stock-display {
+  font-size: 0.75rem;
+  color: #22c55e;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
 }
 
+.stock-display.low-stock { color: #ef4444; }
+
+/* أزرار الإضافة */
 .add-to-cart {
   margin-top: auto;
   width: 100%;
-  background: linear-gradient(135deg, var(--primary), #7c3aed);
-  border: none;
-  color: white;
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  border: 1px solid var(--panel-border);
   padding: 0.6rem;
   border-radius: var(--radius-full);
   font-weight: 700;
@@ -1319,7 +1046,6 @@ header.scrolled {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  letter-spacing: 0.5px;
 }
 
 .add-to-cart::before {
@@ -1327,15 +1053,17 @@ header.scrolled {
   position: absolute;
   top: 0; left: -100%;
   width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
   transition: left 0.5s ease;
 }
 
 .add-to-cart:hover::before { left: 100%; }
 
 .add-to-cart:hover:not(:disabled) {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px var(--primary-glow);
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 0 20px var(--primary-glow);
 }
 
 .add-to-cart:disabled {
@@ -1378,7 +1106,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   16. آراء العملاء (Testimonials)
+   14. آراء العملاء (Testimonials)
    ================================================================ */
 
 .testimonials-section {
@@ -1417,11 +1145,6 @@ header.scrolled {
   flex-shrink: 0;
 }
 
-[data-theme="sunshine"] .testimonial-card {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(245, 158, 11, 0.15);
-}
-
 .testimonial-card .stars {
   color: #fbbf24;
   margin-bottom: 0.5rem;
@@ -1444,7 +1167,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   17. السلة الجانبية (Cart Sidebar)
+   15. السلة الجانبية (Cart Sidebar)
    ================================================================ */
 
 .cart-sidebar {
@@ -1466,7 +1189,7 @@ header.scrolled {
   box-shadow: -10px 0 30px rgba(0,0,0,0.5);
 }
 
-[data-theme="sunshine"] .cart-sidebar {
+[data-theme="light"] .cart-sidebar {
   background: rgba(255, 255, 255, 0.95);
 }
 
@@ -1578,6 +1301,10 @@ header.scrolled {
   -moz-appearance: textfield;
 }
 
+[data-theme="light"] .cart-item .controls .qty-input {
+  background: rgba(0,0,0,0.05);
+}
+
 .cart-item .controls .qty-input:focus {
   outline: none;
   border-color: var(--primary);
@@ -1641,7 +1368,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   18. Lightbox (معرض المنتج المنبثق)
+   16. Lightbox (معرض المنتج المنبثق)
    ================================================================ */
 
 .lightbox-overlay {
@@ -1684,7 +1411,7 @@ header.scrolled {
   transform: scale(1) translateY(0);
 }
 
-[data-theme="sunshine"] .lightbox-container {
+[data-theme="light"] .lightbox-container {
   background: rgba(255, 255, 255, 0.95);
 }
 
@@ -1717,6 +1444,7 @@ header.scrolled {
   font-size: 0.85rem;
 }
 
+/* زر الإغلاق العائم */
 .lightbox-close {
   position: absolute !important;
   top: -15px;
@@ -1770,6 +1498,10 @@ header.scrolled {
   border: 1px solid var(--panel-border);
   min-height: 250px;
   overflow: hidden;
+}
+
+[data-theme="light"] .gallery-main-wrap {
+  background: rgba(0,0,0,0.05);
 }
 
 .gallery-main-wrap .main-display {
@@ -1949,6 +1681,10 @@ header.scrolled {
   width: fit-content;
 }
 
+[data-theme="light"] .detail-category {
+  background: rgba(0,0,0,0.05);
+}
+
 .variant-nav {
   display: flex;
   align-items: center;
@@ -1958,6 +1694,10 @@ header.scrolled {
   border-radius: var(--radius-full);
   border: 1px solid var(--panel-border);
   margin-bottom: 0.5rem;
+}
+
+[data-theme="light"] .variant-nav {
+  background: rgba(0,0,0,0.05);
 }
 
 .variant-nav .nav-btn {
@@ -2037,18 +1777,13 @@ header.scrolled {
   gap: 0.4rem;
 }
 
-.detail-actions .quantity-control {
-  justify-content: center;
-  margin-bottom: 0.5rem;
-}
-
 .detail-actions .add-btn {
   width: 100%;
   padding: 0.8rem;
   font-size: 1.1rem;
   font-weight: 800;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--primary), #7c3aed);
+  background: var(--primary);
   color: white;
   border: none;
   cursor: pointer;
@@ -2073,7 +1808,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   19. مؤشر التحميل (Loading Spinner)
+   17. مؤشر التحميل (Loading Spinner)
    ================================================================ */
 
 .loading-spinner {
@@ -2105,7 +1840,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   20. الأقسام (Page Sections)
+   18. الأقسام (Page Sections)
    ================================================================ */
 
 .page-section {
@@ -2121,7 +1856,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   21. المدونة (Blog)
+   19. المدونة (Blog)
    ================================================================ */
 
 .blog-grid {
@@ -2137,11 +1872,6 @@ header.scrolled {
   border-radius: var(--radius-xl);
   overflow: hidden;
   transition: 0.3s;
-}
-
-[data-theme="sunshine"] .blog-card {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(245, 158, 11, 0.15);
 }
 
 .blog-card:hover {
@@ -2176,7 +1906,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   22. التواصل (Contact)
+   20. التواصل (Contact)
    ================================================================ */
 
 .contact-page {
@@ -2190,11 +1920,6 @@ header.scrolled {
   padding: 1.5rem;
   border-radius: var(--radius-xl);
   border: 1px solid var(--panel-border);
-}
-
-[data-theme="sunshine"] .contact-info {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(245, 158, 11, 0.15);
 }
 
 .contact-info .info-item {
@@ -2211,11 +1936,6 @@ header.scrolled {
   padding: 1.5rem;
   border-radius: var(--radius-xl);
   border: 1px solid var(--panel-border);
-}
-
-[data-theme="sunshine"] .contact-form {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(245, 158, 11, 0.15);
 }
 
 .contact-form h4 {
@@ -2285,7 +2005,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   23. خريطة الطاقة (Energy Map)
+   21. خريطة الطاقة (Energy Map)
    ================================================================ */
 
 #energyMapSection {
@@ -2313,7 +2033,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   24. تحدي المهندسين (Engineering Challenge)
+   22. تحدي المهندسين (Engineering Challenge)
    ================================================================ */
 
 .challenge-section {
@@ -2323,11 +2043,6 @@ header.scrolled {
   backdrop-filter: blur(12px);
   border-radius: var(--radius-xl);
   border: 1px solid var(--panel-border);
-}
-
-[data-theme="sunshine"] .challenge-section {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(245, 158, 11, 0.15);
 }
 
 .challenge-section h2 {
@@ -2396,7 +2111,7 @@ header.scrolled {
 }
 
 /* ================================================================
-   25. الفوتر (Footer)
+   23. الفوتر (Footer)
    ================================================================ */
 
 footer {
@@ -2409,11 +2124,6 @@ footer {
   flex-direction: column;
   gap: 1.2rem;
   text-align: center;
-}
-
-[data-theme="sunshine"] footer {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(245, 158, 11, 0.15);
 }
 
 .footer-brand {
@@ -2478,7 +2188,7 @@ footer {
 }
 
 /* ================================================================
-   26. شريط التنقل السفلي (Bottom Nav)
+   24. شريط التنقل السفلي (Bottom Nav)
    ================================================================ */
 
 .bottom-nav {
@@ -2497,11 +2207,6 @@ footer {
   align-items: center;
   padding-bottom: env(safe-area-inset-bottom);
   transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-[data-theme="sunshine"] .bottom-nav {
-  background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(245, 158, 11, 0.2);
 }
 
 .bottom-nav.hidden { transform: translateY(100%); }
@@ -2578,7 +2283,7 @@ footer {
 }
 
 /* ================================================================
-   27. الإشعارات (Toast) وتنبيه الشراء الأخير
+   25. الإشعارات (Toast)
    ================================================================ */
 
 .toast {
@@ -2612,36 +2317,8 @@ footer {
 
 .toast-icon { font-size: 1.1rem; }
 
-/* تنبيه الشراء الأخير */
-.purchase-toast {
-  position: fixed;
-  bottom: 100px;
-  left: 20px;
-  background: var(--panel-bg);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--panel-border);
-  color: var(--text);
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-lg);
-  font-size: 0.8rem;
-  box-shadow: var(--shadow-lg);
-  z-index: 2000;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: all 0.4s ease;
-  pointer-events: none;
-}
-
-.purchase-toast.show {
-  opacity: 1;
-  transform: translateX(0);
-}
-
 /* ================================================================
-   28. زر العودة للأعلى
+   26. زر العودة للأعلى
    ================================================================ */
 
 #scrollTopBtn {
@@ -2671,7 +2348,7 @@ footer {
 }
 
 /* ================================================================
-   29. زر الحالة المزاجية
+   27. زر الحالة المزاجية
    ================================================================ */
 
 #moodBtn {
@@ -2704,7 +2381,7 @@ footer {
 }
 
 /* ================================================================
-   30. تأثير انقطاع التيار (Blackout Mode)
+   28. تأثير انقطاع التيار (Blackout Mode)
    ================================================================ */
 
 body.blackout-mode {
@@ -2721,8 +2398,7 @@ body.blackout-mode .contact-page,
 body.blackout-mode .blog-grid,
 body.blackout-mode .testimonials-section,
 body.blackout-mode #energyMapSection,
-body.blackout-mode .challenge-section,
-body.blackout-mode #dailyDealSection {
+body.blackout-mode .challenge-section {
   opacity: 0.05;
   pointer-events: none;
   filter: grayscale(1);
@@ -2750,7 +2426,7 @@ body.blackout-mode .product-card .variant-price-display {
 }
 
 /* ================================================================
-   31. استجابة (Responsive)
+   29. استجابة (Responsive)
    ================================================================ */
 
 @media (max-width: 1024px) {
@@ -2760,11 +2436,9 @@ body.blackout-mode .product-card .variant-price-display {
 }
 
 @media (max-width: 768px) {
-  .hero-section { height: 200px; }
+  .hero-section { height: 300px; }
   .hero-content h1 { font-size: 1.5rem; }
   .hero-content p { font-size: 0.8rem; }
-
-  .daily-deal-section .deal-card { flex-direction: column; align-items: flex-start; }
 
   .product-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -2817,14 +2491,13 @@ body.blackout-mode .product-card .variant-price-display {
   #energyMap { height: 280px; }
 
   .toast { font-size: 0.75rem; padding: 0.4rem 1rem; bottom: 80px; }
-  .purchase-toast { bottom: 80px; left: 10px; font-size: 0.7rem; }
 
   #scrollTopBtn { width: 38px; height: 38px; font-size: 1.2rem; bottom: 80px; }
   #moodBtn { width: 42px; height: 42px; font-size: 1.2rem; bottom: 120px; }
 }
 
 @media (max-width: 480px) {
-  .hero-section { height: 180px; }
+  .hero-section { height: 250px; }
   .hero-content h1 { font-size: 1.2rem; }
   .hero-content p { font-size: 0.7rem; }
 
@@ -2865,9 +2538,6 @@ body.blackout-mode .product-card .variant-price-display {
   #energyMap { height: 200px; }
 
   .lightbox-close { width: 32px !important; height: 32px !important; font-size: 1rem !important; top: -8px; right: -8px; }
-
-  .deal-card img { width: 80px; height: 80px; }
-  .countdown { font-size: 0.9rem; }
 }
 
 @media (max-width: 400px) {
@@ -2885,7 +2555,7 @@ body.blackout-mode .product-card .variant-price-display {
 }
 
 /* ================================================================
-   32. تفضيلات الحركة المقللة (Reduced Motion)
+   30. تفضيلات الحركة المقللة (Reduced Motion)
    ================================================================ */
 
 @media (prefers-reduced-motion: reduce) {
