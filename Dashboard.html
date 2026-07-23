@@ -1199,18 +1199,23 @@
       getFooterImage, setFooterImage, applyFooterImage,
       CommunityStatsManager,
       getCommunityStats,
-      updateEnergyClock
+      updateEnergyClock,
+      FirebaseRTDBAdapter,   // <-- محول Realtime Database
+      LocalStorageAdapter    // <-- اختياري، نستخدمه لـ HeroImagesManager
     } from './main.js';
 
     // ================================================================
-    // تهيئة المديرين
+    // تهيئة المديرين باستخدام Firebase Realtime Database (مجاني)
     // ================================================================
-    const productManager = new ProductManager();
-    const blogManager = new BlogManager();
-    const contactManager = new ContactManager();
-    const categoryManager = new CategoryManager();
-    const heroImagesManager = new HeroImagesManager();
-    const communityStatsManager = new CommunityStatsManager();
+    const rtdbAdapter = new FirebaseRTDBAdapter();  // محول سحابي مشترك
+
+    const productManager = new ProductManager(rtdbAdapter);
+    const blogManager = new BlogManager(rtdbAdapter);
+    const contactManager = new ContactManager(rtdbAdapter);
+    const categoryManager = new CategoryManager(rtdbAdapter);
+    const communityStatsManager = new CommunityStatsManager(rtdbAdapter);
+    // HeroImagesManager يظل مخزناً محلياً (LocalStorage) – يمكن تغييره إلى rtdbAdapter إذا أردت
+    const heroImagesManager = new HeroImagesManager(new LocalStorageAdapter());
 
     // ================================================================
     // إدارة الصوت (للوحة التحكم)
@@ -2185,9 +2190,10 @@
     setInterval(renderOrders, 30000);
     setInterval(updateCommunityStatsUI, 60000);
 
-    console.log('⚡ لوحة التحكم الأسطورية v8.0 جاهزة (مع جميع الميزات الجديدة)');
+    console.log('⚡ لوحة التحكم الأسطورية v8.0 جاهزة (مع Firebase Realtime Database)');
     console.log('📞 رقم الهاتف: +967782826727');
     console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
+    console.log('✅ البيانات مخزنة في Realtime Database (مجاني)');
   </script>
 </body>
-</html>
+  </html>
