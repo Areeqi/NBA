@@ -409,12 +409,13 @@
   <button id="scrollTopBtn">↑</button>
 
   <!-- ========================================================== -->
-  <!-- JavaScript – تشغيل المتجر (الإصدار الاستثنائي المحدث) -->
+  <!-- JavaScript – تشغيل المتجر (الإصدار النهائي المتكامل) -->
   <!-- ========================================================== -->
   <script type="module">
     // استيراد المكونات من main.js
     import { 
       ProductManager, BlogManager, ContactManager,
+      FirebaseRTDBAdapter,  // <-- استيراد المحول الجديد
       LightningEngine, ThunderEngine, TypingEngine, HeroImagesManager,
       EmotionalEngine,
       initEnergyMap, updateEnergyClock, getCommunityStats,
@@ -425,7 +426,20 @@
       getFooterImage, applyFooterImage
     } from './main.js';
 
+    // ================================================================
+    // 🔥 تهيئة المديرين باستخدام Firebase Realtime Database (مجاني)
+    // ================================================================
+    const rtdbAdapter = new FirebaseRTDBAdapter();  // محول واحد مشترك
+
+    const productManager = new ProductManager(rtdbAdapter);
+    const blogManager = new BlogManager(rtdbAdapter);
+    const contactManager = new ContactManager(rtdbAdapter);
+    // HeroImagesManager لا يزال يستخدم LocalStorageAdapter افتراضياً (لن نخزنه في السحابة)
+    const heroImagesManager = new HeroImagesManager();
+
+    // ================================================================
     // تحميل إعدادات تأثير الكتابة
+    // ================================================================
     function loadTypingSettings() {
       try {
         const saved = localStorage.getItem('nokhba_typing_settings');
@@ -448,17 +462,12 @@
 
     const typingSettings = loadTypingSettings();
 
-    // تهيئة المحركات والمديرين
-    const productManager = new ProductManager();
-    const blogManager = new BlogManager();
-    const contactManager = new ContactManager();
-    const heroImagesManager = new HeroImagesManager();
-    
+    // تهيئة المحركات
     const lightning = new LightningEngine();
     const thunder = new ThunderEngine();
     const typingEngine = new TypingEngine();
 
-    // تشغيل المحركات بأمان
+    // تشغيل المحركات
     try { lightning.init(document.getElementById('lightning-container')); } catch(e) {}
     try { thunder.init(); } catch(e) {}
 
@@ -503,7 +512,7 @@
     let emotionalEngine = new EmotionalEngine();
 
     // ================================================================
-    // إدارة الصوت (النسخة اللحظية بدون تأخير - Zero-Latency)
+    // إدارة الصوت
     // ================================================================
     let soundEnabled = localStorage.getItem('nokhba_sound') !== 'off';
     const soundToggle = document.getElementById('soundToggle');
@@ -1275,6 +1284,7 @@
     renderContactInfo();
     
     console.log('⚡ النخبة – المتجر الأسطوري (الإصدار النهائي المتكامل) جاهز!');
+    console.log('✅ يستخدم Firebase Realtime Database (مجاني) لتخزين البيانات.');
   </script>
 </body>
-</html>
+  </html>
