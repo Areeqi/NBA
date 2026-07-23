@@ -17,7 +17,7 @@
   </script>
 
   <style>
-    /* ===== أنماط خاصة بلوحة التحكم ===== */
+    /* ===== أنماط خاصة بلوحة التحكم (نفسها كما كانت) ===== */
     .admin-panel {
       max-width: 1400px;
       margin: 0 auto;
@@ -29,7 +29,6 @@
       font-weight: 800;
     }
 
-    /* ===== التبويبات ===== */
     .admin-tabs {
       display: flex;
       gap: 0.5rem;
@@ -75,7 +74,6 @@
       100% { opacity: 1; }
     }
 
-    /* ===== الإحصائيات ===== */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -115,7 +113,6 @@
     .stat-card.danger { border-right-color: #ef4444; }
     .stat-card.success { border-right-color: #22c55e; }
 
-    /* ===== أزرار الإجراءات ===== */
     .admin-actions {
       display: flex;
       flex-wrap: wrap;
@@ -148,7 +145,6 @@
       background: rgba(255, 255, 255, 0.08);
     }
 
-    /* ===== جدول المنتجات ===== */
     .product-table-wrap {
       overflow-x: auto;
       margin-top: 0.5rem;
@@ -207,7 +203,6 @@
     .btn-preview { background: #8b5cf6; color: white; }
     .btn-preview:hover { background: #7c3aed; }
 
-    /* ===== حالات المنتج ===== */
     .badge-status {
       display: inline-block;
       padding: 0.1rem 0.5rem;
@@ -220,7 +215,6 @@
     .badge-status.new { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.05); }
     .badge-status.bestseller { background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.05); }
 
-    /* ===== نماذج المودال ===== */
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -277,7 +271,6 @@
       accent-color: var(--primary);
     }
 
-    /* ===== حقل الفئة مع زر الإضافة ===== */
     .category-field-wrapper {
       display: flex;
       gap: 0.5rem;
@@ -302,7 +295,6 @@
       box-shadow: 0 0 20px var(--primary-glow);
     }
 
-    /* ===== قسم المقاسات ===== */
     .variants-section {
       margin-top: 0.5rem;
       padding: 0.8rem;
@@ -393,7 +385,6 @@
       margin-top: 0.2rem;
     }
 
-    /* ===== المدونة في لوحة التحكم ===== */
     .blog-posts-list .blog-item {
       display: flex;
       gap: 1rem;
@@ -444,7 +435,6 @@
       color: white;
     }
 
-    /* ===== التواصل في لوحة التحكم ===== */
     .contact-fields {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -492,7 +482,6 @@
     }
     #resetContactBtn:hover { background: rgba(255, 255, 255, 0.08); }
 
-    /* ===== رفع الصور ===== */
     .image-upload-area {
       border: 2px dashed rgba(255, 255, 255, 0.04);
       padding: 1.2rem;
@@ -522,7 +511,6 @@
       margin-top: 0.2rem;
     }
 
-    /* ===== المودال ===== */
     .modal {
       display: none;
       position: fixed;
@@ -568,7 +556,6 @@
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* ===== الطلبات ===== */
     .orders-list .order-item {
       background: rgba(18, 18, 32, 0.2);
       backdrop-filter: blur(8px);
@@ -606,7 +593,6 @@
       margin-top: 0.2rem;
     }
 
-    /* ===== مودال إدارة الفئات ===== */
     #categoryModal .modal-content { max-width: 500px; }
     .category-list {
       display: flex;
@@ -670,7 +656,6 @@
       box-shadow: 0 0 20px var(--primary-glow);
     }
 
-    /* ===== إعدادات العبارات ===== */
     .typing-settings {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -749,7 +734,6 @@
       background: rgba(255, 255, 255, 0.08);
     }
 
-    /* ===== إدارة صور الهيرو ===== */
     .hero-images-manager {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -855,7 +839,6 @@
       box-shadow: 0 0 20px var(--primary-glow);
     }
 
-    /* ===== استجابة ===== */
     @media (max-width: 768px) {
       .admin-tabs button {
         padding: 0.3rem 1rem;
@@ -1182,7 +1165,7 @@
   <div id="toast" class="toast"></div>
 
   <!-- ============================================================ -->
-  <!-- JavaScript – تشغيل لوحة التحكم (v8.0) -->
+  <!-- JavaScript – تشغيل لوحة التحكم (v8.0 - FINAL) -->
   <!-- ============================================================ -->
   <script type="module">
     // ================================================================
@@ -1200,9 +1183,17 @@
       CommunityStatsManager,
       getCommunityStats,
       updateEnergyClock,
-      FirebaseRTDBAdapter,   // <-- محول Realtime Database
-      LocalStorageAdapter    // <-- اختياري، نستخدمه لـ HeroImagesManager
+      FirebaseRTDBAdapter,   // <-- محول Realtime Database (مجاني)
+      LocalStorageAdapter    // للمدير الذي يخزن محلياً
     } from './main.js';
+
+    // ================================================================
+    // ⚠️ تحذير: إذا لم يتم العثور على FirebaseRTDBAdapter، تأكد من وجوده في main.js
+    // ================================================================
+    if (typeof FirebaseRTDBAdapter === 'undefined') {
+      console.error('❌ FirebaseRTDBAdapter غير موجود في main.js. تأكد من إضافته.');
+      showToast('⚠️ خطأ في التهيئة، راجع وحدة التحكم', 5000, '❌');
+    }
 
     // ================================================================
     // تهيئة المديرين باستخدام Firebase Realtime Database (مجاني)
@@ -1569,14 +1560,21 @@
         video: $('pVideo').value.trim() || undefined,
         variants: variants.length > 0 ? variants : []
       };
-      if (id) { payload.id = id; await productManager.mutate({ type: 'UPDATE', payload }); }
-      else await productManager.mutate({ type: 'ADD', payload });
       
-      form.querySelector('button[type="submit"]').disabled = false;
-      modal.classList.remove('active');
-      renderTable();
-      showToast('✅ تم الحفظ بنجاح', 3000, '✅');
-      if (fileInput) fileInput.value = '';
+      try {
+        if (id) { payload.id = id; await productManager.mutate({ type: 'UPDATE', payload }); }
+        else await productManager.mutate({ type: 'ADD', payload });
+        
+        form.querySelector('button[type="submit"]').disabled = false;
+        modal.classList.remove('active');
+        renderTable();
+        showToast('✅ تم الحفظ بنجاح', 3000, '✅');
+        if (fileInput) fileInput.value = '';
+      } catch (error) {
+        console.error('❌ فشل الحفظ:', error);
+        showToast('⚠️ فشل الحفظ: ' + error.message, 4000, '⚠️');
+        form.querySelector('button[type="submit"]').disabled = false;
+      }
     });
 
     closeModal.addEventListener('click', () => modal.classList.remove('active'));
@@ -1729,11 +1727,16 @@
         tags: tags,
         published: $('postPublished').checked
       };
-      if (id) { payload.id = id; await blogManager.mutate({ type: 'UPDATE', payload }); }
-      else await blogManager.mutate({ type: 'ADD', payload });
-      postModal.classList.remove('active');
-      renderBlogPosts();
-      showToast('✅ تم حفظ المقال', '✅');
+      try {
+        if (id) { payload.id = id; await blogManager.mutate({ type: 'UPDATE', payload }); }
+        else await blogManager.mutate({ type: 'ADD', payload });
+        postModal.classList.remove('active');
+        renderBlogPosts();
+        showToast('✅ تم حفظ المقال', '✅');
+      } catch (error) {
+        console.error('❌ فشل حفظ المقال:', error);
+        showToast('⚠️ فشل حفظ المقال', 3000, '⚠️');
+      }
     });
 
     closePostModal.addEventListener('click', () => postModal.classList.remove('active'));
@@ -1771,8 +1774,13 @@
         openingHours: $('contactHours').value.trim(),
         mapEmbed: $('contactMap').value.trim()
       };
-      await contactManager.update(data);
-      showToast('✅ تم حفظ معلومات التواصل', '✅');
+      try {
+        await contactManager.update(data);
+        showToast('✅ تم حفظ معلومات التواصل', '✅');
+      } catch (error) {
+        console.error('❌ فشل حفظ معلومات التواصل:', error);
+        showToast('⚠️ فشل الحفظ', 3000, '⚠️');
+      }
     });
 
     resetContactBtn.addEventListener('click', async () => {
@@ -2196,4 +2204,4 @@
     console.log('✅ البيانات مخزنة في Realtime Database (مجاني)');
   </script>
 </body>
-  </html>
+</html>
