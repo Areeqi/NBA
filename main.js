@@ -25,6 +25,24 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // ================================================================
+// دالة لإزالة الخصائص ذات القيمة undefined (لحماية قاعدة البيانات)
+// ================================================================
+function removeUndefined(obj) {
+  if (Array.isArray(obj)) {
+    return obj.map(item => removeUndefined(item));
+  } else if (obj && typeof obj === 'object') {
+    const newObj = {};
+    for (const key in obj) {
+      if (obj[key] !== undefined) {
+        newObj[key] = removeUndefined(obj[key]);
+      }
+    }
+    return newObj;
+  }
+  return obj;
+}
+
+// ================================================================
 // 1. STORAGE ADAPTERS – طبقة تجريد التخزين
 // ================================================================
 
@@ -75,7 +93,9 @@ export class FirebaseRTDBAdapter extends StorageAdapter {
 
   async set(key, value) {
     try {
-      await set(ref(this.db, key), value);
+      // إزالة أي خاصية قيمتها undefined (لأن Firebase لا يقبلها)
+      const cleanValue = removeUndefined(value);
+      await set(ref(this.db, key), cleanValue);
     } catch (e) {
       console.error("خطأ في حفظ البيانات في Realtime Database:", e);
       throw e;
@@ -454,7 +474,11 @@ export class ProductManager {
     const parsed = data && data.length ? data : defaults;
     parsed.forEach(p => {
       p.image = migrateStaticImage(p.image);
-      if (Array.isArray(p.images)) p.images = p.images.map(migrateStaticImage);
+      // التأكد من أن خاصية images موجودة كمصفوفة (حماية من undefined)
+      if (!p.images) p.images = [];
+      if (Array.isArray(p.images)) {
+        p.images = p.images.map(migrateStaticImage);
+      }
       p.price = parseFloat(p.price) || 0;
       p.stock = parseFloat(p.stock) || 0;
       p.minOrder = parseFloat(p.minOrder) || 1;
@@ -549,6 +573,8 @@ export class ProductManager {
           ...command.payload,
           createdAt: new Date().toISOString()
         };
+        // التأكد من أن images مصفوفة
+        if (!np.images) np.images = [];
         np.price = parseFloat(np.price) || 0;
         np.stock = parseFloat(np.stock) || 0;
         np.minOrder = parseFloat(np.minOrder) || 1;
@@ -571,6 +597,7 @@ export class ProductManager {
         const idx = products.findIndex(p => p.id === command.payload.id);
         if (idx === -1) throw new Error('المنتج غير موجود');
         const updated = { ...products[idx], ...command.payload };
+        if (!updated.images) updated.images = [];
         updated.price = parseFloat(updated.price) || 0;
         updated.stock = parseFloat(updated.stock) || 0;
         updated.minOrder = parseFloat(updated.minOrder) || 1;
