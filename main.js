@@ -6,10 +6,10 @@
 import * as THREE from 'three';
 
 // ================================================================
-// إعدادات Firebase السحابية
+// إعدادات Firebase السحابية (Realtime Database)
 // ================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, deleteDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAnkES6TCMGdshbJmocM_0avknOcdbJ4Ms",
@@ -22,7 +22,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getDatabase(app);
 
 // ================================================================
 // 1. STORAGE ADAPTERS – طبقة تجريد التخزين
@@ -54,42 +54,44 @@ export class LocalStorageAdapter extends StorageAdapter {
   }
 }
 
-export class FirebaseAdapter extends StorageAdapter {
+// ================================================================
+// المحول الجديد لـ Realtime Database (مجاني، لا يطلب بطاقة)
+// ================================================================
+export class FirebaseRTDBAdapter extends StorageAdapter {
+  constructor() {
+    super();
+    this.db = db;
+  }
+
   async get(key) {
     try {
-      const docRef = doc(db, "nokhba_db", key);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        return docSnap.data().value;
-      } else {
-        return null;
-      }
+      const snapshot = await get(ref(this.db, key));
+      return snapshot.exists() ? snapshot.val() : null;
     } catch (e) {
-      console.error("خطأ في جلب البيانات من فايربيس:", e);
+      console.error("خطأ في جلب البيانات من Realtime Database:", e);
       return null;
     }
   }
 
   async set(key, value) {
     try {
-      const docRef = doc(db, "nokhba_db", key);
-      await setDoc(docRef, { value: value });
+      await set(ref(this.db, key), value);
     } catch (e) {
-      console.error("خطأ في حفظ البيانات في فايربيس:", e);
+      console.error("خطأ في حفظ البيانات في Realtime Database:", e);
+      throw e;
     }
   }
 
   async remove(key) {
     try {
-      const docRef = doc(db, "nokhba_db", key);
-      await deleteDoc(docRef);
+      await remove(ref(this.db, key));
     } catch (e) {
-      console.error("خطأ في الحذف:", e);
+      console.error("خطأ في الحذف من Realtime Database:", e);
     }
   }
 
   async clear() {
-    console.warn("تم إيقاف مسح قاعدة البيانات بالكامل للحماية");
+    console.warn("تم تعطيل مسح قاعدة البيانات بالكامل للحماية");
   }
 }
 
@@ -101,7 +103,7 @@ export class CategoryManager {
   #adapter;
   #cache = null;
 
-  constructor(adapter = new FirebaseAdapter()) {
+  constructor(adapter = new FirebaseRTDBAdapter()) {
     this.#adapter = adapter;
   }
 
@@ -207,7 +209,7 @@ export class ProductManager {
   #adapter;
   #cache = null;
 
-  constructor(adapter = new FirebaseAdapter()) {
+  constructor(adapter = new FirebaseRTDBAdapter()) {
     this.#adapter = adapter;
   }
 
@@ -628,7 +630,7 @@ export class BlogManager {
   #adapter;
   #cache = null;
 
-  constructor(adapter = new FirebaseAdapter()) {
+  constructor(adapter = new FirebaseRTDBAdapter()) {
     this.#adapter = adapter;
   }
 
@@ -729,7 +731,7 @@ export class ContactManager {
   #adapter;
   #cache = null;
 
-  constructor(adapter = new FirebaseAdapter()) {
+  constructor(adapter = new FirebaseRTDBAdapter()) {
     this.#adapter = adapter;
   }
 
@@ -1417,7 +1419,7 @@ export class CommunityStatsManager {
   #adapter;
   #cache = null;
 
-  constructor(adapter = new FirebaseAdapter()) {
+  constructor(adapter = new FirebaseRTDBAdapter()) {
     this.#adapter = adapter;
   }
 
