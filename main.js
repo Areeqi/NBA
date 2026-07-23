@@ -1945,3 +1945,46 @@ console.log('⚡ LightningEngine: محرك برق واقعي');
 console.log('💓 EmotionalEngine: المحرك العاطفي جاهز');
 console.log('🗺️ Energy Map: خريطة الطاقة جاهزة');
 console.log('🏆 Engineering Challenge: نظام المنافسة جاهز');
+
+// ================================================================
+// Firebase Realtime Database Adapter (مجاني، لا يطلب بطاقة)
+// ================================================================
+import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+export class FirebaseRTDBAdapter extends StorageAdapter {
+  constructor() {
+    super();
+    this.db = getDatabase();
+  }
+
+  async get(key) {
+    try {
+      const snapshot = await get(ref(this.db, key));
+      return snapshot.exists() ? snapshot.val() : null;
+    } catch (e) {
+      console.error("خطأ في جلب البيانات من Realtime Database:", e);
+      return null;
+    }
+  }
+
+  async set(key, value) {
+    try {
+      await set(ref(this.db, key), value);
+    } catch (e) {
+      console.error("خطأ في حفظ البيانات في Realtime Database:", e);
+      throw e;
+    }
+  }
+
+  async remove(key) {
+    try {
+      await remove(ref(this.db, key));
+    } catch (e) {
+      console.error("خطأ في الحذف من Realtime Database:", e);
+    }
+  }
+
+  async clear() {
+    console.warn("تم تعطيل مسح قاعدة البيانات بالكامل");
+  }
+}
