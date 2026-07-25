@@ -2672,3 +2672,34 @@ body.blackout-mode .product-card .variant-price-display {
   font-size: 0.95rem !important;
   padding: 0.6rem 1.5rem !important;
 }
+/* ================================================================
+   إعادة خط المنتجات إلى حجمه السابق (أو أصغر)
+   ================================================================ */
+
+/* 1. اسم المنتج في البطاقة */
+.product-card h4 {
+  font-size: 0.9rem !important;   /* الحجم الأصلي كان ~0.9rem */
+  /* إذا أردت أصغر، استخدم 0.85rem */
+}
+
+/* 2. سعر المنتج */
+.price,
+.variant-price-display {
+  font-size: 1.1rem !important;   /* الحجم الأصلي كان ~1.1rem */
+  /* إذا أردت أصغر، استخدم 1rem */
+}
+
+/* 3. زر الإضافة (اختياري - إن أردت تصغيره أيضاً) */
+.add-to-cart {
+  font-size: 0.8rem !important;   /* الحجم الأصلي ~0.8rem */
+}
+
+/* 4. قائمة المقاسات (اختياري) */
+.variant-select {
+  font-size: 0.8rem !important;
+}
+
+/* 5. نص المخزون */
+.stock-display {
+  font-size: 0.75rem !important;
+}
