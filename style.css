@@ -2574,7 +2574,7 @@ body.blackout-mode .product-card .variant-price-display {
   .community-bar { animation: none; }
    }
 /* ===== تكبير الخط في الواجهة ===== */
-html { font-size: 18px; }
+html { font-size: 14px; }
 body { font-size: 1rem; }
 
 /* ===== إخفاء عداد الطاقة ===== */
