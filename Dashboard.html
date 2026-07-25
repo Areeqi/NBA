@@ -5,19 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>النخبة – لوحة التحكم الأسطورية</title>
   
-  <!-- ===== Google Fonts – خطوط عصرية ===== -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
   
-  <!-- ===== Import Map لـ Three.js ===== -->
   <script type="importmap">
     { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
   </script>
 
   <style>
-    /* ===== أنماط خاصة بلوحة التحكم (نفسها كما كانت) ===== */
+    /* ===== أنماط خاصة بلوحة التحكم ===== */
     .admin-panel {
       max-width: 1400px;
       margin: 0 auto;
@@ -1183,8 +1181,8 @@
       CommunityStatsManager,
       getCommunityStats,
       updateEnergyClock,
-      FirebaseRTDBAdapter,   // <-- محول Realtime Database (مجاني)
-      LocalStorageAdapter    // للمدير الذي يخزن محلياً
+      FirebaseRTDBAdapter,
+      LocalStorageAdapter
     } from './main.js';
 
     // ================================================================
@@ -1198,14 +1196,12 @@
     // ================================================================
     // تهيئة المديرين باستخدام Firebase Realtime Database (مجاني)
     // ================================================================
-    const rtdbAdapter = new FirebaseRTDBAdapter();  // محول سحابي مشترك
-
+    const rtdbAdapter = new FirebaseRTDBAdapter();
     const productManager = new ProductManager(rtdbAdapter);
     const blogManager = new BlogManager(rtdbAdapter);
     const contactManager = new ContactManager(rtdbAdapter);
     const categoryManager = new CategoryManager(rtdbAdapter);
     const communityStatsManager = new CommunityStatsManager(rtdbAdapter);
-    // HeroImagesManager يظل مخزناً محلياً (LocalStorage) – يمكن تغييره إلى rtdbAdapter إذا أردت
     const heroImagesManager = new HeroImagesManager(new LocalStorageAdapter());
 
     // ================================================================
@@ -1440,10 +1436,12 @@
         const variantsInfo = hasVariants ? p.variants.map(v => v.size).join('، ') : '—';
         const displayPrice = hasVariants ? p.variants[0].price : p.price;
         const displayStock = hasVariants ? p.variants.reduce((s, v) => s + v.stock, 0) : p.stock;
+        // عرض الصورة: استخدم images[0] أو image كاحتياطي
+        const imgSrc = (p.images && p.images.length > 0) ? p.images[0] : (p.image || '/public/images/products/1.jpg');
         return `
           <tr>
             <td>${p.id.slice(0,4)}</td>
-            <td><img src="${p.image || '/public/images/products/1.jpg'}" /></td>
+            <td><img src="${imgSrc}" /></td>
             <td><strong>${p.name}</strong></td>
             <td>${p.category}</td>
             <td>${hasVariants ? 'متعدد' : displayPrice.toFixed(2)}</td>
@@ -1481,7 +1479,7 @@
     async function openModal(id = null) {
       modal.classList.add('active');
       await refreshCategorySelect();
-      if ($('pImageFile')) $('pImageFile').value = ''; // تصفير حقل الملف عند الفتح
+      if ($('pImageFile')) $('pImageFile').value = '';
       if (id) {
         $('modalTitle').textContent = 'تعديل منتج';
         const p = await productManager.getById(id);
@@ -1523,7 +1521,6 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      // -- رفع الصورة عبر ImgBB --
       const fileInput = $('pImageFile');
       let finalImageUrl = $('pImage').value.trim();
       
@@ -1538,10 +1535,18 @@
           return; 
         }
       }
-      // -----------------------------
 
       const id = $('productId').value;
-      const images = $('pImages').value.split(',').map(s => s.trim()).filter(Boolean);
+      let images = $('pImages').value.split(',').map(s => s.trim()).filter(Boolean);
+      
+      // ===== إصلاح مشكلة الصور =====
+      // إذا كانت هناك صور إضافية، استخدم أولها كصورة رئيسية
+      if (images.length > 0 && !finalImageUrl) {
+        finalImageUrl = images[0];
+      }
+      // تأكد من أن images مصفوفة وليست فارغة
+      const imagesArray = images.length > 0 ? images : (finalImageUrl ? [finalImageUrl] : []);
+      
       const variants = getVariantsFromForm();
       const payload = {
         name: $('pName').value.trim(),
@@ -1555,8 +1560,8 @@
         isNew: $('pIsNew').checked,
         isBestSeller: $('pIsBestSeller').checked,
         desc: $('pDesc').value.trim(),
-        image: finalImageUrl, 
-        images: images.length ? images : undefined,
+        image: finalImageUrl,
+        images: imagesArray,
         video: $('pVideo').value.trim() || undefined,
         variants: variants.length > 0 ? variants : []
       };
@@ -1855,14 +1860,12 @@
       };
       localStorage.setItem('nokhba_typing_settings', JSON.stringify(settings));
       showToast('✅ تم حفظ إعدادات الكتابة', '✅');
-      // تحديث المحرك إذا كان موجوداً
       if (window.__typingEngine) {
         window.__typingEngine.setPhrases(lines);
         window.__typingEngine.setEnabled(settings.enabled);
         window.__typingEngine.setSpeed(settings.speed);
         window.__typingEngine.setDeleteSpeed(settings.deleteSpeed);
         window.__typingEngine.setPause(settings.pause);
-        // تحديث النص الثابت والمؤشر في الصفحة الرئيسية
         const prefixTextEl = document.querySelector('#prefixText');
         const terminalPrefix = document.querySelector('#terminalPrefix');
         if (prefixTextEl) {
@@ -1904,7 +1907,6 @@
     resetTypingPhrases.addEventListener('click', resetTypingPhrasesHandler);
     saveTypingSettings.addEventListener('click', saveTypingSettingsHandler);
 
-    // ربط الـ Range Sliders
     typingSpeed.addEventListener('input', () => {
       typingSpeedVal.textContent = typingSpeed.value;
     });
@@ -1942,7 +1944,6 @@
         </div>
       `).join('');
 
-      // ربط الأحداث
       heroImagesList.querySelectorAll('.btn-edit-img').forEach(btn => {
         btn.addEventListener('click', () => {
           const index = parseInt(btn.dataset.index);
@@ -1953,7 +1954,6 @@
           heroDesc.value = img.desc || '';
           heroBtn.value = img.btn || '';
           heroAction.value = img.action || 'shop';
-          // تغيير النص لإشارة التعديل
           addHeroImageBtn.textContent = '✏️ تحديث الشريحة';
           addHeroImageBtn.dataset.editIndex = index;
         });
@@ -1986,7 +1986,6 @@
         });
       });
 
-      // إعادة تعيين زر الإضافة
       addHeroImageBtn.textContent = '➕ إضافة شريحة';
       delete addHeroImageBtn.dataset.editIndex;
     }
@@ -2008,16 +2007,13 @@
 
       const editIndex = addHeroImageBtn.dataset.editIndex;
       if (editIndex !== undefined) {
-        // تعديل
         heroImagesManager.update(parseInt(editIndex), data);
         showToast('✅ تم تحديث الشريحة', '✅');
       } else {
-        // إضافة
         heroImagesManager.add(data);
         showToast('✅ تم إضافة الشريحة', '✅');
       }
       renderHeroImages();
-      // إعادة تعيين الحقول
       heroImageUrl.value = '';
       heroBadge.value = '';
       heroTitle.value = '';
@@ -2036,7 +2032,6 @@
       }
     });
 
-    // تحميل الصور
     renderHeroImages();
 
     // ================================================================
@@ -2161,8 +2156,6 @@
         const power = stats.totalPower || 0;
         const customers = stats.totalCustomers || 0;
         const hours = Math.round(stats.savedHours || 0);
-        // يمكن عرضها في مكان مناسب، مثلاً في بطاقة إضافية
-        // نضيفها إلى الإحصائيات الحالية
         const statsGrid = document.querySelector('.stats-grid');
         if (statsGrid && !document.getElementById('statCommunity')) {
           const card = document.createElement('div');
@@ -2193,7 +2186,6 @@
     renderOrders();
     updateCommunityStatsUI();
 
-    // تحديث الإحصائيات كل دقيقة
     setInterval(updateStats, 60000);
     setInterval(renderOrders, 30000);
     setInterval(updateCommunityStatsUI, 60000);
@@ -2204,4 +2196,4 @@
     console.log('✅ البيانات مخزنة في Realtime Database (مجاني)');
   </script>
 </body>
-</html>
+  </html>
