@@ -68,6 +68,24 @@
       object-fit: contain;
     }
 
+    /* ===== زر FullScreen ===== */
+    .fullscreen-btn {
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.3rem 0.6rem;
+      border-radius: var(--radius-sm);
+      transition: 0.3s;
+      margin-left: 0.5rem;
+      line-height: 1;
+    }
+    .fullscreen-btn:hover {
+      background: var(--primary);
+      transform: scale(1.1);
+    }
+
     /* ===== تحسينات إضافية ===== */
     .cart-item .controls .qty-input {
       width: 44px;
@@ -164,7 +182,6 @@
   <header id="mainHeader">
     <div class="logo">⚡ النخبة</div>
     <div class="header-actions">
-      <!-- تم إخفاء عداد الطاقة (0 وات و 0 ساعة) -->
       <button class="sound-toggle" id="soundToggle" aria-label="تشغيل/إيقاف الصوت">🔊</button>
       <button class="lang-btn" id="langToggle" aria-label="تبديل اللغة">🇸🇦 العربية</button>
       <button id="breakerToggle" class="breaker-btn" aria-label="قاطع التيار">🎚️</button>
@@ -303,7 +320,7 @@
     <div id="cartOverlay" class="overlay"></div>
 
     <!-- ========================================================== -->
-    <!-- الـ Lightbox (معرض المنتج) – تم إزالة زر التركيب -->
+    <!-- الـ Lightbox (معرض المنتج) – مع زر FullScreen -->
     <!-- ========================================================== -->
     <div id="productLightbox" class="lightbox-overlay">
       <div class="lightbox-container" id="lightboxContainer">
@@ -312,7 +329,10 @@
             <span id="lbTitle">اسم المنتج</span>
             <span class="price-tag" id="lbPriceTag">0 ريال</span>
           </div>
-          <button class="lightbox-close" id="lbClose">✕</button>
+          <div>
+            <button class="fullscreen-btn" id="lbFullscreen" aria-label="ملء الشاشة">⛶</button>
+            <button class="lightbox-close" id="lbClose">✕</button>
+          </div>
         </div>
         <div class="lightbox-body">
           <div class="lightbox-gallery">
@@ -348,7 +368,6 @@
               <button class="add-btn" id="lbAddToCart">
                 <span class="btn-icon">➕</span> أضف إلى السلة
               </button>
-              <!-- تم إزالة زر التركيب -->
             </div>
           </div>
         </div>
@@ -881,7 +900,8 @@
     // ================================================================
     function buildProductCard(p) {
       const inCart = cart.find(i => i.id === p.id && !i.size);
-      const firstImage = p.images && p.images.length > 0 ? p.images[0] : (p.image || '/public/images/products/1.jpg');
+      // استخدم images[0] أو image كاحتياطي
+      const firstImage = (p.images && p.images.length > 0) ? p.images[0] : (p.image || '/public/images/products/1.jpg');
       const hasMultiple = p.images && p.images.length > 1;
       const hasVideo = p.video;
       const stars = '⭐'.repeat(Math.floor(p.rating || 0)) + (p.rating % 1 >= 0.5 ? '✨' : '');
@@ -1012,7 +1032,6 @@
     function updateCartUI() {
       const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
       
-      // تحديث عداد السلة العلوي
       if(cartCount) {
         cartCount.textContent = totalItems;
         cartCount.classList.remove('pop');
@@ -1020,7 +1039,6 @@
         if(totalItems > 0) cartCount.classList.add('pop');
       }
       
-      // تحديث عداد السلة السفلي
       if(navCartBadge) {
         navCartBadge.textContent = totalItems;
         navCartBadge.style.display = totalItems > 0 ? 'block' : 'none';
@@ -1148,12 +1166,28 @@
     }
 
     // ================================================================
-    // Lightbox (بدون زر التركيب) – مع نظام تكبير متطور يدعم السحب
+    // Lightbox (مع FullScreen وخاصية السحب)
     // ================================================================
     const lightbox = document.getElementById('productLightbox');
     const lbClose = document.getElementById('lbClose');
     const lbDisplay = document.getElementById('lbDisplay');
     const lbImg = document.getElementById('lbImage');
+    const lbFullscreen = document.getElementById('lbFullscreen');
+
+    // ===== زر FullScreen =====
+    if (lbFullscreen) {
+      lbFullscreen.addEventListener('click', () => {
+        const img = document.getElementById('lbImage');
+        if (!img || img.style.display === 'none') return;
+        if (img.requestFullscreen) {
+          img.requestFullscreen();
+        } else if (img.webkitRequestFullscreen) {
+          img.webkitRequestFullscreen();
+        } else if (img.msRequestFullscreen) {
+          img.msRequestFullscreen();
+        }
+      });
+    }
 
     async function openLightbox(id) {
       const p = await productManager.getById(id);
@@ -1163,7 +1197,9 @@
       document.getElementById('lbPrice').textContent = p.price + ' ريال';
       document.getElementById('lbPriceTag').textContent = p.price + ' ريال';
       document.getElementById('lbDesc').textContent = p.desc || 'لا يوجد وصف';
-      document.getElementById('lbImage').src = p.image || '/public/images/products/1.jpg';
+      // استخدم images[0] أو image كاحتياطي
+      const imgSrc = (p.images && p.images.length > 0) ? p.images[0] : (p.image || '/public/images/products/1.jpg');
+      document.getElementById('lbImage').src = imgSrc;
       document.getElementById('lbImage').style.display = 'block';
       if(lbImg) {
         lbImg.style.transformOrigin = 'center center';
@@ -1174,7 +1210,6 @@
       const addBtn = document.getElementById('lbAddToCart');
       addBtn.onclick = () => addToCart(p.id);
       
-      // إعادة ضبط حالة التكبير عند فتح المنتج
       isZoomed = false;
       translateX = 0;
       translateY = 0;
@@ -1207,7 +1242,6 @@
     }
 
     if (lbDisplay && lbImg) {
-      // تكبير/تصغير عند النقر المزدوج (للماوس)
       lbDisplay.addEventListener('dblclick', (e) => {
         if (lbImg.style.display === 'none') return;
         isZoomed = !isZoomed;
@@ -1222,7 +1256,6 @@
         }
       });
 
-      // سحب بالماوس
       lbDisplay.addEventListener('mousedown', (e) => {
         if (!isZoomed || lbImg.style.display === 'none') return;
         isDragging = true;
@@ -1248,7 +1281,6 @@
         }
       });
 
-      // سحب باللمس (للجوال)
       let touchStartX = 0, touchStartY = 0;
       let isPinching = false;
       let lastTouchDistance = 0;
@@ -1267,7 +1299,6 @@
           lastTouchDistance = Math.sqrt(dx*dx + dy*dy);
           isPinching = true;
         } else if (touches.length === 1 && !isZoomed) {
-          // نقر مزدوج باللمس
           const currentTime = new Date().getTime();
           const tapLength = currentTime - lastTap;
           if (tapLength < 300 && tapLength > 0) {
@@ -1311,7 +1342,6 @@
         }
       });
 
-      // إلغاء التكبير عند إغلاق الـ Lightbox
       lbClose.addEventListener('click', () => {
         isZoomed = false;
         applyTransform(1, 0, 0);
@@ -1416,4 +1446,4 @@
     console.log('⚡ النخبة – المتجر الأسطوري (الإصدار النهائي المعدل) جاهز!');
   </script>
 </body>
-          </html>
+  </html>
