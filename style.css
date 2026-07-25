@@ -2573,35 +2573,102 @@ body.blackout-mode .product-card .variant-price-display {
   .whatsapp-btn { animation: none; }
   .community-bar { animation: none; }
    }
-/* ===== تكبير الخط في الواجهة ===== */
-html { font-size: 14px; }
-body { font-size: 1rem; }
+/* ================================================================
+   تعديلات الأحجام حسب طلب المستخدم
+   ================================================================ */
 
-/* ===== إخفاء عداد الطاقة ===== */
+/* ----- 1. النص المتحرك (Typewriter) ----- */
+.typing-text {
+  font-size: 1rem !important;  /* كان 1.1rem -> قللنا قليلاً */
+}
+.typing-container {
+  font-size: 1.1rem !important; /* كان 1.2rem -> قللنا */
+}
+.terminal-prefix .prefix-text {
+  font-size: 0.95rem !important; /* كان 1rem -> قللنا قليلاً */
+}
+
+/* ----- 2. لوحة الإعلانات (Hero) – إعادة الحجم الأصلي ----- */
+.hero-content h1 {
+  font-size: 1.8rem !important; /* كان 2.4rem -> أرجعنا للأصلي */
+}
+.hero-content p {
+  font-size: 0.9rem !important; /* كان 1.1rem -> أرجعنا للأصلي */
+}
+.hero-content .hero-btn {
+  font-size: 0.9rem !important; /* كان 1rem -> أرجعنا للأصلي */
+  padding: 0.5rem 1.5rem !important; /* تعديل متناسب */
+}
+
+/* ----- 3. بطاقات المنتجات – إعادة حجم الاسم ----- */
+.product-card h4 {
+  font-size: 1rem !important; /* كان 1.1rem -> أرجعنا للأصلي */
+}
+/* (نُبقي باقي أحجام البطاقات كما هي، لكن نعدل السعر قليلاً إذا لزم) */
+.price, .variant-price-display {
+  font-size: 1.2rem !important; /* كان 1.4rem -> نقلل قليلاً لتناسب */
+}
+.add-to-cart {
+  font-size: 0.85rem !important; /* كان 0.95rem -> نقلل قليلاً */
+}
+
+/* ----- 4. الشريط السفلي (Bottom Nav) – تكبير الخط قليلاً ----- */
+.nav-item .nav-label {
+  font-size: 0.75rem !important; /* كان 0.7rem -> نكبر قليلاً */
+}
+.nav-item .nav-icon {
+  font-size: 1.4rem !important; /* كان 1.3rem -> نكبر قليلاً */
+}
+/* تكبير زر الواتساب قليلاً */
+.whatsapp-btn {
+  font-size: 2rem !important; /* كان 1.8rem -> نكبر */
+}
+
+/* ----- 5. الشريط العلوي (Header) – تكبير الأزرار قليلاً ----- */
+.header-actions button {
+  font-size: 1.2rem !important; /* كان 1.1rem -> نكبر قليلاً */
+}
+/* عداد السلة في الأعلى */
+.badge {
+  font-size: 0.7rem !important; /* كان 0.6rem -> نكبر قليلاً */
+}
+/* زر قاطع التيار */
+.breaker-btn {
+  font-size: 1.2rem !important;
+}
+
+/* ----- 6. إخفاء عداد الطاقة وزر التركيب (كما هو) ----- */
 .power-counter { display: none !important; }
-
-/* ===== إخفاء زر التركيب الافتراضي ===== */
 .install-btn-wrapper { display: none !important; }
 #installBtn { display: none !important; }
 .product-card .install-option { display: none !important; }
 
-/* ===== تحسين قراءة النصوص ===== */
-.product-card h4 { font-size: 1.1rem; }
-.price, .variant-price-display { font-size: 1.4rem; }
-.add-to-cart { font-size: 0.95rem; padding: 0.7rem; }
-.variant-select { font-size: 0.9rem; }
-.cart-item .item-name { font-size: 0.95rem; }
-.cart-summary div { font-size: 1rem; }
-.cart-sidebar h3 { font-size: 1.4rem; }
-.hero-content h1 { font-size: 2.4rem; }
-.hero-content p { font-size: 1.1rem; }
-.hero-content .hero-btn { font-size: 1rem; padding: 0.6rem 2rem; }
-.cat-pill { font-size: 0.95rem; padding: 0.5rem 1.4rem; }
-.info-bar .info-item { font-size: 0.9rem; }
-.filters input, .filters select { font-size: 0.9rem; padding: 0.4rem 1rem; }
-#applyFilters { font-size: 0.9rem; padding: 0.4rem 1.6rem; }
-.typing-container { font-size: 1.2rem; }
-.typing-text { font-size: 1.1rem; }
-.terminal-prefix .prefix-text { font-size: 1rem; }
-.nav-item .nav-label { font-size: 0.7rem; }
-.toast { font-size: 1rem; padding: 0.8rem 2rem; }
+/* ----- 7. تحسينات إضافية للتناسق ----- */
+.cat-pill {
+  font-size: 0.9rem !important;
+  padding: 0.4rem 1.2rem !important;
+}
+.info-bar .info-item {
+  font-size: 0.85rem !important;
+}
+.filters input, .filters select {
+  font-size: 0.85rem !important;
+  padding: 0.3rem 0.8rem !important;
+}
+#applyFilters {
+  font-size: 0.85rem !important;
+  padding: 0.3rem 1.2rem !important;
+}
+.cart-sidebar h3 {
+  font-size: 1.2rem !important;
+}
+.cart-item .item-name {
+  font-size: 0.9rem !important;
+}
+.cart-summary div {
+  font-size: 0.95rem !important;
+}
+.toast {
+  font-size: 0.95rem !important;
+  padding: 0.6rem 1.5rem !important;
+}
