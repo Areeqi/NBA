@@ -962,7 +962,8 @@ header.scrolled {
 
 .product-card img {
   width: 100%;
-  height: 180px;
+  height: 220px;            /* ← زيادة الارتفاع */
+  aspect-ratio: 1 / 1;      /* ← جعل الصورة مربعة */
   object-fit: contain;
   border-radius: var(--radius-md);
   margin-bottom: 0.8rem;
@@ -970,7 +971,6 @@ header.scrolled {
   background: rgba(255,255,255,0.02);
   padding: 0.5rem;
 }
-
 .product-card:hover img { transform: scale(1.06); }
 
 .product-card h4 {
