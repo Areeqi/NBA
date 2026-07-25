@@ -5,19 +5,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
   <title>النخبة للكهربائيات – المتجر الأسطوري</title>
   
-  <!-- ===== Google Fonts – خطوط عصرية ===== -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
   
-  <!-- ===== Import Map لـ Three.js ===== -->
   <script type="importmap">
     { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
   </script>
 
-  <!-- ===== أنماط إضافية صغيرة للتجاوزات ===== -->
   <style>
+    /* ===== تكبير حجم الخط في الواجهة ===== */
+    html { font-size: 18px; }
+    body { font-size: 1rem; }
+    .product-card h4 { font-size: 1.1rem; }
+    .price, .variant-price-display { font-size: 1.4rem; }
+    .add-to-cart { font-size: 0.95rem; padding: 0.7rem; }
+    .variant-select { font-size: 0.9rem; }
+    .cart-item .item-name { font-size: 0.95rem; }
+    .cart-summary div { font-size: 1rem; }
+    .cart-sidebar h3 { font-size: 1.4rem; }
+    .hero-content h1 { font-size: 2.4rem; }
+    .hero-content p { font-size: 1.1rem; }
+    .hero-content .hero-btn { font-size: 1rem; padding: 0.6rem 2rem; }
+    .cat-pill { font-size: 0.95rem; padding: 0.5rem 1.4rem; }
+    .info-bar .info-item { font-size: 0.9rem; }
+    .filters input, .filters select { font-size: 0.9rem; padding: 0.4rem 1rem; }
+    #applyFilters { font-size: 0.9rem; padding: 0.4rem 1.6rem; }
+    .typing-container { font-size: 1.2rem; }
+    .typing-text { font-size: 1.1rem; }
+    .terminal-prefix .prefix-text { font-size: 1rem; }
+    .community-bar { font-size: 1rem; }
+    .product-card .stock-display { font-size: 0.85rem; }
+    .badge-status { font-size: 0.7rem; }
+    .nav-item .nav-label { font-size: 0.7rem; }
+    .blog-card h3 { font-size: 1.1rem; }
+    .blog-excerpt { font-size: 0.9rem; }
+    .contact-info .info-item { font-size: 1rem; }
+    .contact-form label { font-size: 0.95rem; }
+    .contact-form input, .contact-form textarea { font-size: 0.95rem; }
+    .challenge-section h2 { font-size: 1.4rem; }
+    .challenge-form input { font-size: 0.95rem; }
+    .challenge-form button { font-size: 0.95rem; }
+    .footer-brand { font-size: 1.6rem; }
+    .footer-links a { font-size: 0.95rem; }
+    .footer-branches { font-size: 0.9rem; }
+    .footer-copy { font-size: 0.85rem; }
+    .toast { font-size: 1rem; padding: 0.8rem 2rem; }
+
+    /* ===== إخفاء عداد الطاقة ===== */
+    .power-counter { display: none !important; }
+
+    /* ===== إخفاء زر التركيب الافتراضي ===== */
+    .install-btn-wrapper { display: none !important; }
+    #installBtn { display: none !important; }
+    .product-card .install-option { display: none !important; }
+
+    /* ===== تحسينات إضافية ===== */
     .cart-item .controls .qty-input {
       width: 44px;
       text-align: center;
@@ -26,7 +70,7 @@
       background: rgba(0, 0, 0, 0.2);
       color: var(--text);
       padding: 2px 0;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       transition: border-color 0.2s;
       -moz-appearance: textfield;
     }
@@ -43,13 +87,12 @@
     @media (max-width: 400px) {
       .product-grid { gap: 0.4rem; }
       .product-card { padding: 0.4rem; }
-      .product-card h4 { font-size: 0.65rem; }
-      .product-card .price { font-size: 0.8rem; }
-      .variant-select { font-size: 0.6rem; }
-      .add-to-cart { font-size: 0.6rem; padding: 0.3rem; }
+      .product-card h4 { font-size: 0.85rem; }
+      .product-card .price { font-size: 1rem; }
+      .variant-select { font-size: 0.8rem; }
+      .add-to-cart { font-size: 0.8rem; padding: 0.4rem; }
     }
 
-    /* أنماط شاشة الطاقة */
     .community-bar {
       text-align: center;
       margin: 0.8rem 0 1.2rem;
@@ -68,13 +111,11 @@
     .community-bar strong { color: var(--primary); }
     .community-bar .highlight { color: var(--secondary); font-weight: 800; }
 
-    /* خريطة الطاقة */
     #energyMapSection { margin: 2.5rem 0; }
     #energyMapSection h2 { text-align:center; margin-bottom:1rem; font-weight:700; }
     #energyMap { height: 380px; border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--panel-border); }
     #energyMapSection .map-note { text-align:center; opacity:0.4; font-size:0.8rem; margin-top:0.5rem; }
 
-    /* تحدي المهندسين */
     .challenge-section {
       margin: 2.5rem 0;
       padding: 1.5rem;
@@ -91,7 +132,6 @@
     .challenge-form button:hover { background:var(--primary-dark); transform:scale(1.02); }
     .past-winners { text-align:center; opacity:0.4; font-size:0.9rem; margin-top:1rem; padding-top:0.8rem; border-top:1px solid var(--panel-border); }
 
-    /* زر الحالة المزاجية */
     #moodBtn {
       position: fixed; bottom: 140px; right: 20px;
       width: 50px; height: 50px; border-radius: 50%;
@@ -117,12 +157,7 @@
   <header id="mainHeader">
     <div class="logo">⚡ النخبة</div>
     <div class="header-actions">
-      <span class="power-counter" style="display:flex; align-items:center; gap:0.4rem; font-size:0.75rem; background:rgba(255,255,255,0.05); padding:0.2rem 0.8rem; border-radius:var(--radius-full); border:1px solid var(--panel-border); font-family:var(--font-mono);">
-        ⚡ <span id="totalPowerDisplay">0</span> وات
-        <span id="energyClock" style="font-size:0.65rem; opacity:0.6; margin-right:0.3rem;">
-          ⏳ <span id="savedHoursDisplay">0</span> ساعة
-        </span>
-      </span>
+      <!-- تم إخفاء عداد الطاقة (0 وات و 0 ساعة) -->
       <button class="sound-toggle" id="soundToggle" aria-label="تشغيل/إيقاف الصوت">🔊</button>
       <button class="lang-btn" id="langToggle" aria-label="تبديل اللغة">🇸🇦 العربية</button>
       <button id="breakerToggle" class="breaker-btn" aria-label="قاطع التيار">🎚️</button>
@@ -148,12 +183,10 @@
     <!-- ========================================================== -->
     <section class="typing-section" id="typingSection">
       <div class="typing-container" id="typingContainer">
-        <!-- النص الثابت + المؤشر المتحرك -->
         <div class="terminal-prefix" id="terminalPrefix">
           <span class="prefix-text" id="prefixText">النخبة NBA: ~_</span>
           <span class="prefix-cursor" id="prefixCursor">🔌</span>
         </div>
-        <!-- النص المتغير -->
         <div class="typing-text-wrapper">
           <span class="typing-text" id="typingText"></span>
           <span class="typing-cursor glow" id="typingCursor">|</span>
@@ -161,22 +194,11 @@
       </div>
     </section>
 
-    <!-- ===== شريط المجتمع ===== -->
-  <!--  <div class="community-bar" id="communityBar">
-      <span>⚡ مجتمع النخبة يولد</span>
-      <span class="highlight" id="communityPowerDisplay">0</span>
-      <span>وات من الطاقة النظيفة!</span>
-      <span>👥 <strong id="communityCustomersDisplay">0</strong> عميل</span>
-      <span>⏳ <strong id="communityHoursDisplay">0</strong> ساعة موفرة</span>
-    </div>  -->
-
     <!-- ========================================================== -->
     <!-- الشاشة الإعلانية التفاعلية (Hero Billboard) -->
     <!-- ========================================================== -->
     <section class="hero-section" id="heroSection">
-      <div class="hero-track" id="heroTrack">
-        <!-- سيتم تعبئة الشرائح من JavaScript -->
-      </div>
+      <div class="hero-track" id="heroTrack"></div>
       <div class="hero-dots" id="heroDots"></div>
     </section>
 
@@ -221,11 +243,7 @@
 
       <section id="productGrid" class="product-grid"></section>
 
-    <!--  <section class="testimonials-section">
-        <h2>💬 آراء عملائنا</h2>
-        <div class="testimonials-scroll" id="testimonialsScroll"></div>
-      </section>
-    </div> -->
+    </div>
 
     <!-- ========================================================== -->
     <!-- قسم المدونة (Blog) -->
@@ -261,31 +279,6 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- خريطة الطاقة (Energy Map) -->
-    <!-- ========================================================== -->
-  <!--  <section id="energyMapSection">
-      <h2>🗺️ خريطة الطاقة في عدن</h2>
-      <div id="energyMap"></div>
-      <p class="map-note">📍 النقاط المضيئة تمثل أنظمة الطاقة الشمسية في مناطق عدن</p>
-    </section> -->
-
-    <!-- ========================================================== -->
-    <!-- تحدي المهندسين (Engineering Challenge) -->
-    <!-- ========================================================== -->
- <!--   <section class="challenge-section" id="engineeringChallenge">
-      <h2>🏆 تحدي المهندسين الشهري</h2>
-      <p class="sub">صمم منظومة طاقة شمسية بأقل تكلفة وفز بخصم 50% على طلبك التالي!</p>
-      <div class="challenge-form">
-        <input type="text" id="engineerName" placeholder="اسمك" />
-        <input type="text" id="designDesc" placeholder="وصف التصميم" />
-        <button id="submitChallengeBtn">🚀 تقديم</button>
-      </div>
-      <div class="past-winners" id="pastWinners">
-        🏅 الفائزون السابقون: أحمد المهندس (تصميم 5 كيلووات بـ 1200$)
-      </div>
-    </section> -->
-
-    <!-- ========================================================== -->
     <!-- السلة الجانبية (Cart Sidebar) -->
     <!-- ========================================================== -->
     <div id="cartSidebar" class="cart-sidebar">
@@ -303,7 +296,7 @@
     <div id="cartOverlay" class="overlay"></div>
 
     <!-- ========================================================== -->
-    <!-- الـ Lightbox (معرض المنتج) -->
+    <!-- الـ Lightbox (معرض المنتج) – تم إزالة زر التركيب -->
     <!-- ========================================================== -->
     <div id="productLightbox" class="lightbox-overlay">
       <div class="lightbox-container" id="lightboxContainer">
@@ -348,7 +341,7 @@
               <button class="add-btn" id="lbAddToCart">
                 <span class="btn-icon">➕</span> أضف إلى السلة
               </button>
-              <button class="secondary-btn" id="installBtn" style="width:100%; margin-top:0.5rem; padding:0.8rem;">🛠️ تركيب احترافي (+15%)</button>
+              <!-- تم إزالة زر التركيب -->
             </div>
           </div>
         </div>
@@ -388,13 +381,11 @@
       <span class="nav-icon">🔍</span>
       <span class="nav-label">بحث</span>
     </button>
-    <button class="whatsapp-btn" id="navWhatsapp" aria-label="واتساب">
-      💬
-    </button>
+    <button class="whatsapp-btn" id="navWhatsapp" aria-label="واتساب">💬</button>
     <button class="nav-item" id="navCart" aria-label="السلة">
       <span class="nav-icon">🛒</span>
       <span class="nav-label">السلة</span>
-      <span id="navCartBadge" class="badge" style="position:absolute;top:-4px;right:-4px;font-size:0.5rem;min-width:0.8rem;">0</span>
+      <span id="navCartBadge" class="badge" style="position:absolute;top:-4px;right:-4px;font-size:0.6rem;min-width:1rem;">0</span>
     </button>
     <button class="nav-item" data-section="contact" aria-label="تواصل">
       <span class="nav-icon">📞</span>
@@ -409,13 +400,12 @@
   <button id="scrollTopBtn">↑</button>
 
   <!-- ========================================================== -->
-  <!-- JavaScript – تشغيل المتجر (الإصدار النهائي المتكامل) -->
+  <!-- JavaScript – تشغيل المتجر -->
   <!-- ========================================================== -->
   <script type="module">
-    // استيراد المكونات من main.js
     import { 
       ProductManager, BlogManager, ContactManager,
-      FirebaseRTDBAdapter,  // <-- استيراد المحول الجديد
+      FirebaseRTDBAdapter,
       LightningEngine, ThunderEngine, TypingEngine, HeroImagesManager,
       EmotionalEngine,
       initEnergyMap, updateEnergyClock, getCommunityStats,
@@ -427,14 +417,12 @@
     } from './main.js';
 
     // ================================================================
-    // 🔥 تهيئة المديرين باستخدام Firebase Realtime Database (مجاني)
+    // تهيئة المديرين باستخدام Firebase Realtime Database
     // ================================================================
-    const rtdbAdapter = new FirebaseRTDBAdapter();  // محول واحد مشترك
-
+    const rtdbAdapter = new FirebaseRTDBAdapter();
     const productManager = new ProductManager(rtdbAdapter);
     const blogManager = new BlogManager(rtdbAdapter);
     const contactManager = new ContactManager(rtdbAdapter);
-    // HeroImagesManager لا يزال يستخدم LocalStorageAdapter افتراضياً (لن نخزنه في السحابة)
     const heroImagesManager = new HeroImagesManager();
 
     // ================================================================
@@ -462,16 +450,13 @@
 
     const typingSettings = loadTypingSettings();
 
-    // تهيئة المحركات
     const lightning = new LightningEngine();
     const thunder = new ThunderEngine();
     const typingEngine = new TypingEngine();
 
-    // تشغيل المحركات
     try { lightning.init(document.getElementById('lightning-container')); } catch(e) {}
     try { thunder.init(); } catch(e) {}
 
-    // إعداد واجهة تأثير الكتابة
     const typingText = document.getElementById('typingText');
     const typingCursor = document.getElementById('typingCursor');
     const prefixText = document.getElementById('prefixText');
@@ -567,7 +552,6 @@
       if (target && !target.closest('.sound-toggle') && !target.closest('#lbClose')) playClickSound();
     });
 
-    // استعادة إعدادات الخلفية والفوتر
     applyBackground(getBackground());
     applyFooterImage(getFooterImage());
     setTheme('dark');
@@ -673,7 +657,9 @@
       lastScrollY = currentScrollY;
     });
 
+    // ================================================================
     // الشاشة الإعلانية (Hero)
+    // ================================================================
     const heroTrack = document.getElementById('heroTrack');
     const heroDots = document.getElementById('heroDots');
     let currentSlide = 0;
@@ -739,7 +725,9 @@
 
     renderHero();
 
+    // ================================================================
     // شريط الأقسام السريعة
+    // ================================================================
     const catPills = document.querySelectorAll('.cat-pill');
     const catFilter = document.getElementById('categoryFilter');
     const applyBtn = document.getElementById('applyFilters');
@@ -756,7 +744,9 @@
       });
     });
 
+    // ================================================================
     // التنقل بين الأقسام
+    // ================================================================
     document.querySelectorAll('.nav-tabs button, .footer-links a[data-section], .nav-item[data-section]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -778,6 +768,9 @@
       });
     });
 
+    // ================================================================
+    // البحث في الشريط السفلي
+    // ================================================================
     const navSearch = document.getElementById('navSearch');
     if(navSearch){
       navSearch.addEventListener('click', () => {
@@ -786,23 +779,36 @@
       });
     }
 
+    // ================================================================
+    // أزرار السلة (العلوي والسفلي)
+    // ================================================================
+    const cartBtnTop = document.getElementById('cartBtn');
     const navCart = document.getElementById('navCart');
-    if(navCart) navCart.addEventListener('click', () => toggleCart(true));
+    
+    if(cartBtnTop) {
+      cartBtnTop.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleCart(true);
+      });
+    }
+    
+    if(navCart) {
+      navCart.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleCart(true);
+      });
+    }
     
     const navWhatsapp = document.getElementById('navWhatsapp');
     if(navWhatsapp) navWhatsapp.addEventListener('click', () => sendOrder());
 
+    // ================================================================
     // الحالة العامة
+    // ================================================================
     let cart = getCart();
     let currentFilter = {};
-    let currentLightboxProductId = null;
-    let currentGalleryItems = [];
-    let currentGalleryIndex = 0;
     let isLoading = false;
-    let currentVariantIndex = 0;
-    let currentProductVariants = [];
 
-    // عناصر DOM للمنتجات
     const grid = document.getElementById('productGrid');
     const search = document.getElementById('searchInput');
     const minP = document.getElementById('minPrice');
@@ -812,7 +818,9 @@
     const loadingBar = document.getElementById('loadingBar');
     const productCount = document.getElementById('productCount');
 
+    // ================================================================
     // عرض المنتجات
+    // ================================================================
     async function renderProducts(filter = {}) {
       if (isLoading || !grid) return;
       isLoading = true;
@@ -861,6 +869,9 @@
       }
     }
 
+    // ================================================================
+    // بناء بطاقة المنتج (بدون زر التركيب)
+    // ================================================================
     function buildProductCard(p) {
       const inCart = cart.find(i => i.id === p.id && !i.size);
       const firstImage = p.images && p.images.length > 0 ? p.images[0] : (p.image || '/public/images/products/1.jpg');
@@ -913,6 +924,9 @@
       `;
     }
 
+    // ================================================================
+    // ربط أحداث المنتجات
+    // ================================================================
     function bindProductEvents() {
       grid.querySelectorAll('.add-to-cart').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -952,7 +966,9 @@
       });
     }
 
+    // ================================================================
     // السلة والتفاعل معها
+    // ================================================================
     const cartSidebar = document.getElementById('cartSidebar');
     const overlay = document.getElementById('cartOverlay');
     const cartItems = document.getElementById('cartItems');
@@ -988,13 +1004,23 @@
 
     function updateCartUI() {
       const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
-      if(cartCount) cartCount.textContent = totalItems;
-      const cartItemCount = document.getElementById('cartItemCount');
-      if(cartItemCount) cartItemCount.textContent = `(${totalItems})`;
+      
+      // تحديث عداد السلة العلوي
+      if(cartCount) {
+        cartCount.textContent = totalItems;
+        cartCount.classList.remove('pop');
+        void cartCount.offsetWidth;
+        if(totalItems > 0) cartCount.classList.add('pop');
+      }
+      
+      // تحديث عداد السلة السفلي
       if(navCartBadge) {
         navCartBadge.textContent = totalItems;
         navCartBadge.style.display = totalItems > 0 ? 'block' : 'none';
       }
+      
+      const cartItemCount = document.getElementById('cartItemCount');
+      if(cartItemCount) cartItemCount.textContent = `(${totalItems})`;
       
       const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
       const disc = sub > 200 ? sub * 0.05 : 0;
@@ -1061,7 +1087,9 @@
       if (open) updateCartUI();
     }
 
-    // إرسال الطلب
+    // ================================================================
+    // إرسال الطلب عبر واتساب
+    // ================================================================
     function sendOrder() {
       if (!cart.length) { showToast('⚠️ السلة فارغة', 2000, '⚠️'); return; }
       const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
@@ -1090,7 +1118,9 @@
       if(orderCountEl) orderCountEl.textContent = orders.length;
     }
 
+    // ================================================================
     // الفلاتر
+    // ================================================================
     if(applyBtn){
       applyBtn.addEventListener('click', () => {
         renderProducts({
@@ -1111,7 +1141,7 @@
     }
 
     // ================================================================
-    // نظام التكبير الذكي للصور (Smart Zoom) & Lightbox
+    // Lightbox (بدون زر التركيب)
     // ================================================================
     const lightbox = document.getElementById('productLightbox');
     const lbClose = document.getElementById('lbClose');
@@ -1136,9 +1166,7 @@
       const addBtn = document.getElementById('lbAddToCart');
       addBtn.onclick = () => addToCart(p.id);
       
-      // ربط زر التركيب
-      const installBtn = document.getElementById('installBtn');
-      installBtn.onclick = () => addInstallationToCart(p.id);
+      // تم إزالة زر التركيب (installBtn)
       
       lightbox.classList.add('active');
     }
@@ -1184,7 +1212,9 @@
       }, {passive: false});
     }
 
+    // ================================================================
     // المدونة والتواصل
+    // ================================================================
     async function renderBlogPosts() {
       const posts = await blogManager.getAll();
       const blogGrid = document.getElementById('blogGrid');
@@ -1213,42 +1243,33 @@
     }
 
     // ================================================================
-    // تشغيل الميزات الجديدة (المجتمع، الخريطة، الساعة، التحدي)
+    // تحديث المجتمع
     // ================================================================
     async function updateCommunityUI() {
       try {
         const stats = await getCommunityStats();
-        const powerEl = document.getElementById('communityPowerDisplay');
-        const customersEl = document.getElementById('communityCustomersDisplay');
-        const hoursEl = document.getElementById('communityHoursDisplay');
         const totalPowerEl = document.getElementById('totalPowerDisplay');
         const savedHoursEl = document.getElementById('savedHoursDisplay');
         
         const power = stats.totalPower || 0;
-        const customers = stats.totalCustomers || 0;
         const hours = Math.round(stats.savedHours || 0);
         
-        if (powerEl) powerEl.textContent = power.toLocaleString();
-        if (customersEl) customersEl.textContent = customers;
-        if (hoursEl) hoursEl.textContent = hours;
         if (totalPowerEl) totalPowerEl.textContent = power.toLocaleString();
         if (savedHoursEl) savedHoursEl.textContent = hours;
       } catch (e) { /* تجاهل */ }
     }
 
-    // تحديث المجتمع كل 30 ثانية
     updateCommunityUI();
     setInterval(updateCommunityUI, 30000);
 
-    // تشغيل الخريطة
+    // ================================================================
+    // تشغيل الميزات الإضافية
+    // ================================================================
     setTimeout(() => {
       try { initEnergyMap(); } catch(e) { console.warn('⚠️ خريطة الطاقة غير متوفرة'); }
     }, 1500);
 
-    // تشغيل ساعة الطاقة
     try { updateEnergyClock(); setInterval(updateEnergyClock, 30000); } catch(e) {}
-
-    // تشغيل تحدي المهندسين
     try { initEngineeringChallenge(); updatePastWinners(); } catch(e) {}
 
     // ================================================================
@@ -1283,8 +1304,7 @@
     renderBlogPosts();
     renderContactInfo();
     
-    console.log('⚡ النخبة – المتجر الأسطوري (الإصدار النهائي المتكامل) جاهز!');
-    console.log('✅ يستخدم Firebase Realtime Database (مجاني) لتخزين البيانات.');
+    console.log('⚡ النخبة – المتجر الأسطوري (الإصدار النهائي المعدل) جاهز!');
   </script>
 </body>
-  </html>
+</html>
