@@ -2573,3 +2573,35 @@ body.blackout-mode .product-card .variant-price-display {
   .whatsapp-btn { animation: none; }
   .community-bar { animation: none; }
    }
+/* ===== تكبير الخط في الواجهة ===== */
+html { font-size: 18px; }
+body { font-size: 1rem; }
+
+/* ===== إخفاء عداد الطاقة ===== */
+.power-counter { display: none !important; }
+
+/* ===== إخفاء زر التركيب الافتراضي ===== */
+.install-btn-wrapper { display: none !important; }
+#installBtn { display: none !important; }
+.product-card .install-option { display: none !important; }
+
+/* ===== تحسين قراءة النصوص ===== */
+.product-card h4 { font-size: 1.1rem; }
+.price, .variant-price-display { font-size: 1.4rem; }
+.add-to-cart { font-size: 0.95rem; padding: 0.7rem; }
+.variant-select { font-size: 0.9rem; }
+.cart-item .item-name { font-size: 0.95rem; }
+.cart-summary div { font-size: 1rem; }
+.cart-sidebar h3 { font-size: 1.4rem; }
+.hero-content h1 { font-size: 2.4rem; }
+.hero-content p { font-size: 1.1rem; }
+.hero-content .hero-btn { font-size: 1rem; padding: 0.6rem 2rem; }
+.cat-pill { font-size: 0.95rem; padding: 0.5rem 1.4rem; }
+.info-bar .info-item { font-size: 0.9rem; }
+.filters input, .filters select { font-size: 0.9rem; padding: 0.4rem 1rem; }
+#applyFilters { font-size: 0.9rem; padding: 0.4rem 1.6rem; }
+.typing-container { font-size: 1.2rem; }
+.typing-text { font-size: 1.1rem; }
+.terminal-prefix .prefix-text { font-size: 1rem; }
+.nav-item .nav-label { font-size: 0.7rem; }
+.toast { font-size: 1rem; padding: 0.8rem 2rem; }
