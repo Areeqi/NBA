@@ -61,6 +61,13 @@
     #installBtn { display: none !important; }
     .product-card .install-option { display: none !important; }
 
+    /* ===== تحسين حجم الصور في بطاقات المنتجات ===== */
+    .product-card img {
+      height: 220px;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+    }
+
     /* ===== تحسينات إضافية ===== */
     .cart-item .controls .qty-input {
       width: 44px;
@@ -1141,7 +1148,7 @@
     }
 
     // ================================================================
-    // Lightbox (بدون زر التركيب)
+    // Lightbox (بدون زر التركيب) – مع نظام تكبير متطور يدعم السحب
     // ================================================================
     const lightbox = document.getElementById('productLightbox');
     const lbClose = document.getElementById('lbClose');
@@ -1161,12 +1168,19 @@
       if(lbImg) {
         lbImg.style.transformOrigin = 'center center';
         lbImg.style.transform = 'scale(1)';
+        lbImg.style.cursor = 'default';
       }
       
       const addBtn = document.getElementById('lbAddToCart');
       addBtn.onclick = () => addToCart(p.id);
       
-      // تم إزالة زر التركيب (installBtn)
+      // إعادة ضبط حالة التكبير عند فتح المنتج
+      isZoomed = false;
+      translateX = 0;
+      translateY = 0;
+      lastTranslateX = 0;
+      lastTranslateY = 0;
+      applyTransform(1, 0, 0);
       
       lightbox.classList.add('active');
     }
@@ -1179,37 +1193,132 @@
     }
     if(lightbox) lightbox.addEventListener('click', (e) => { if(e.target === lightbox) lightbox.classList.remove('active') });
 
-    // تفعيل التكبير
+    // ===== نظام التكبير الذكي مع السحب =====
+    let isZoomed = false;
+    let startX = 0, startY = 0;
+    let translateX = 0, translateY = 0;
+    let lastTranslateX = 0, lastTranslateY = 0;
+    let isDragging = false;
+
+    function applyTransform(scale, tx, ty) {
+      if (!lbImg) return;
+      lbImg.style.transform = `scale(${scale}) translate(${tx}px, ${ty}px)`;
+      lbImg.style.transformOrigin = 'center center';
+    }
+
     if (lbDisplay && lbImg) {
-      lbDisplay.addEventListener('mousemove', (e) => {
-          if (window.innerWidth > 768 && lbImg.style.display !== 'none') {
-              const rect = lbDisplay.getBoundingClientRect();
-              const x = ((e.clientX - rect.left) / rect.width) * 100;
-              const y = ((e.clientY - rect.top) / rect.height) * 100;
-              lbImg.style.transformOrigin = `${x}% ${y}%`;
-              lbImg.style.transform = 'scale(2.5)';
-              lbImg.style.cursor = 'zoom-in';
-          }
+      // تكبير/تصغير عند النقر المزدوج (للماوس)
+      lbDisplay.addEventListener('dblclick', (e) => {
+        if (lbImg.style.display === 'none') return;
+        isZoomed = !isZoomed;
+        if (isZoomed) {
+          applyTransform(2.5, 0, 0);
+          lbImg.style.cursor = 'grab';
+        } else {
+          applyTransform(1, 0, 0);
+          lbImg.style.cursor = 'default';
+          translateX = 0; translateY = 0;
+          lastTranslateX = 0; lastTranslateY = 0;
+        }
       });
-      lbDisplay.addEventListener('mouseleave', () => {
-          lbImg.style.transformOrigin = 'center center';
-          lbImg.style.transform = 'scale(1)';
+
+      // سحب بالماوس
+      lbDisplay.addEventListener('mousedown', (e) => {
+        if (!isZoomed || lbImg.style.display === 'none') return;
+        isDragging = true;
+        startX = e.clientX - lastTranslateX;
+        startY = e.clientY - lastTranslateY;
+        lbImg.style.cursor = 'grabbing';
+        e.preventDefault();
       });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        applyTransform(2.5, translateX, translateY);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          lastTranslateX = translateX;
+          lastTranslateY = translateY;
+          lbImg.style.cursor = 'grab';
+        }
+      });
+
+      // سحب باللمس (للجوال)
+      let touchStartX = 0, touchStartY = 0;
+      let isPinching = false;
+      let lastTouchDistance = 0;
       let lastTap = 0;
+
       lbDisplay.addEventListener('touchstart', (e) => {
+        if (lbImg.style.display === 'none') return;
+        const touches = e.touches;
+        if (touches.length === 1 && isZoomed) {
+          touchStartX = touches[0].clientX - lastTranslateX;
+          touchStartY = touches[0].clientY - lastTranslateY;
+          isDragging = true;
+        } else if (touches.length === 2 && isZoomed) {
+          const dx = touches[0].clientX - touches[1].clientX;
+          const dy = touches[0].clientY - touches[1].clientY;
+          lastTouchDistance = Math.sqrt(dx*dx + dy*dy);
+          isPinching = true;
+        } else if (touches.length === 1 && !isZoomed) {
+          // نقر مزدوج باللمس
           const currentTime = new Date().getTime();
           const tapLength = currentTime - lastTap;
-          if (tapLength < 300 && tapLength > 0 && lbImg.style.display !== 'none') {
-              e.preventDefault();
-              if(lbImg.style.transform === 'scale(2.5)') {
-                  lbImg.style.transform = 'scale(1)';
-              } else {
-                  lbImg.style.transformOrigin = 'center center';
-                  lbImg.style.transform = 'scale(2.5)';
-              }
+          if (tapLength < 300 && tapLength > 0) {
+            e.preventDefault();
+            isZoomed = true;
+            applyTransform(2.5, 0, 0);
+            lbImg.style.cursor = 'grab';
           }
           lastTap = currentTime;
+        }
       }, {passive: false});
+
+      lbDisplay.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        if (lbImg.style.display === 'none') return;
+        const touches = e.touches;
+        if (touches.length === 1 && isDragging && isZoomed) {
+          translateX = touches[0].clientX - touchStartX;
+          translateY = touches[0].clientY - touchStartY;
+          applyTransform(2.5, translateX, translateY);
+        } else if (touches.length === 2 && isPinching && isZoomed) {
+          const dx = touches[0].clientX - touches[1].clientX;
+          const dy = touches[0].clientY - touches[1].clientY;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          const scaleFactor = dist / lastTouchDistance;
+          let newScale = 2.5 * scaleFactor;
+          newScale = Math.min(4, Math.max(1.2, newScale));
+          applyTransform(newScale, translateX, translateY);
+          lastTouchDistance = dist;
+        }
+      }, {passive: false});
+
+      lbDisplay.addEventListener('touchend', (e) => {
+        if (isDragging) {
+          lastTranslateX = translateX;
+          lastTranslateY = translateY;
+          isDragging = false;
+        }
+        if (isPinching) {
+          isPinching = false;
+        }
+      });
+
+      // إلغاء التكبير عند إغلاق الـ Lightbox
+      lbClose.addEventListener('click', () => {
+        isZoomed = false;
+        applyTransform(1, 0, 0);
+        translateX = 0; translateY = 0;
+        lastTranslateX = 0; lastTranslateY = 0;
+        if (lbImg) lbImg.style.cursor = 'default';
+      });
     }
 
     // ================================================================
@@ -1307,4 +1416,4 @@
     console.log('⚡ النخبة – المتجر الأسطوري (الإصدار النهائي المعدل) جاهز!');
   </script>
 </body>
-</html>
+          </html>
