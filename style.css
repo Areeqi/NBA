@@ -75,6 +75,9 @@
 
   /* متغيرات أصوات النقر */
   --sound-enabled: 1;
+
+  /* ===== تكبير حجم الخط الأساسي (تمت الإضافة) ===== */
+  font-size: 18px;
 }
 
 /* ===== الثيم الفاتح (دعم احتياطي) ===== */
@@ -113,6 +116,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
+  font-size: 18px; /* ← تكبير الخط الأساسي */
 }
 
 body {
@@ -128,6 +132,7 @@ body {
   direction: rtl;
   letter-spacing: 0.02em;
   font-weight: 400;
+  font-size: 1rem; /* ← 18px */
   background-image: var(--bg-image, none);
   background-size: cover;
   background-position: center;
@@ -253,7 +258,7 @@ header.scrolled {
   position: relative;
   background: rgba(255, 255, 255, 0.03);
   border: none;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   cursor: pointer;
   padding: 0.3rem 0.5rem;
   border-radius: var(--radius-full);
@@ -281,7 +286,7 @@ header.scrolled {
 }
 
 .power-counter {
-  display: flex;
+  display: none !important; /* ← إخفاء عداد الطاقة */
   align-items: center;
   gap: 0.4rem;
   font-size: 0.75rem;
@@ -303,7 +308,7 @@ header.scrolled {
   color: white;
   border-radius: 50%;
   padding: 0.04rem 0.4rem;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   font-weight: 700;
   min-width: 1.1rem;
   text-align: center;
@@ -389,7 +394,7 @@ header.scrolled {
   border: 1px solid rgba(255, 255, 255, 0.03);
   box-shadow: var(--shadow-sm);
   font-family: var(--font-mono);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   direction: ltr;
   min-height: 3.2rem;
   transition: all var(--duration-med) var(--ease-out);
@@ -413,7 +418,7 @@ header.scrolled {
   color: var(--primary);
   font-weight: 700;
   letter-spacing: 0.02em;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .terminal-prefix .prefix-cursor {
@@ -442,7 +447,7 @@ header.scrolled {
   font-weight: 400;
   letter-spacing: 0.03em;
   white-space: nowrap;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   min-height: 1.2em;
   display: inline-block;
   direction: ltr;
@@ -481,7 +486,7 @@ header.scrolled {
   backdrop-filter: blur(12px);
   border-radius: var(--radius-full);
   border: 1px solid var(--panel-border);
-  font-size: 0.95rem;
+  font-size: 1rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -575,7 +580,7 @@ header.scrolled {
 }
 
 .hero-content h1 {
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 0.3rem;
@@ -590,7 +595,7 @@ header.scrolled {
 }
 
 .hero-content p {
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   opacity: 0.7;
   max-width: 400px;
   margin: 0 auto 0.8rem;
@@ -598,13 +603,13 @@ header.scrolled {
 }
 
 .hero-content .hero-btn {
-  padding: 0.5rem 1.8rem;
+  padding: 0.6rem 2rem;
   border: none;
   border-radius: var(--radius-full);
   background: var(--primary);
   color: white;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-out);
   box-shadow: 0 0 30px var(--primary-glow);
@@ -661,13 +666,13 @@ header.scrolled {
 
 .categories-scroll .cat-pill {
   flex: 0 0 auto;
-  padding: 0.4rem 1.2rem;
+  padding: 0.5rem 1.4rem;
   border-radius: var(--radius-full);
   background: rgba(18, 18, 32, 0.3);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.04);
   color: rgba(var(--text-rgb), 0.6);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-out);
@@ -772,7 +777,7 @@ header.scrolled {
 
 .info-bar .info-item {
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   gap: 0.2rem;
@@ -831,12 +836,12 @@ header.scrolled {
 .filters input,
 .filters select {
   flex: 1 1 100px;
-  padding: 0.35rem 0.8rem;
+  padding: 0.4rem 1rem;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-full);
   background: rgba(0, 0, 0, 0.25);
   color: var(--text);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   transition: all var(--duration-fast) var(--ease-out);
   outline: none;
   font-family: var(--font);
@@ -873,7 +878,7 @@ header.scrolled {
 }
 
 #applyFilters {
-  padding: 0.35rem 1.4rem;
+  padding: 0.4rem 1.6rem;
   background: var(--primary);
   color: white;
   border: none;
@@ -882,7 +887,7 @@ header.scrolled {
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-out);
   box-shadow: 0 0 30px var(--primary-glow);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   white-space: nowrap;
 }
 
@@ -962,8 +967,8 @@ header.scrolled {
 
 .product-card img {
   width: 100%;
-  height: 220px;            /* ← زيادة الارتفاع */
-  aspect-ratio: 1 / 1;      /* ← جعل الصورة مربعة */
+  height: 220px; /* ← تم التعديل */
+  aspect-ratio: 1 / 1; /* ← تم التعديل */
   object-fit: contain;
   border-radius: var(--radius-md);
   margin-bottom: 0.8rem;
@@ -971,10 +976,11 @@ header.scrolled {
   background: rgba(255,255,255,0.02);
   padding: 0.5rem;
 }
+
 .product-card:hover img { transform: scale(1.06); }
 
 .product-card h4 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 0.3rem;
   display: -webkit-box;
@@ -1001,7 +1007,7 @@ header.scrolled {
   background: rgba(0,0,0,0.2);
   color: var(--text);
   font-family: var(--font);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   margin-bottom: 0.4rem;
 }
 
@@ -1010,21 +1016,21 @@ header.scrolled {
 }
 
 .price {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: var(--primary);
   margin-bottom: 0.2rem;
 }
 
 .variant-price-display {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: var(--primary);
   margin-bottom: 0.2rem;
 }
 
 .stock-display {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: #22c55e;
   margin-bottom: 0.8rem;
   font-weight: 600;
@@ -1039,9 +1045,10 @@ header.scrolled {
   background: rgba(255,255,255,0.05);
   color: var(--text);
   border: 1px solid var(--panel-border);
-  padding: 0.6rem;
+  padding: 0.7rem;
   border-radius: var(--radius-full);
   font-weight: 700;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
@@ -1196,7 +1203,7 @@ header.scrolled {
 .cart-sidebar.open { right: 0; }
 
 .cart-sidebar h3 {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 800;
   margin-bottom: 1.2rem;
   display: flex;
@@ -1245,7 +1252,7 @@ header.scrolled {
 
 .cart-item .item-name {
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 .cart-item .item-size {
@@ -1297,7 +1304,7 @@ header.scrolled {
   background: rgba(0,0,0,0.2);
   color: var(--text);
   padding: 2px 0;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   -moz-appearance: textfield;
 }
 
@@ -1327,7 +1334,7 @@ header.scrolled {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.3rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .cart-summary .total-final {
@@ -1520,6 +1527,31 @@ header.scrolled {
   max-height: 100%;
   object-fit: contain;
   transition: transform 0.3s ease-out;
+}
+
+/* ===== زر FullScreen (تمت الإضافة) ===== */
+.fullscreen-btn {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 20;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.fullscreen-btn:hover {
+  background: var(--primary);
+  transform: scale(1.1);
 }
 
 .gallery-nav-btn {
@@ -1897,7 +1929,7 @@ header.scrolled {
 }
 
 .blog-excerpt {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: rgba(var(--text-rgb), 0.7);
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -1927,7 +1959,7 @@ header.scrolled {
   align-items: center;
   gap: 0.8rem;
   margin-bottom: 0.8rem;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -1959,7 +1991,7 @@ header.scrolled {
   background: rgba(0,0,0,0.2);
   color: var(--text);
   font-family: var(--font);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 [data-theme="light"] .contact-form input,
@@ -2049,6 +2081,7 @@ header.scrolled {
   text-align: center;
   margin-bottom: 0.3rem;
   font-weight: 700;
+  font-size: 1.4rem;
 }
 
 .challenge-section .sub {
@@ -2072,7 +2105,7 @@ header.scrolled {
   border: 1px solid var(--panel-border);
   background: rgba(0,0,0,0.2);
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 [data-theme="light"] .challenge-form input {
@@ -2093,6 +2126,7 @@ header.scrolled {
   border-radius: var(--radius-full);
   cursor: pointer;
   font-weight: 700;
+  font-size: 0.95rem;
   transition: 0.3s;
 }
 
@@ -2127,7 +2161,7 @@ footer {
 }
 
 .footer-brand {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 800;
   background: linear-gradient(135deg, var(--primary), #a855f7);
   -webkit-background-clip: text;
@@ -2146,6 +2180,7 @@ footer {
   opacity: 0.6;
   transition: 0.3s;
   cursor: pointer;
+  font-size: 0.95rem;
 }
 
 .footer-links a:hover {
@@ -2157,7 +2192,7 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   opacity: 0.5;
 }
 
@@ -2182,7 +2217,7 @@ footer {
 }
 
 .footer-copy {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   opacity: 0.3;
   margin-top: 0.5rem;
 }
@@ -2234,7 +2269,7 @@ footer {
 }
 
 .nav-item .nav-icon {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   margin-bottom: 2px;
   transition: 0.3s;
 }
@@ -2244,7 +2279,7 @@ footer {
 }
 
 .nav-item .nav-label {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   font-weight: 700;
 }
 
@@ -2257,7 +2292,7 @@ footer {
   background: #25D366;
   color: white;
   border: none;
-  font-size: 1.8rem;
+  font-size: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2295,10 +2330,10 @@ footer {
   backdrop-filter: blur(16px);
   border: 1px solid var(--panel-border);
   color: var(--text);
-  padding: 0.6rem 1.5rem;
+  padding: 0.8rem 2rem;
   border-radius: var(--radius-full);
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 1rem;
   box-shadow: var(--shadow-md);
   z-index: 9999;
   opacity: 0;
@@ -2426,7 +2461,14 @@ body.blackout-mode .product-card .variant-price-display {
 }
 
 /* ================================================================
-   29. استجابة (Responsive)
+   29. إخفاء زر التركيب الافتراضي (تمت الإضافة)
+   ================================================================ */
+.install-btn-wrapper { display: none !important; }
+#installBtn { display: none !important; }
+.product-card .install-option { display: none !important; }
+
+/* ================================================================
+   30. استجابة (Responsive)
    ================================================================ */
 
 @media (max-width: 1024px) {
@@ -2555,7 +2597,7 @@ body.blackout-mode .product-card .variant-price-display {
 }
 
 /* ================================================================
-   30. تفضيلات الحركة المقللة (Reduced Motion)
+   31. تفضيلات الحركة المقللة (Reduced Motion)
    ================================================================ */
 
 @media (prefers-reduced-motion: reduce) {
@@ -2572,134 +2614,4 @@ body.blackout-mode .product-card .variant-price-display {
   #moodBtn { animation: none; }
   .whatsapp-btn { animation: none; }
   .community-bar { animation: none; }
-   }
-/* ================================================================
-   تعديلات الأحجام حسب طلب المستخدم
-   ================================================================ */
-
-/* ----- 1. النص المتحرك (Typewriter) ----- */
-.typing-text {
-  font-size: 1rem !important;  /* كان 1.1rem -> قللنا قليلاً */
-}
-.typing-container {
-  font-size: 1.1rem !important; /* كان 1.2rem -> قللنا */
-}
-.terminal-prefix .prefix-text {
-  font-size: 0.95rem !important; /* كان 1rem -> قللنا قليلاً */
-}
-
-/* ----- 2. لوحة الإعلانات (Hero) – إعادة الحجم الأصلي ----- */
-.hero-content h1 {
-  font-size: 1.8rem !important; /* كان 2.4rem -> أرجعنا للأصلي */
-}
-.hero-content p {
-  font-size: 0.9rem !important; /* كان 1.1rem -> أرجعنا للأصلي */
-}
-.hero-content .hero-btn {
-  font-size: 0.9rem !important; /* كان 1rem -> أرجعنا للأصلي */
-  padding: 0.5rem 1.5rem !important; /* تعديل متناسب */
-}
-
-/* ----- 3. بطاقات المنتجات – إعادة حجم الاسم ----- */
-.product-card h4 {
-  font-size: 1rem !important; /* كان 1.1rem -> أرجعنا للأصلي */
-}
-/* (نُبقي باقي أحجام البطاقات كما هي، لكن نعدل السعر قليلاً إذا لزم) */
-.price, .variant-price-display {
-  font-size: 1.2rem !important; /* كان 1.4rem -> نقلل قليلاً لتناسب */
-}
-.add-to-cart {
-  font-size: 0.85rem !important; /* كان 0.95rem -> نقلل قليلاً */
-}
-
-/* ----- 4. الشريط السفلي (Bottom Nav) – تكبير الخط قليلاً ----- */
-.nav-item .nav-label {
-  font-size: 0.75rem !important; /* كان 0.7rem -> نكبر قليلاً */
-}
-.nav-item .nav-icon {
-  font-size: 1.4rem !important; /* كان 1.3rem -> نكبر قليلاً */
-}
-/* تكبير زر الواتساب قليلاً */
-.whatsapp-btn {
-  font-size: 2rem !important; /* كان 1.8rem -> نكبر */
-}
-
-/* ----- 5. الشريط العلوي (Header) – تكبير الأزرار قليلاً ----- */
-.header-actions button {
-  font-size: 1.2rem !important; /* كان 1.1rem -> نكبر قليلاً */
-}
-/* عداد السلة في الأعلى */
-.badge {
-  font-size: 0.7rem !important; /* كان 0.6rem -> نكبر قليلاً */
-}
-/* زر قاطع التيار */
-.breaker-btn {
-  font-size: 1.2rem !important;
-}
-
-/* ----- 6. إخفاء عداد الطاقة وزر التركيب (كما هو) ----- */
-.power-counter { display: none !important; }
-.install-btn-wrapper { display: none !important; }
-#installBtn { display: none !important; }
-.product-card .install-option { display: none !important; }
-
-/* ----- 7. تحسينات إضافية للتناسق ----- */
-.cat-pill {
-  font-size: 0.9rem !important;
-  padding: 0.4rem 1.2rem !important;
-}
-.info-bar .info-item {
-  font-size: 0.85rem !important;
-}
-.filters input, .filters select {
-  font-size: 0.85rem !important;
-  padding: 0.3rem 0.8rem !important;
-}
-#applyFilters {
-  font-size: 0.85rem !important;
-  padding: 0.3rem 1.2rem !important;
-}
-.cart-sidebar h3 {
-  font-size: 1.2rem !important;
-}
-.cart-item .item-name {
-  font-size: 0.9rem !important;
-}
-.cart-summary div {
-  font-size: 0.95rem !important;
-}
-.toast {
-  font-size: 0.95rem !important;
-  padding: 0.6rem 1.5rem !important;
-}
-/* ================================================================
-   إعادة خط المنتجات إلى حجمه السابق (أو أصغر)
-   ================================================================ */
-
-/* 1. اسم المنتج في البطاقة */
-.product-card h4 {
-  font-size: 0.9rem !important;   /* الحجم الأصلي كان ~0.9rem */
-  /* إذا أردت أصغر، استخدم 0.85rem */
-}
-
-/* 2. سعر المنتج */
-.price,
-.variant-price-display {
-  font-size: 1.1rem !important;   /* الحجم الأصلي كان ~1.1rem */
-  /* إذا أردت أصغر، استخدم 1rem */
-}
-
-/* 3. زر الإضافة (اختياري - إن أردت تصغيره أيضاً) */
-.add-to-cart {
-  font-size: 0.8rem !important;   /* الحجم الأصلي ~0.8rem */
-}
-
-/* 4. قائمة المقاسات (اختياري) */
-.variant-select {
-  font-size: 0.8rem !important;
-}
-
-/* 5. نص المخزون */
-.stock-display {
-  font-size: 0.75rem !important;
 }
