@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>النخبة – لوحة التحكم الأسطورية</title>
   
+  <!-- ===== Google Fonts – خطوط عصرية ===== -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
   
+  <!-- ===== Import Map لـ Three.js ===== -->
   <script type="importmap">
     { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
   </script>
@@ -27,6 +29,7 @@
       font-weight: 800;
     }
 
+    /* ===== التبويبات ===== */
     .admin-tabs {
       display: flex;
       gap: 0.5rem;
@@ -72,6 +75,7 @@
       100% { opacity: 1; }
     }
 
+    /* ===== الإحصائيات ===== */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -111,6 +115,7 @@
     .stat-card.danger { border-right-color: #ef4444; }
     .stat-card.success { border-right-color: #22c55e; }
 
+    /* ===== أزرار الإجراءات ===== */
     .admin-actions {
       display: flex;
       flex-wrap: wrap;
@@ -143,6 +148,7 @@
       background: rgba(255, 255, 255, 0.08);
     }
 
+    /* ===== جدول المنتجات ===== */
     .product-table-wrap {
       overflow-x: auto;
       margin-top: 0.5rem;
@@ -201,6 +207,7 @@
     .btn-preview { background: #8b5cf6; color: white; }
     .btn-preview:hover { background: #7c3aed; }
 
+    /* ===== حالات المنتج ===== */
     .badge-status {
       display: inline-block;
       padding: 0.1rem 0.5rem;
@@ -213,6 +220,7 @@
     .badge-status.new { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.05); }
     .badge-status.bestseller { background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.05); }
 
+    /* ===== نماذج المودال ===== */
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -269,6 +277,7 @@
       accent-color: var(--primary);
     }
 
+    /* ===== حقل الفئة مع زر الإضافة ===== */
     .category-field-wrapper {
       display: flex;
       gap: 0.5rem;
@@ -293,6 +302,7 @@
       box-shadow: 0 0 20px var(--primary-glow);
     }
 
+    /* ===== قسم المقاسات ===== */
     .variants-section {
       margin-top: 0.5rem;
       padding: 0.8rem;
@@ -383,6 +393,7 @@
       margin-top: 0.2rem;
     }
 
+    /* ===== المدونة في لوحة التحكم ===== */
     .blog-posts-list .blog-item {
       display: flex;
       gap: 1rem;
@@ -433,6 +444,7 @@
       color: white;
     }
 
+    /* ===== التواصل في لوحة التحكم ===== */
     .contact-fields {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -480,6 +492,7 @@
     }
     #resetContactBtn:hover { background: rgba(255, 255, 255, 0.08); }
 
+    /* ===== رفع الصور ===== */
     .image-upload-area {
       border: 2px dashed rgba(255, 255, 255, 0.04);
       padding: 1.2rem;
@@ -509,6 +522,7 @@
       margin-top: 0.2rem;
     }
 
+    /* ===== المودال ===== */
     .modal {
       display: none;
       position: fixed;
@@ -554,6 +568,7 @@
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
+    /* ===== الطلبات ===== */
     .orders-list .order-item {
       background: rgba(18, 18, 32, 0.2);
       backdrop-filter: blur(8px);
@@ -591,6 +606,7 @@
       margin-top: 0.2rem;
     }
 
+    /* ===== مودال إدارة الفئات ===== */
     #categoryModal .modal-content { max-width: 500px; }
     .category-list {
       display: flex;
@@ -654,6 +670,7 @@
       box-shadow: 0 0 20px var(--primary-glow);
     }
 
+    /* ===== إعدادات العبارات ===== */
     .typing-settings {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -732,6 +749,7 @@
       background: rgba(255, 255, 255, 0.08);
     }
 
+    /* ===== إدارة صور الهيرو ===== */
     .hero-images-manager {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -837,6 +855,7 @@
       box-shadow: 0 0 20px var(--primary-glow);
     }
 
+    /* ===== استجابة ===== */
     @media (max-width: 768px) {
       .admin-tabs button {
         padding: 0.3rem 1rem;
@@ -966,18 +985,20 @@
               <label>الوصف <textarea id="pDesc" rows="2"></textarea></label>
             </div>
 
-            <!-- إضافة حقل رفع الصورة الجديد -->
+            <!-- ===== حقل رفع الصور (يدعم عدة صور) ===== -->
             <div class="form-row full-width">
-              <label>صورة المنتج (رفع من الجهاز) 
-                <input type="file" id="pImageFile" accept="image/*" style="padding: 0.5rem; background: rgba(0,0,0,0.2); border: 1px dashed var(--primary); border-radius: var(--radius-sm); cursor: pointer;" />
+              <label>
+                صور المنتج (رفع من الجهاز – يمكنك اختيار عدة صور)
+                <input type="file" id="pImageFile" accept="image/*" multiple style="padding: 0.5rem; background: rgba(0,0,0,0.2); border: 1px dashed var(--primary); border-radius: var(--radius-sm); cursor: pointer;" />
+                <span style="font-size:0.7rem; color:rgba(var(--text-rgb),0.3);">اضغط Ctrl أو Shift لاختيار عدة صور</span>
               </label>
             </div>
             <div class="form-row full-width">
-              <label>أو رابط الصورة <input type="url" id="pImage" placeholder="في حال لم تختر ملفاً، ضع الرابط هنا" /></label>
+              <label>أو رابط الصورة الرئيسي (اختياري) <input type="url" id="pImage" placeholder="في حال لم ترفع ملفاً، ضع رابط الصورة الأساسية هنا" /></label>
             </div>
 
             <div class="form-row full-width">
-              <label>صور إضافية (فصل بفواصل) <input type="text" id="pImages" placeholder="/path/1.jpg, /path/2.jpg" /></label>
+              <label>صور إضافية (روابط، فصل بفواصل) <input type="text" id="pImages" placeholder="/path/1.jpg, /path/2.jpg" /></label>
             </div>
             <div class="form-row full-width">
               <label>رابط الفيديو (اختياري) <input type="url" id="pVideo" placeholder="/public/videos/products/..." /></label>
@@ -1163,7 +1184,7 @@
   <div id="toast" class="toast"></div>
 
   <!-- ============================================================ -->
-  <!-- JavaScript – تشغيل لوحة التحكم (v8.0 - FINAL) -->
+  <!-- JavaScript – تشغيل لوحة التحكم (v8.0) -->
   <!-- ============================================================ -->
   <script type="module">
     // ================================================================
@@ -1181,27 +1202,21 @@
       CommunityStatsManager,
       getCommunityStats,
       updateEnergyClock,
-      FirebaseRTDBAdapter,
-      LocalStorageAdapter
+      FirebaseRTDBAdapter,   // محول Realtime Database
+      LocalStorageAdapter    // للمدير الذي يخزن محلياً (HeroImages)
     } from './main.js';
-
-    // ================================================================
-    // ⚠️ تحذير: إذا لم يتم العثور على FirebaseRTDBAdapter، تأكد من وجوده في main.js
-    // ================================================================
-    if (typeof FirebaseRTDBAdapter === 'undefined') {
-      console.error('❌ FirebaseRTDBAdapter غير موجود في main.js. تأكد من إضافته.');
-      showToast('⚠️ خطأ في التهيئة، راجع وحدة التحكم', 5000, '❌');
-    }
 
     // ================================================================
     // تهيئة المديرين باستخدام Firebase Realtime Database (مجاني)
     // ================================================================
     const rtdbAdapter = new FirebaseRTDBAdapter();
+
     const productManager = new ProductManager(rtdbAdapter);
     const blogManager = new BlogManager(rtdbAdapter);
     const contactManager = new ContactManager(rtdbAdapter);
     const categoryManager = new CategoryManager(rtdbAdapter);
     const communityStatsManager = new CommunityStatsManager(rtdbAdapter);
+    // HeroImagesManager يظل مخزناً محلياً (LocalStorage) لأن الصور قد تكون كبيرة
     const heroImagesManager = new HeroImagesManager(new LocalStorageAdapter());
 
     // ================================================================
@@ -1436,12 +1451,10 @@
         const variantsInfo = hasVariants ? p.variants.map(v => v.size).join('، ') : '—';
         const displayPrice = hasVariants ? p.variants[0].price : p.price;
         const displayStock = hasVariants ? p.variants.reduce((s, v) => s + v.stock, 0) : p.stock;
-        // عرض الصورة: استخدم images[0] أو image كاحتياطي
-        const imgSrc = (p.images && p.images.length > 0) ? p.images[0] : (p.image || '/public/images/products/1.jpg');
         return `
           <tr>
             <td>${p.id.slice(0,4)}</td>
-            <td><img src="${imgSrc}" /></td>
+            <td><img src="${p.image || '/public/images/products/1.jpg'}" /></td>
             <td><strong>${p.name}</strong></td>
             <td>${p.category}</td>
             <td>${hasVariants ? 'متعدد' : displayPrice.toFixed(2)}</td>
@@ -1476,10 +1489,14 @@
       updateStats();
     }
 
+    // ===== فتح مودال الإضافة/التعديل =====
     async function openModal(id = null) {
       modal.classList.add('active');
       await refreshCategorySelect();
-      if ($('pImageFile')) $('pImageFile').value = '';
+      // تصفير حقل الملفات عند الفتح
+      const fileInput = $('pImageFile');
+      if (fileInput) fileInput.value = '';
+
       if (id) {
         $('modalTitle').textContent = 'تعديل منتج';
         const p = await productManager.getById(id);
@@ -1518,36 +1535,46 @@
       }
     }
 
+    // ===== حفظ المنتج (مع رفع عدة صور) =====
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
+      // -- رفع الصور عبر ImgBB --
       const fileInput = $('pImageFile');
-      let finalImageUrl = $('pImage').value.trim();
-      
+      const manualImagesInput = $('pImages').value.trim();
+      const manualImages = manualImagesInput ? manualImagesInput.split(',').map(s => s.trim()).filter(Boolean) : [];
+      let uploadedImageUrls = [];
+
       if (fileInput && fileInput.files.length > 0) {
-        showToast('⏳ جاري رفع الصورة...', 3000, '⏳');
-        form.querySelector('button[type="submit"]').disabled = true; 
+        const filesCount = fileInput.files.length;
+        showToast(`⏳ جاري رفع ${filesCount} صورة...`, 4000, '⏳');
+        form.querySelector('button[type="submit"]').disabled = true;
+
         try {
-          finalImageUrl = await ImageUploader.uploadFile(fileInput.files[0]);
+          for (const file of fileInput.files) {
+            const url = await ImageUploader.uploadFile(file);
+            if (url) uploadedImageUrls.push(url);
+          }
+          if (uploadedImageUrls.length > 0) {
+            showToast(`✅ تم رفع ${uploadedImageUrls.length} صورة`, 2000, '✅');
+          }
         } catch (error) {
-          showToast('⚠️ فشل رفع الصورة', 3000, '⚠️');
+          console.error('فشل رفع الصور:', error);
+          showToast('⚠️ فشل رفع بعض الصور، يرجى المحاولة مرة أخرى', 3000, '⚠️');
           form.querySelector('button[type="submit"]').disabled = false;
-          return; 
+          return;
         }
       }
 
+      // دمج الصور المرفوعة مع الصور المدخلة يدوياً
+      const allImages = [...uploadedImageUrls, ...manualImages];
+      const finalImageUrl = allImages.length > 0 ? allImages[0] : $('pImage').value.trim();
+
+      // -----------------------------
+
       const id = $('productId').value;
-      let images = $('pImages').value.split(',').map(s => s.trim()).filter(Boolean);
-      
-      // ===== إصلاح مشكلة الصور =====
-      // إذا كانت هناك صور إضافية، استخدم أولها كصورة رئيسية
-      if (images.length > 0 && !finalImageUrl) {
-        finalImageUrl = images[0];
-      }
-      // تأكد من أن images مصفوفة وليست فارغة
-      const imagesArray = images.length > 0 ? images : (finalImageUrl ? [finalImageUrl] : []);
-      
       const variants = getVariantsFromForm();
+
       const payload = {
         name: $('pName').value.trim(),
         category: $('pCategory').value.trim(),
@@ -1561,14 +1588,18 @@
         isBestSeller: $('pIsBestSeller').checked,
         desc: $('pDesc').value.trim(),
         image: finalImageUrl,
-        images: imagesArray,
+        images: allImages.length > 0 ? allImages : undefined,
         video: $('pVideo').value.trim() || undefined,
         variants: variants.length > 0 ? variants : []
       };
-      
+
       try {
-        if (id) { payload.id = id; await productManager.mutate({ type: 'UPDATE', payload }); }
-        else await productManager.mutate({ type: 'ADD', payload });
+        if (id) {
+          payload.id = id;
+          await productManager.mutate({ type: 'UPDATE', payload });
+        } else {
+          await productManager.mutate({ type: 'ADD', payload });
+        }
         
         form.querySelector('button[type="submit"]').disabled = false;
         modal.classList.remove('active');
@@ -1576,7 +1607,7 @@
         showToast('✅ تم الحفظ بنجاح', 3000, '✅');
         if (fileInput) fileInput.value = '';
       } catch (error) {
-        console.error('❌ فشل الحفظ:', error);
+        console.error('فشل الحفظ:', error);
         showToast('⚠️ فشل الحفظ: ' + error.message, 4000, '⚠️');
         form.querySelector('button[type="submit"]').disabled = false;
       }
@@ -1739,7 +1770,7 @@
         renderBlogPosts();
         showToast('✅ تم حفظ المقال', '✅');
       } catch (error) {
-        console.error('❌ فشل حفظ المقال:', error);
+        console.error('فشل حفظ المقال:', error);
         showToast('⚠️ فشل حفظ المقال', 3000, '⚠️');
       }
     });
@@ -1783,7 +1814,7 @@
         await contactManager.update(data);
         showToast('✅ تم حفظ معلومات التواصل', '✅');
       } catch (error) {
-        console.error('❌ فشل حفظ معلومات التواصل:', error);
+        console.error('فشل حفظ معلومات التواصل:', error);
         showToast('⚠️ فشل الحفظ', 3000, '⚠️');
       }
     });
@@ -1860,12 +1891,14 @@
       };
       localStorage.setItem('nokhba_typing_settings', JSON.stringify(settings));
       showToast('✅ تم حفظ إعدادات الكتابة', '✅');
+      // تحديث المحرك إذا كان موجوداً
       if (window.__typingEngine) {
         window.__typingEngine.setPhrases(lines);
         window.__typingEngine.setEnabled(settings.enabled);
         window.__typingEngine.setSpeed(settings.speed);
         window.__typingEngine.setDeleteSpeed(settings.deleteSpeed);
         window.__typingEngine.setPause(settings.pause);
+        // تحديث النص الثابت والمؤشر في الصفحة الرئيسية
         const prefixTextEl = document.querySelector('#prefixText');
         const terminalPrefix = document.querySelector('#terminalPrefix');
         if (prefixTextEl) {
@@ -1907,6 +1940,7 @@
     resetTypingPhrases.addEventListener('click', resetTypingPhrasesHandler);
     saveTypingSettings.addEventListener('click', saveTypingSettingsHandler);
 
+    // ربط الـ Range Sliders
     typingSpeed.addEventListener('input', () => {
       typingSpeedVal.textContent = typingSpeed.value;
     });
@@ -1944,6 +1978,7 @@
         </div>
       `).join('');
 
+      // ربط الأحداث
       heroImagesList.querySelectorAll('.btn-edit-img').forEach(btn => {
         btn.addEventListener('click', () => {
           const index = parseInt(btn.dataset.index);
@@ -1954,6 +1989,7 @@
           heroDesc.value = img.desc || '';
           heroBtn.value = img.btn || '';
           heroAction.value = img.action || 'shop';
+          // تغيير النص لإشارة التعديل
           addHeroImageBtn.textContent = '✏️ تحديث الشريحة';
           addHeroImageBtn.dataset.editIndex = index;
         });
@@ -1986,6 +2022,7 @@
         });
       });
 
+      // إعادة تعيين زر الإضافة
       addHeroImageBtn.textContent = '➕ إضافة شريحة';
       delete addHeroImageBtn.dataset.editIndex;
     }
@@ -2007,13 +2044,16 @@
 
       const editIndex = addHeroImageBtn.dataset.editIndex;
       if (editIndex !== undefined) {
+        // تعديل
         heroImagesManager.update(parseInt(editIndex), data);
         showToast('✅ تم تحديث الشريحة', '✅');
       } else {
+        // إضافة
         heroImagesManager.add(data);
         showToast('✅ تم إضافة الشريحة', '✅');
       }
       renderHeroImages();
+      // إعادة تعيين الحقول
       heroImageUrl.value = '';
       heroBadge.value = '';
       heroTitle.value = '';
@@ -2032,6 +2072,7 @@
       }
     });
 
+    // تحميل الصور
     renderHeroImages();
 
     // ================================================================
@@ -2156,6 +2197,8 @@
         const power = stats.totalPower || 0;
         const customers = stats.totalCustomers || 0;
         const hours = Math.round(stats.savedHours || 0);
+        // يمكن عرضها في مكان مناسب، مثلاً في بطاقة إضافية
+        // نضيفها إلى الإحصائيات الحالية
         const statsGrid = document.querySelector('.stats-grid');
         if (statsGrid && !document.getElementById('statCommunity')) {
           const card = document.createElement('div');
@@ -2186,11 +2229,12 @@
     renderOrders();
     updateCommunityStatsUI();
 
+    // تحديث الإحصائيات كل دقيقة
     setInterval(updateStats, 60000);
     setInterval(renderOrders, 30000);
     setInterval(updateCommunityStatsUI, 60000);
 
-    console.log('⚡ لوحة التحكم الأسطورية v8.0 جاهزة (مع Firebase Realtime Database)');
+    console.log('⚡ لوحة التحكم الأسطورية v8.0 جاهزة (مع دعم رفع عدة صور)');
     console.log('📞 رقم الهاتف: +967782826727');
     console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
     console.log('✅ البيانات مخزنة في Realtime Database (مجاني)');
