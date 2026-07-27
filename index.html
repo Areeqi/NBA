@@ -331,14 +331,14 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- السلة الجانبية (Cart Sidebar) -->
+    <!-- السلة الجانبية (Cart Sidebar) – تم إلغاء الخصم -->
     <!-- ========================================================== -->
     <div id="cartSidebar" class="cart-sidebar">
       <h3>🛒 سلة المشتريات <span class="cart-count-badge" id="cartItemCount">(0)</span></h3>
       <div id="cartItems"></div>
       <div class="cart-summary">
         <div>المجموع: <span id="cartTotal">0</span> ريال</div>
-        <div>الخصم: <span id="cartDiscount">0</span> ريال</div>
+        <!-- تم إزالة سطر الخصم نهائياً -->
         <div class="total-final"><strong>الإجمالي: <span id="cartFinal">0</span> ريال</strong></div>
       </div>
       <button id="checkoutBtn" class="primary-btn">📤 إرسال الطلب عبر واتساب</button>
@@ -382,7 +382,7 @@
             <div class="detail-tags" id="lbTags"></div>
             <div class="detail-category" id="lbCategory">📂 القسم: غير محدد</div>
             
-            <!-- ===== التنقل بين المقاسات (تم إصلاحه) ===== -->
+            <!-- ===== التنقل بين المقاسات ===== -->
             <div class="variant-nav" id="lbVariantNav" style="display:none;">
               <span class="nav-label">📏 المقاس:</span>
               <button class="nav-btn" id="lbVariantPrev" disabled>‹</button>
@@ -455,7 +455,7 @@
   <button id="scrollTopBtn">↑</button>
 
   <!-- ========================================================== -->
-  <!-- JavaScript – تشغيل المتجر (مع إصلاح Lightbox بالكامل) -->
+  <!-- JavaScript – تشغيل المتجر (مع إلغاء الخصم، إصلاح التسعير، دعم الفيديو) -->
   <!-- ========================================================== -->
   <script type="module">
     import { 
@@ -925,7 +925,7 @@
     }
 
     // ================================================================
-    // بناء بطاقة المنتج (بدون زر التركيب)
+    // بناء بطاقة المنتج (مع إصلاح عرض السعر – لا يظهر سعران)
     // ================================================================
     function buildProductCard(p) {
       const inCart = cart.find(i => i.id === p.id && !i.size);
@@ -944,6 +944,7 @@
       let stockDisplay = '';
 
       if (hasVariants) {
+        // ترتيب المقاسات حسب السعر تصاعدياً
         const sortedVariants = [...p.variants].sort((a, b) => a.price - b.price);
         const optionsHtml = sortedVariants.map((v, idx) => `
           <option value="${v.size}" data-price="${v.price}" data-stock="${v.stock}" data-minorder="${v.minOrder}" ${idx === 0 ? 'selected' : ''}>
@@ -952,10 +953,12 @@
         `).join('');
         variantsHtml = `<select class="variant-select" data-id="${p.id}">${optionsHtml}</select>`;
         const firstVariant = sortedVariants[0];
+        // عرض سعر المقاس الأول فقط
         priceDisplay = `<div class="variant-price-display" data-id="${p.id}">${firstVariant.price.toFixed(2)} ريال</div>`;
         const stockClass = firstVariant.stock < 10 ? 'stock-display low-stock' : 'stock-display';
         stockDisplay = `<div class="${stockClass}" data-id="${p.id}">${firstVariant.stock > 0 ? `المتوفر: ${firstVariant.stock}` : 'نفدت الكمية'}</div>`;
       } else {
+        // لا يوجد مقاسات: عرض السعر الأساسي
         priceDisplay = `<div class="price">${p.price.toFixed(2)} ريال</div>`;
         const stockClass = p.stock < 10 ? 'stock-display low-stock' : 'stock-display';
         stockDisplay = `<div class="${stockClass}">${p.stock > 0 ? `المتوفر: ${p.stock}` : 'نفدت الكمية'}</div>`;
@@ -1022,7 +1025,7 @@
     }
 
     // ================================================================
-    // السلة والتفاعل معها
+    // السلة والتفاعل معها – تم إلغاء الخصم
     // ================================================================
     const cartSidebar = document.getElementById('cartSidebar');
     const overlay = document.getElementById('cartOverlay');
@@ -1075,16 +1078,15 @@
       const cartItemCount = document.getElementById('cartItemCount');
       if(cartItemCount) cartItemCount.textContent = `(${totalItems})`;
       
+      // حساب المجموع بدون خصم
       const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-      const disc = sub > 200 ? sub * 0.05 : 0;
       
       const cartTotal = document.getElementById('cartTotal');
-      const cartDiscount = document.getElementById('cartDiscount');
+      // تم إزالة عنصر الخصم من HTML، لذا نحدث فقط المجموع والإجمالي
       const cartFinal = document.getElementById('cartFinal');
       
       if(cartTotal) cartTotal.textContent = sub.toFixed(2);
-      if(cartDiscount) cartDiscount.textContent = disc.toFixed(2);
-      if(cartFinal) cartFinal.textContent = (sub - disc).toFixed(2);
+      if(cartFinal) cartFinal.textContent = sub.toFixed(2);
 
       if (!cartItems) return;
       
@@ -1142,13 +1144,12 @@
     }
 
     // ================================================================
-    // إرسال الطلب عبر واتساب
+    // إرسال الطلب عبر واتساب – تم إلغاء الخصم
     // ================================================================
     function sendOrder() {
       if (!cart.length) { showToast('⚠️ السلة فارغة', 2000, '⚠️'); return; }
       const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-      const disc = sub > 200 ? sub * 0.05 : 0;
-      const fin = sub - disc;
+      const fin = sub; // لا خصم
 
       let message = '⚡ *طلب جديد من متجر النخبة للكهربائيات* ⚡\n=============================\n';
       cart.forEach((item, index) => {
@@ -1272,9 +1273,10 @@
       lbVariantPrev.disabled = currentVariantIndex === 0;
       lbVariantNext.disabled = currentVariantIndex === currentVariants.length - 1;
       
-      // تحديث السعر بناءً على المقاس المحدد
+      // تحديث السعر والمخزون بناءً على المقاس المحدد
       document.getElementById('lbPrice').textContent = variant.price + ' ريال';
       document.getElementById('lbPriceTag').textContent = variant.price + ' ريال';
+      document.getElementById('lbStock').textContent = `المخزون: ${variant.stock}`;
     }
 
     // ===== دالة فتح Lightbox =====
@@ -1290,7 +1292,7 @@
       document.getElementById('lbDesc').textContent = p.desc || 'لا يوجد وصف';
       document.getElementById('lbCategory').textContent = '📂 القسم: ' + (p.category || 'غير محدد');
       
-      // إعداد معرض الصور
+      // إعداد معرض الصور (صور + فيديو)
       const images = p.images && p.images.length > 0 ? p.images : [p.image || '/public/images/products/1.jpg'];
       currentGalleryItems = images.map(url => ({ url, type: 'image' }));
       
@@ -1307,10 +1309,7 @@
       
       if (currentVariants.length > 0) {
         updateVariantDisplay();
-        // تحديث السعر للمقاس الأول
-        document.getElementById('lbPrice').textContent = currentVariants[0].price + ' ريال';
-        document.getElementById('lbPriceTag').textContent = currentVariants[0].price + ' ريال';
-        document.getElementById('lbStock').textContent = `المخزون: ${currentVariants[0].stock}`;
+        // السعر والمخزون يُحدثان في updateVariantDisplay
       } else {
         lbVariantNav.style.display = 'none';
         document.getElementById('lbPrice').textContent = p.price + ' ريال';
@@ -1342,8 +1341,6 @@
         if (currentVariantIndex > 0) {
           currentVariantIndex--;
           updateVariantDisplay();
-          // تحديث المخزون
-          document.getElementById('lbStock').textContent = `المخزون: ${currentVariants[currentVariantIndex].stock}`;
         }
       });
     }
@@ -1353,7 +1350,6 @@
         if (currentVariantIndex < currentVariants.length - 1) {
           currentVariantIndex++;
           updateVariantDisplay();
-          document.getElementById('lbStock').textContent = `المخزون: ${currentVariants[currentVariantIndex].stock}`;
         }
       });
     }
@@ -1631,7 +1627,7 @@
     renderBlogPosts();
     renderContactInfo();
     
-    console.log('⚡ النخبة – المتجر الأسطوري (الإصدار النهائي مع إصلاح Lightbox) جاهز!');
+    console.log('⚡ النخبة – المتجر الأسطوري (الإصدار النهائي مع إلغاء الخصم وإصلاح التسعير) جاهز!');
   </script>
 </body>
 </html>
