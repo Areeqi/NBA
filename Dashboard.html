@@ -5,17 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>النخبة – لوحة التحكم الأسطورية</title>
   
+  <!-- ===== Google Fonts – خطوط عصرية ===== -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
   
+  <!-- ===== Import Map لـ Three.js ===== -->
   <script type="importmap">
     { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
   </script>
 
   <style>
-    /* ===== أنماط خاصة بلوحة التحكم (نفسها كما كانت) ===== */
+    /* ===== أنماط خاصة بلوحة التحكم ===== */
     .admin-panel {
       max-width: 1400px;
       margin: 0 auto;
@@ -732,7 +734,7 @@
       background: rgba(255, 255, 255, 0.08);
     }
 
-    /* ===== إدارة صور الهيرو (تم إصلاحها) ===== */
+    /* ===== إدارة صور الهيرو ===== */
     .hero-images-manager {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -1007,7 +1009,7 @@
         </table>
       </div>
 
-      <!-- ===== مودال المنتج ===== -->
+      <!-- ===== مودال المنتج – مع دعم الصور والفيديو ===== -->
       <div id="productModal" class="modal">
         <div class="modal-content">
           <span id="closeModal" class="close-modal">&times;</span>
@@ -1067,8 +1069,16 @@
               <label>أو رابط الصورة الرئيسي (اختياري) <input type="url" id="pImage" placeholder="في حال لم ترفع ملفاً، ضع رابط الصورة الأساسية هنا" /></label>
             </div>
 
+            <!-- ===== حقل رفع الفيديو ===== -->
             <div class="form-row full-width">
-              <label>رابط الفيديو (اختياري) <input type="url" id="pVideo" placeholder="/public/videos/products/..." /></label>
+              <label>
+                🎬 فيديو المنتج (اختياري)
+                <input type="file" id="pVideoFile" accept="video/*" style="padding:0.3rem;background:rgba(0,0,0,0.2);border:1px dashed var(--primary);border-radius:var(--radius-sm);cursor:pointer;" />
+                <span style="font-size:0.7rem;color:rgba(var(--text-rgb),0.3);">يرفع الفيديو على imgbb ويعطيك رابطاً (يدعم MP4, WebM, إلخ)</span>
+              </label>
+            </div>
+            <div class="form-row full-width">
+              <label>أو رابط الفيديو (اختياري) <input type="url" id="pVideo" placeholder="https://example.com/video.mp4" /></label>
             </div>
 
             <!-- ===== مقاسات ===== -->
@@ -1223,7 +1233,7 @@
         </div>
       </div>
 
-      <!-- ===== إدارة صور الإعلانات (Hero) – تم إصلاحها ===== -->
+      <!-- ===== إدارة صور الإعلانات (Hero) ===== -->
       <div class="hero-images-manager">
         <h4>🖼️ إدارة صور الإعلانات (Hero)</h4>
         <p class="hint">أضف أو عدل أو احذف صور الإعلانات التي تظهر في أعلى الصفحة.</p>
@@ -1460,6 +1470,7 @@
         
         showToast(`⏳ جاري رفع ${files.length} صورة...`, 3000, '⏳');
         let uploaded = 0;
+        const uploadErrors = [];
         
         for (const file of files) {
           try {
@@ -1467,15 +1478,27 @@
             if (url) {
               tempImages.push(url);
               uploaded++;
+              // تحديث المعاينة تدريجياً
+              renderImagePreviews();
+              updateHiddenImagesField();
             }
           } catch (err) {
-            console.warn('فشل رفع ملف:', file.name);
+            uploadErrors.push(`${file.name}: ${err.message}`);
+            console.warn('فشل رفع ملف:', file.name, err);
           }
+        }
+        
+        if (uploaded > 0 && uploadErrors.length === 0) {
+          showToast(`✅ تم رفع ${uploaded} صورة بنجاح`, 2500, '✅');
+        } else if (uploaded > 0 && uploadErrors.length > 0) {
+          showToast(`⚠️ تم رفع ${uploaded} صورة، فشل ${uploadErrors.length} صورة`, 4000, '⚠️');
+        } else {
+          showToast(`❌ فشل رفع جميع الصور (${files.length})، تحقق من الاتصال بالإنترنت`, 5000, '❌');
+          console.error('أخطاء الرفع:', uploadErrors.join('\n'));
         }
         
         renderImagePreviews();
         updateHiddenImagesField();
-        showToast(`✅ تم رفع ${uploaded} صورة`, 2000, '✅');
         pImageFileExtra.value = '';
       });
     }
@@ -1717,11 +1740,27 @@
       }
     }
 
-    // ===== حفظ المنتج (مع استخدام مدير الصور) =====
+    // ===== حفظ المنتج (مع استخدام مدير الصور ودعم الفيديو) =====
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      // استخدام الصور من مدير الصور
+      // ===== معالجة الفيديو =====
+      const videoFileInput = document.getElementById('pVideoFile');
+      let videoUrl = document.getElementById('pVideo').value.trim();
+
+      if (videoFileInput && videoFileInput.files.length > 0) {
+        showToast('⏳ جاري رفع الفيديو...', 3000, '⏳');
+        try {
+          videoUrl = await ImageUploader.uploadVideo(videoFileInput.files[0]);
+          if (videoUrl) showToast('✅ تم رفع الفيديو بنجاح', 2000, '✅');
+        } catch (error) {
+          console.warn('فشل رفع الفيديو:', error);
+          showToast('⚠️ فشل رفع الفيديو، يمكنك إدخال رابط يدوياً', 3000, '⚠️');
+          // نستمر بدون فيديو
+        }
+      }
+
+      // ===== استخدام الصور من مدير الصور =====
       const allImages = tempImages.length > 0 ? tempImages : [];
       const finalImageUrl = allImages.length > 0 ? allImages[0] : $('pImage').value.trim();
 
@@ -1742,7 +1781,7 @@
         desc: $('pDesc').value.trim(),
         image: finalImageUrl,
         images: allImages.length > 0 ? allImages : undefined,
-        video: $('pVideo').value.trim() || undefined,
+        video: videoUrl || undefined,
         variants: variants.length > 0 ? variants : []
       };
 
@@ -1759,6 +1798,8 @@
         showToast('✅ تم الحفظ بنجاح', 3000, '✅');
         tempImages = [];
         renderImagePreviews();
+        // تصفير حقل رفع الفيديو
+        if (videoFileInput) videoFileInput.value = '';
       } catch (error) {
         console.error('فشل الحفظ:', error);
         showToast('⚠️ فشل الحفظ: ' + error.message, 4000, '⚠️');
@@ -2126,7 +2167,6 @@
         </div>
       `).join('');
 
-      // ربط الأحداث
       heroImagesList.querySelectorAll('.btn-edit-img').forEach(btn => {
         btn.addEventListener('click', () => {
           const index = parseInt(btn.dataset.index);
@@ -2137,7 +2177,6 @@
           heroDesc.value = img.desc || '';
           heroBtn.value = img.btn || '';
           heroAction.value = img.action || 'shop';
-          // تغيير النص لإشارة التعديل
           addHeroImageBtn.textContent = '✏️ تحديث الشريحة';
           addHeroImageBtn.dataset.editIndex = index;
         });
@@ -2170,7 +2209,6 @@
         });
       });
 
-      // إعادة تعيين زر الإضافة
       addHeroImageBtn.textContent = '➕ إضافة شريحة';
       delete addHeroImageBtn.dataset.editIndex;
     }
@@ -2197,17 +2235,14 @@
 
         const editIndex = this.dataset.editIndex;
         if (editIndex !== undefined) {
-          // تعديل
           heroImagesManager.update(parseInt(editIndex), data);
           showToast('✅ تم تحديث الشريحة', '✅');
         } else {
-          // إضافة
           heroImagesManager.add(data);
           showToast('✅ تم إضافة الشريحة', '✅');
         }
         
         renderHeroImages();
-        // إعادة تعيين الحقول
         heroImageUrl.value = '';
         heroBadge.value = '';
         heroTitle.value = '';
@@ -2231,7 +2266,6 @@
       });
     }
 
-    // تحميل الصور
     renderHeroImages();
 
     // ================================================================
@@ -2390,10 +2424,10 @@
     setInterval(renderOrders, 30000);
     setInterval(updateCommunityStatsUI, 60000);
 
-    console.log('⚡ لوحة التحكم الأسطورية v8.0 جاهزة (مع إصلاح إضافة الشريحة)');
+    console.log('⚡ لوحة التحكم الأسطورية v8.0 جاهزة (مع دعم رفع عدة صور وفيديو)');
     console.log('📞 رقم الهاتف: +967782826727');
     console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
     console.log('✅ البيانات مخزنة في Realtime Database (مجاني)');
   </script>
 </body>
-</html>
+  </html>
