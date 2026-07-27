@@ -94,6 +94,31 @@
       transform: scale(1.1);
     }
 
+    /* ===== تحسين Lightbox – الصورة تأخذ مساحة أكبر ===== */
+    .lightbox-gallery {
+      flex: 1.5 !important;
+    }
+    .gallery-main-wrap {
+      min-height: 350px !important;
+    }
+    .gallery-main-wrap .main-display img {
+      max-height: 70vh !important;
+      max-width: 100% !important;
+    }
+    .lightbox-details-panel {
+      flex: 1 !important;
+      padding: 1.2rem !important;
+    }
+    .detail-name {
+      font-size: 1.3rem !important;
+    }
+    .detail-price {
+      font-size: 1.6rem !important;
+    }
+    .variant-nav {
+      margin: 0.5rem 0 !important;
+    }
+
     /* ===== تحسين السلة ===== */
     .cart-item .controls .qty-input {
       width: 44px;
@@ -323,7 +348,7 @@
     <div id="cartOverlay" class="overlay"></div>
 
     <!-- ========================================================== -->
-    <!-- الـ Lightbox (معرض المنتج) – تم إزالة زر التركيب -->
+    <!-- الـ Lightbox (معرض المنتج) – تم إزالة زر التركيب وإصلاح كل شيء -->
     <!-- ========================================================== -->
     <div id="productLightbox" class="lightbox-overlay">
       <div class="lightbox-container" id="lightboxContainer">
@@ -356,6 +381,8 @@
             <div class="detail-rating" id="lbRating"></div>
             <div class="detail-tags" id="lbTags"></div>
             <div class="detail-category" id="lbCategory">📂 القسم: غير محدد</div>
+            
+            <!-- ===== التنقل بين المقاسات (تم إصلاحه) ===== -->
             <div class="variant-nav" id="lbVariantNav" style="display:none;">
               <span class="nav-label">📏 المقاس:</span>
               <button class="nav-btn" id="lbVariantPrev" disabled>‹</button>
@@ -364,6 +391,7 @@
               <span class="variant-stock-info" id="lbVariantStock"></span>
             </div>
             <div class="swipe-indicator">↔️ اسحب للتبديل بين المقاسات</div>
+            
             <div class="detail-desc" id="lbDesc">لا يوجد وصف للمنتج.</div>
             <div class="detail-actions">
               <button class="add-btn" id="lbAddToCart">
@@ -427,7 +455,7 @@
   <button id="scrollTopBtn">↑</button>
 
   <!-- ========================================================== -->
-  <!-- JavaScript – تشغيل المتجر -->
+  <!-- JavaScript – تشغيل المتجر (مع إصلاح Lightbox بالكامل) -->
   <!-- ========================================================== -->
   <script type="module">
     import { 
@@ -1032,7 +1060,6 @@
     function updateCartUI() {
       const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
       
-      // تحديث عداد السلة العلوي
       if(cartCount) {
         cartCount.textContent = totalItems;
         cartCount.classList.remove('pop');
@@ -1040,7 +1067,6 @@
         if(totalItems > 0) cartCount.classList.add('pop');
       }
       
-      // تحديث عداد السلة السفلي
       if(navCartBadge) {
         navCartBadge.textContent = totalItems;
         navCartBadge.style.display = totalItems > 0 ? 'block' : 'none';
@@ -1169,7 +1195,7 @@
     }
 
     // ================================================================
-    // Lightbox – معرض الصور مع التنقل (تم إصلاحه)
+    // Lightbox – معرض الصور مع التنقل بين المقاسات (تم إصلاحه بالكامل)
     // ================================================================
     const lightbox = document.getElementById('productLightbox');
     const lbClose = document.getElementById('lbClose');
@@ -1182,10 +1208,21 @@
     const lbType = document.getElementById('lbType');
     const lbThumbs = document.getElementById('lbThumbs');
     const lbAddToCart = document.getElementById('lbAddToCart');
+    
+    // عناصر المقاسات
+    const lbVariantNav = document.getElementById('lbVariantNav');
+    const lbVariantName = document.getElementById('lbVariantName');
+    const lbVariantStock = document.getElementById('lbVariantStock');
+    const lbVariantPrev = document.getElementById('lbVariantPrev');
+    const lbVariantNext = document.getElementById('lbVariantNext');
 
     let currentGalleryItems = [];
     let currentGalleryIndex = 0;
+    let currentProduct = null;
+    let currentVariantIndex = 0;
+    let currentVariants = [];
 
+    // ===== دالة تحديث معرض الصور =====
     function updateGalleryDisplay() {
       if (!currentGalleryItems.length) return;
       const item = currentGalleryItems[currentGalleryIndex];
@@ -1219,15 +1256,37 @@
       });
     }
 
+    // ===== دالة تحديث معلومات المقاس =====
+    function updateVariantDisplay() {
+      if (!currentProduct || !currentVariants.length) {
+        lbVariantNav.style.display = 'none';
+        return;
+      }
+      
+      const variant = currentVariants[currentVariantIndex];
+      if (!variant) return;
+      
+      lbVariantNav.style.display = 'flex';
+      lbVariantName.textContent = variant.size;
+      lbVariantStock.textContent = `المخزون: ${variant.stock}`;
+      lbVariantPrev.disabled = currentVariantIndex === 0;
+      lbVariantNext.disabled = currentVariantIndex === currentVariants.length - 1;
+      
+      // تحديث السعر بناءً على المقاس المحدد
+      document.getElementById('lbPrice').textContent = variant.price + ' ريال';
+      document.getElementById('lbPriceTag').textContent = variant.price + ' ريال';
+    }
+
+    // ===== دالة فتح Lightbox =====
     async function openLightbox(id) {
       const p = await productManager.getById(id);
       if (!p || !lightbox) return;
       
-      // تحديث معلومات المنتج
+      currentProduct = p;
+      
+      // تحديث معلومات المنتج الأساسية
       document.getElementById('lbTitle').textContent = p.name;
       document.getElementById('lbName').textContent = p.name;
-      document.getElementById('lbPrice').textContent = p.price + ' ريال';
-      document.getElementById('lbPriceTag').textContent = p.price + ' ريال';
       document.getElementById('lbDesc').textContent = p.desc || 'لا يوجد وصف';
       document.getElementById('lbCategory').textContent = '📂 القسم: ' + (p.category || 'غير محدد');
       
@@ -1235,7 +1294,6 @@
       const images = p.images && p.images.length > 0 ? p.images : [p.image || '/public/images/products/1.jpg'];
       currentGalleryItems = images.map(url => ({ url, type: 'image' }));
       
-      // إضافة الفيديو إن وجد
       if (p.video) {
         currentGalleryItems.push({ url: p.video, type: 'video' });
       }
@@ -1243,8 +1301,28 @@
       currentGalleryIndex = 0;
       updateGalleryDisplay();
       
+      // إعداد المقاسات
+      currentVariants = p.variants && p.variants.length > 0 ? p.variants : [];
+      currentVariantIndex = 0;
+      
+      if (currentVariants.length > 0) {
+        updateVariantDisplay();
+        // تحديث السعر للمقاس الأول
+        document.getElementById('lbPrice').textContent = currentVariants[0].price + ' ريال';
+        document.getElementById('lbPriceTag').textContent = currentVariants[0].price + ' ريال';
+        document.getElementById('lbStock').textContent = `المخزون: ${currentVariants[0].stock}`;
+      } else {
+        lbVariantNav.style.display = 'none';
+        document.getElementById('lbPrice').textContent = p.price + ' ريال';
+        document.getElementById('lbPriceTag').textContent = p.price + ' ريال';
+        document.getElementById('lbStock').textContent = `المخزون: ${p.stock}`;
+      }
+      
       // إعداد زر الإضافة
-      lbAddToCart.onclick = () => addToCart(p.id);
+      lbAddToCart.onclick = () => {
+        const selectedSize = currentVariants.length > 0 ? currentVariants[currentVariantIndex].size : null;
+        addToCart(p.id, selectedSize);
+      };
       
       // إعادة ضبط التكبير
       isZoomed = false;
@@ -1258,7 +1336,29 @@
       lightbox.classList.add('active');
     }
 
-    // أزرار التنقل
+    // ===== أزرار التنقل بين المقاسات =====
+    if (lbVariantPrev) {
+      lbVariantPrev.addEventListener('click', () => {
+        if (currentVariantIndex > 0) {
+          currentVariantIndex--;
+          updateVariantDisplay();
+          // تحديث المخزون
+          document.getElementById('lbStock').textContent = `المخزون: ${currentVariants[currentVariantIndex].stock}`;
+        }
+      });
+    }
+
+    if (lbVariantNext) {
+      lbVariantNext.addEventListener('click', () => {
+        if (currentVariantIndex < currentVariants.length - 1) {
+          currentVariantIndex++;
+          updateVariantDisplay();
+          document.getElementById('lbStock').textContent = `المخزون: ${currentVariants[currentVariantIndex].stock}`;
+        }
+      });
+    }
+
+    // ===== أزرار التنقل بين الصور =====
     if (lbPrev) {
       lbPrev.addEventListener('click', () => {
         if (currentGalleryItems.length > 0) {
@@ -1277,7 +1377,7 @@
       });
     }
 
-    // إغلاق Lightbox
+    // ===== إغلاق Lightbox =====
     if (lbClose) {
       lbClose.addEventListener('click', () => {
         lightbox.classList.remove('active');
@@ -1305,6 +1405,7 @@
     }
 
     if (lbDisplay && lbImg) {
+      // النقر المزدوج للتكبير
       lbDisplay.addEventListener('dblclick', (e) => {
         if (lbImg.style.display === 'none') return;
         isZoomed = !isZoomed;
@@ -1319,6 +1420,7 @@
         }
       });
 
+      // السحب بالماوس
       lbDisplay.addEventListener('mousedown', (e) => {
         if (!isZoomed || lbImg.style.display === 'none') return;
         isDragging = true;
@@ -1344,7 +1446,7 @@
         }
       });
 
-      // سحب باللمس
+      // السحب باللمس
       let touchStartX = 0, touchStartY = 0;
       let isPinching = false;
       let lastTouchDistance = 0;
@@ -1406,6 +1508,7 @@
         }
       });
 
+      // إلغاء التكبير عند الإغلاق
       lbClose.addEventListener('click', () => {
         isZoomed = false;
         applyTransform(1, 0, 0);
@@ -1415,7 +1518,7 @@
       });
     }
 
-    // ===== زر ملء الشاشة (FullScreen) =====
+    // ===== زر FullScreen =====
     const lbFullscreenBtn = document.getElementById('lbFullscreenBtn');
     if (lbFullscreenBtn && lbImg) {
       lbFullscreenBtn.addEventListener('click', (e) => {
@@ -1528,7 +1631,7 @@
     renderBlogPosts();
     renderContactInfo();
     
-    console.log('⚡ النخبة – المتجر الأسطوري (الإصدار النهائي المحدث) جاهز!');
+    console.log('⚡ النخبة – المتجر الأسطوري (الإصدار النهائي مع إصلاح Lightbox) جاهز!');
   </script>
 </body>
-                                                                </html>
+</html>
