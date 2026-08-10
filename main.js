@@ -181,24 +181,24 @@ export class CategoryManager {
 
 // Keep data saved by older deployments working after asset filenames change.
 const STATIC_IMAGE_MIGRATIONS = {
-  '/public/images/products/10.00 SAR.jpg': '/public/images/products/1.jpg',
-  '/public/images/products/10.00 SAR-2.jpg': '/public/images/products/1.jpg',
-  '/public/images/products/10 SAR Hifi LED.jpg': '/public/images/products/2.jpg',
-  '/public/images/products/40W - 8.30 SAR.jpg': '/public/images/products/3.png',
-  '/public/images/products/14.00 SAR .jpg': '/public/images/products/4.png',
-  '/public/images/products/0Y - 35.00 SAR.jpg': '/public/images/products/5.png',
-  '/public/images/products/7 - 2.20 SAR .jpg': '/public/images/products/6.jpg',
-  '/public/images/products/E27 - 2.20 SAR .jpg': '/public/images/products/7.jpg',
-  '/public/images/products/W - 15.00 SAR .jpg': '/public/images/products/8.jpg',
-  '/public/images/products/0W - 15.00 SAR.jpg': '/public/images/products/9.jpg',
-  '/public/images/products/put - 3.50 SAR .jpg': '/public/images/products/10.jpg',
-  '/public/images/products/put - 6.00 SAR .jpg': '/public/images/products/11.jpg',
-  '/public/images/products/led-multi.jpg': '/public/images/products/12.jpg',
-  '/public/images/blog/solar-tech.jpg': '/public/images/products/30.jpg',
-  '/public/images/blog/circuit-breaker.jpg': '/public/images/products/31.jpg',
-  '/public/images/hero-bg-1.jpg': '/public/images/products/27.jpg',
-  '/public/images/hero-bg-2.jpg': '/public/images/products/28.jpg',
-  '/public/images/hero-bg-3.jpg': '/public/images/products/29.jpg'
+  '/public/images/products/1.jpg': '/public/images/products/1.jpg',
+  '/public/images/products/2.jpg': '/public/images/products/1.jpg',
+  '/public/images/products/3.jpg': '/public/images/products/2.jpg',
+  '/public/images/products/4.jpg': '/public/images/products/3.png',
+  '/public/images/products/5.jpg': '/public/images/products/4.png',
+  '/public/images/products/6.jpg': '/public/images/products/5.png',
+  '/public/images/products/7.jpg': '/public/images/products/6.jpg',
+  '/public/images/products/8.jpg': '/public/images/products/7.jpg',
+  '/public/images/products/9.jpg': '/public/images/products/8.jpg',
+  '/public/images/products/10.jpg': '/public/images/products/9.jpg',
+  '/public/images/products/11.jpg': '/public/images/products/10.jpg',
+  '/public/images/products/12.jpg': '/public/images/products/11.jpg',
+  '/public/images/products/13.jpg': '/public/images/products/12.jpg',
+  '/public/images/blog/14.jpg': '/public/images/products/30.jpg',
+  '/public/images/blog/15.jpg': '/public/images/products/31.jpg',
+  '/public/images/16.jpg': '/public/images/products/27.jpg',
+  '/public/images/17.jpg': '/public/images/products/28.jpg',
+  '/public/images/18.jpg': '/public/images/products/29.jpg'
 };
 
 function migrateStaticImage(path) {
