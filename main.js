@@ -1,15 +1,17 @@
 // ================================================================
 // main.js – النواة الأسطورية لمتجر النخبة
-// الإصدار النهائي المتكامل – v8.1 (مع ضغط الصور والتقدم)
+// الإصدار النهائي المتكامل – v9.0 (رفع مباشر إلى Firebase Storage)
 // ================================================================
 
 import * as THREE from 'three';
 
 // ================================================================
-// إعدادات Firebase السحابية (Realtime Database)
+// إعدادات Firebase السحابية (Realtime Database + Storage)
 // ================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+// 🔥 إضافة Firebase Storage للرفع المباشر
+import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAnkES6TCMGdshbJmocM_0avknOcdbJ4Ms",
@@ -23,6 +25,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const storage = getStorage(app); // تهيئة التخزين
 
 // ================================================================
 // دالة لإزالة الخصائص ذات القيمة undefined (لحماية قاعدة البيانات)
@@ -1403,15 +1406,15 @@ export class HeroImagesManager {
 }
 
 // ================================================================
-// 10. IMAGE UPLOADER – إدارة رفع الصور عبر ImgBB (مُحسَّن: ضغط + تقدم)
+// 10. IMAGE UPLOADER – رفع مباشر إلى Firebase Storage (بدون ImgBB)
 // ================================================================
 
 export class ImageUploader {
-  // ضغط الصورة باستخدام Canvas
-  static compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75) {
+  // دالة مساعدة لضغط الصورة (لتوفير المساحة والسرعة)
+  static compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.7) {
     return new Promise((resolve, reject) => {
-      // إذا كان الملف صغيراً جداً، نعيده كما هو دون ضغط (توفير وقت)
-      if (file.size < 100 * 1024) { // أقل من 100 كيلوبايت
+      // إذا كان الملف صغيراً جداً، نرفعه بدون ضغط
+      if (file.size < 200 * 1024) { // أقل من 200 كيلوبايت
         resolve(file);
         return;
       }
@@ -1422,121 +1425,103 @@ export class ImageUploader {
         const img = new Image();
         img.src = event.target.result;
         img.onload = () => {
-          // حساب الأبعاد الجديدة مع الحفاظ على النسبة
-          let width = img.width;
-          let height = img.height;
-          if (width > height) {
-            if (width > maxWidth) {
-              height = Math.round((height * maxWidth) / width);
-              width = maxWidth;
+          try {
+            // حساب الأبعاد الجديدة مع الحفاظ على النسبة
+            let width = img.width;
+            let height = img.height;
+            const maxDim = Math.max(width, height);
+            if (maxDim > maxWidth) {
+              const ratio = maxWidth / maxDim;
+              width = Math.round(width * ratio);
+              height = Math.round(height * ratio);
             }
-          } else {
-            if (height > maxHeight) {
-              width = Math.round((width * maxHeight) / height);
-              height = maxHeight;
-            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // اختيار نوع الملف المناسب
+            const mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+            canvas.toBlob((blob) => {
+              if (!blob) {
+                reject(new Error('فشل إنشاء blob مضغوط'));
+                return;
+              }
+              if (blob.size === 0) {
+                reject(new Error('blob فارغ'));
+                return;
+              }
+              const compressedFile = new File([blob], file.name, { type: mimeType });
+              console.log(`✅ تم ضغط الصورة: من ${(file.size/1024).toFixed(1)} KB إلى ${(blob.size/1024).toFixed(1)} KB`);
+              resolve(compressedFile);
+            }, mimeType, quality);
+          } catch (err) {
+            reject(new Error(`خطأ في معالجة الصورة: ${err.message}`));
           }
-
-          const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.imageSmoothingEnabled = true;
-          ctx.imageSmoothingQuality = 'high';
-          ctx.drawImage(img, 0, 0, width, height);
-
-          // تحويل إلى Blob (JPG للصور العادية، PNG للشفافية إذا لزم الأمر)
-          const mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
-          canvas.toBlob((blob) => {
-            if (!blob) {
-              reject(new Error('فشل ضغط الصورة'));
-              return;
-            }
-            // إنشاء ملف جديد مضغوط
-            const compressedFile = new File([blob], file.name, { type: mimeType });
-            resolve(compressedFile);
-          }, mimeType, quality);
         };
-        img.onerror = () => reject(new Error('فشل تحميل الصورة للضغط'));
+        img.onerror = () => reject(new Error('فشل تحميل الصورة في الذاكرة'));
       };
       reader.onerror = () => reject(new Error('فشل قراءة الملف'));
     });
   }
 
-  // رفع ملف مع دعم التقدم والضغط التلقائي
+  // ===== الدالة الأساسية للرفع إلى Firebase Storage =====
   static async uploadFile(file, onProgress = null) {
     if (!file) return null;
 
     try {
-      // 1. ضغط الصورة (تقليل الحجم بنسبة 70-80%)
-      const compressedFile = await this.compressImage(file, 1200, 1200, 0.75);
+      // 1. محاولة ضغط الصورة (مع الاحتياطي)
+      let fileToUpload = file;
+      try {
+        fileToUpload = await this.compressImage(file, 1200, 1200, 0.7);
+      } catch (compressError) {
+        console.warn('⚠️ فشل الضغط، سنرفع الملف الأصلي:', compressError.message);
+        fileToUpload = file;
+      }
+
+      // 2. إنشاء مسار فريد في Firebase Storage
+      const timestamp = Date.now();
+      const cleanName = fileToUpload.name.replace(/[^a-zA-Z0-9.]/g, '_');
+      const uniquePath = `products/${timestamp}_${cleanName}`;
       
-      // 2. إعداد طلب الرفع
-      const apiKey = "a2429d609080c139ccdaa5a789cf6928";
-      const formData = new FormData();
-      formData.append("image", compressedFile);
+      // 3. الحصول على مرجع التخزين
+      const storageRef = storageRef(storage, uniquePath);
 
-      // 3. استخدام XMLHttpRequest لمراقبة التقدم
+      // 4. بدء عملية الرفع مع تتبع التقدم
       return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", `https://api.imgbb.com/1/upload?key=${apiKey}`, true);
-        
-        xhr.upload.onprogress = (event) => {
-          if (onProgress && event.lengthComputable) {
-            const percent = Math.round((event.loaded / event.total) * 100);
-            onProgress(percent);
-          }
-        };
+        const uploadTask = uploadBytesResumable(storageRef, fileToUpload);
 
-        xhr.onload = () => {
-          if (xhr.status === 200) {
-            try {
-              const data = JSON.parse(xhr.responseText);
-              if (data.success) {
-                resolve(data.data.url);
-              } else {
-                reject(new Error(data.error.message || 'فشل رفع الصورة'));
-              }
-            } catch (e) {
-              reject(new Error('خطأ في قراءة استجابة الخادم'));
+        // مراقبة التقدم
+        uploadTask.on('state_changed', 
+          (snapshot) => {
+            if (onProgress) {
+              const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+              onProgress(percent);
             }
-          } else {
-            reject(new Error(`HTTP ${xhr.status}`));
+          },
+          (error) => {
+            // حدث خطأ في الرفع
+            console.error("❌ فشل رفع الملف إلى Firebase:", error);
+            reject(new Error(`فشل الرفع: ${error.message}`));
+          },
+          () => {
+            // اكتمل الرفع بنجاح → نحصل على الرابط العام
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log("✅ تم رفع الصورة بنجاح:", downloadURL);
+              resolve(downloadURL);
+            }).catch((err) => {
+              reject(new Error("تم الرفع لكن فشل الحصول على الرابط"));
+            });
           }
-        };
-
-        xhr.onerror = () => reject(new Error('فشل الاتصال بالخادم (ImgbB)'));
-        xhr.send(formData);
+        );
       });
 
     } catch (error) {
-      console.error("حدث خطأ أثناء رفع الصورة:", error);
-      // محاولة رفع الملف الأصلي إذا فشل الضغط (حماية)
-      if (error.message.includes('ضغط')) {
-        console.warn("محاولة رفع الملف الأصلي بعد فشل الضغط...");
-        return new Promise((resolve, reject) => {
-          const apiKey = "a2429d609080c139ccdaa5a789cf6928";
-          const formData = new FormData();
-          formData.append("image", file);
-          const xhr = new XMLHttpRequest();
-          xhr.open("POST", `https://api.imgbb.com/1/upload?key=${apiKey}`, true);
-          xhr.upload.onprogress = (event) => {
-            if (onProgress && event.lengthComputable) {
-              const percent = Math.round((event.loaded / event.total) * 100);
-              onProgress(percent);
-            }
-          };
-          xhr.onload = () => {
-            if (xhr.status === 200) {
-              const data = JSON.parse(xhr.responseText);
-              if (data.success) resolve(data.data.url);
-              else reject(new Error(data.error.message));
-            } else reject(new Error(`HTTP ${xhr.status}`));
-          };
-          xhr.onerror = () => reject(new Error('فشل الاتصال'));
-          xhr.send(formData);
-        });
-      }
+      console.error("❌ خطأ في تجهيز الصورة:", error);
       throw error;
     }
   }
@@ -2067,7 +2052,7 @@ if (typeof THREE !== 'undefined' && !window.__THREE_LOADED) {
   window.__THREE_LOADED = true;
 }
 
-console.log('⚡ النخبة – النواة الأسطورية v8.1 (مع ضغط الصور والتقدم) جاهزة');
+console.log('⚡ النخبة – النواة الأسطورية v9.0 (رفع مباشر إلى Firebase Storage) جاهزة');
 console.log('📞 رقم الهاتف: +967782826727');
 console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
 console.log('🔊 ThunderEngine: تم تهيئة صوت الرعد');
@@ -2076,4 +2061,4 @@ console.log('⚡ LightningEngine: محرك برق واقعي');
 console.log('💓 EmotionalEngine: المحرك العاطفي جاهز');
 console.log('🗺️ Energy Map: خريطة الطاقة جاهزة');
 console.log('🏆 Engineering Challenge: نظام المنافسة جاهز');
-console.log('🖼️ ImageUploader: يدعم الضغط التلقائي وشريط التقدم');
+console.log('🖼️ ImageUploader: رفع مباشر إلى Firebase Storage مع ضغط تلقائي');
