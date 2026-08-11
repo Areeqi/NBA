@@ -1,6 +1,6 @@
 // ================================================================
 // main.js – النواة الأسطورية لمتجر النخبة (Enterprise Edition)
-// الإصدار النهائي المتكامل – v6.0 (تكامل Firebase الحقيقي + تحسينات الأداء)
+// الإصدار النهائي المتكامل – v6.0 (تكامل Firebase + تحسينات الأداء)
 // ================================================================
 
 import * as THREE from 'three';
@@ -12,6 +12,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getDatabase, ref, set, get, child, remove } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
 import { getStorage, ref as storageRef, uploadString, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
 
+// إعدادات Firebase الخاصة بمتجر النخبة
 const firebaseConfig = {
   apiKey: "AIzaSyAnkES6TCMGdshbJmocM_0avknOcdbJ4Ms",
   authDomain: "nokhba-store.firebaseapp.com",
@@ -58,6 +59,7 @@ export class LocalStorageAdapter extends StorageAdapter {
   }
 }
 
+// محول Firebase الجديد لربط البيانات بالسحابة
 export class FirebaseAdapter extends StorageAdapter {
   async get(key) {
     try {
@@ -70,7 +72,7 @@ export class FirebaseAdapter extends StorageAdapter {
       }
     } catch (error) {
       console.error('خطأ في جلب البيانات من Firebase:', error);
-      return null; // سيتم استخدام البيانات الافتراضية إذا فشل الاتصال
+      return null; 
     }
   }
 
@@ -98,9 +100,12 @@ export class FirebaseAdapter extends StorageAdapter {
 }
 
 // ================================================================
-// 3. PRODUCT MANAGER – إدارة المنتجات المتطورة
+// 3. PRODUCT MANAGER – إدارة المنتجات المتطورة (مع المقاسات)
 // ================================================================
 
+/**
+ * خوارزمية Levenshtein للمقارنة النصية المتسامحة مع الأخطاء
+ */
 function levenshtein(a, b) {
   if (a.length === 0) return b.length;
   if (b.length === 0) return a.length;
@@ -125,7 +130,7 @@ export class ProductManager {
   #adapter;
   #cache = null;
 
-  // استخدام Firebase Adapter كافتراضي
+  // تغيير المحول الافتراضي إلى FirebaseAdapter
   constructor(adapter = new FirebaseAdapter()) {
     this.#adapter = adapter;
   }
@@ -134,16 +139,68 @@ export class ProductManager {
     if (this.#cache) return this.#cache;
     const data = await this.#adapter.get('nokhba_products');
     
-    // منتج افتراضي يُستخدم في حال كانت قاعدة البيانات جديدة/فارغة
+    // منتجات افتراضية تُستخدم في حال كانت قاعدة البيانات السحابية جديدة/فارغة
     const defaults = [
       {
-        id: 'p1', name: 'منتج تجريبي 1', category: 'مفاتيح', price: 45, stock: 100, minOrder: 1, rating: 4.5,
-        isNew: true, isBestSeller: false, active: true, sortOrder: 1,
-        image: '/public/images/products/10.00 SAR.jpg', images: ['/public/images/products/10.00 SAR.jpg'],
-        desc: 'هذا منتج افتراضي للتجربة.', variants: []
+        id: 'p1',
+        name: 'مفتاح تيار 32A',
+        category: 'مفاتيح',
+        price: 45,
+        stock: 100,
+        minOrder: 1,
+        rating: 4.5,
+        isNew: true,
+        isBestSeller: false,
+        active: true,
+        sortOrder: 1,
+        image: '/public/images/products/10.00 SAR.jpg',
+        images: ['/public/images/products/10.00 SAR.jpg', '/public/images/products/10.00 SAR-2.jpg'],
+        video: null,
+        desc: 'مفتاح تيار عالي الجودة 32 أمبير، مثالي للاستخدام المنزلي والصناعي.',
+        variants: []
+      },
+      {
+        id: 'p2',
+        name: 'كابل نحاس 10مم',
+        category: 'كابلات',
+        price: 120,
+        stock: 50,
+        minOrder: 1,
+        rating: 4.2,
+        isNew: false,
+        isBestSeller: true,
+        active: true,
+        sortOrder: 2,
+        image: '/public/images/products/10 SAR Hifi LED.jpg',
+        images: ['/public/images/products/10 SAR Hifi LED.jpg'],
+        video: null,
+        desc: 'كابل نحاس نقي 10 مم للاستخدامات الصناعية والمنزلية.',
+        variants: []
+      },
+      {
+        id: 'p12',
+        name: 'لمبة LED متعددة المقاسات',
+        category: 'إضاءة',
+        price: 10,
+        stock: 0,
+        minOrder: 1,
+        rating: 4.7,
+        isNew: true,
+        isBestSeller: true,
+        active: true,
+        sortOrder: 12,
+        image: '/public/images/products/led-multi.jpg',
+        images: ['/public/images/products/led-multi.jpg'],
+        video: null,
+        desc: 'لمبة LED متعددة المقاسات – اختر المقاس المناسب.',
+        variants: [
+          { size: '20 وات', price: 10, stock: 100, minOrder: 6 },
+          { size: '30 وات', price: 15, stock: 80, minOrder: 4 },
+          { size: '40 وات', price: 20, stock: 60, minOrder: 3 },
+          { size: '50 وات', price: 25, stock: 40, minOrder: 2 }
+        ]
       }
     ];
-    
     this.#cache = (data && data.length) ? data : defaults;
     return this.#cache;
   }
@@ -219,7 +276,7 @@ export class ProductManager {
     switch (command.type) {
       case 'ADD': {
         const np = {
-          // استخدام توليد معرفات عشوائية يمنع التصادم 
+          // حل مشكلة تكرار المعرفات بتوليد عشوائي دقيق
           id: 'id_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9),
           ...command.payload,
           createdAt: new Date().toISOString()
@@ -278,6 +335,7 @@ export class BlogManager {
   #adapter;
   #cache = null;
 
+  // تغيير المحول الافتراضي إلى FirebaseAdapter
   constructor(adapter = new FirebaseAdapter()) {
     this.#adapter = adapter;
   }
@@ -287,10 +345,28 @@ export class BlogManager {
     const data = await this.#adapter.get('nokhba_blog_posts');
     const defaults = [
       {
-        id: 'b1', title: 'أحدث تقنيات الطاقة الشمسية في اليمن', slug: 'احدث-تقنيات-الطاقة-الشمسية',
-        excerpt: 'نستعرض في هذا المقال أحدث التطورات في مجال الطاقة الشمسية.',
-        content: '<p>تفاصيل المقال الكامل...</p>', image: '/public/images/blog/solar-tech.jpg',
-        date: new Date().toISOString(), author: 'فريق النخبة', tags: ['طاقة شمسية', 'تقنية'], published: true
+        id: 'b1',
+        title: 'أحدث تقنيات الطاقة الشمسية في اليمن',
+        slug: 'احدث-تقنيات-الطاقة-الشمسية',
+        excerpt: 'نستعرض في هذا المقال أحدث التطورات في مجال الطاقة الشمسية وكيف يمكن استغلالها في اليمن.',
+        content: '<p>تفاصيل المقال الكامل حول الطاقة الشمسية وتطبيقاتها في اليمن...</p>',
+        image: '/public/images/blog/solar-tech.jpg',
+        date: new Date().toISOString(),
+        author: 'فريق النخبة',
+        tags: ['طاقة شمسية', 'تقنية', 'اليمن'],
+        published: true
+      },
+      {
+        id: 'b2',
+        title: 'كيف تختار القاطع الكهربائي المناسب؟',
+        slug: 'كيف-تختار-القاطع-الكهربائي',
+        excerpt: 'دليل شامل لاختيار القواطع الكهربائية حسب الأحمال والاستخدامات المختلفة.',
+        content: '<p>دليل كامل لاختيار القواطع الكهربائية حسب نوع الحمل والتيار...</p>',
+        image: '/public/images/blog/circuit-breaker.jpg',
+        date: new Date(Date.now() - 86400000 * 3).toISOString(),
+        author: 'مهندس كهرباء',
+        tags: ['قواطع', 'كهرباء', 'دليل'],
+        published: true
       }
     ];
     this.#cache = (data && data.length) ? data : defaults;
@@ -360,6 +436,7 @@ export class ContactManager {
   #adapter;
   #cache = null;
 
+  // تغيير المحول الافتراضي إلى FirebaseAdapter
   constructor(adapter = new FirebaseAdapter()) {
     this.#adapter = adapter;
   }
@@ -400,7 +477,13 @@ export class ContactManager {
       address: 'عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد',
       phone: '+967782826727',
       email: 'info@nokhba-electric.com',
-      whatsapp: '967782826727'
+      whatsapp: '967782826727',
+      facebook: 'https://facebook.com/nokhba',
+      instagram: 'https://instagram.com/nokhba',
+      twitter: 'https://twitter.com/nokhba',
+      youtube: 'https://youtube.com/nokhba',
+      mapEmbed: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456!2d45.123456!3d12.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDA3JzI0LjYiTiA0NcKwMDcnMjQuMCJF!5e0!3m2!1sar!2sye!4v1234567890" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
+      openingHours: 'السبت - الخميس: 9:00 ص - 9:00 م'
     };
     await this.#adapter.set('nokhba_contact_info', defaults);
     this.#cache = null;
@@ -409,7 +492,7 @@ export class ContactManager {
 }
 
 // ================================================================
-// 6. LIGHTNING ENGINE – محرك البرق ثلاثي الأبعاد (مُحسّن الأداء)
+// 6. LIGHTNING ENGINE – محرك البرق ثلاثي الأبعاد (مع حل مشكلة الأداء GPU)
 // ================================================================
 
 export class LightningEngine {
@@ -437,7 +520,7 @@ export class LightningEngine {
     this.#renderer.setClearColor(0x000000, 0);
     container.appendChild(this.#renderer.domElement);
 
-    // تقديم الإطار الأول فقط للتأكد من نظافة الـ Canvas
+    // تقديم الإطار الأول فقط
     this.#renderer.render(this.#scene, this.#camera);
 
     window.addEventListener('resize', () => {
@@ -534,7 +617,7 @@ export class LightningEngine {
       age: 0
     });
 
-    // استئناف حلقة التحريك إذا كانت متوقفة (أداء عبقري)
+    // استئناف حلقة التحريك إذا كانت متوقفة 
     if (!this.#isAnimating) {
       this.#isAnimating = true;
       this.#clock.getDelta(); // تصفير الساعة لمنع القفزات الزمنية
@@ -594,7 +677,10 @@ export class ThunderEngine {
   }
 
   init() {
-    if (this.#initAttempts >= this.#maxInitAttempts) return;
+    if (this.#initAttempts >= this.#maxInitAttempts) {
+      console.warn('⚠️ ThunderEngine: فشل تحميل الصوت بعد عدة محاولات');
+      return;
+    }
     this.#initAttempts++;
 
     try {
@@ -603,19 +689,26 @@ export class ThunderEngine {
       this.#audio.volume = 0.7;
       this.#audio.loop = false;
 
-      this.#audio.oncanplaythrough = () => { this.#ready = true; };
-      this.#audio.onloadeddata = () => { this.#ready = true; };
+      this.#audio.oncanplaythrough = () => {
+        this.#ready = true;
+      };
+
+      this.#audio.onloadeddata = () => {
+        this.#ready = true;
+      };
+
       this.#audio.onerror = (e) => {
         this.#ready = false;
         setTimeout(() => {
-          if (this.#initAttempts < this.#maxInitAttempts) this.init();
+          if (this.#initAttempts < this.#maxInitAttempts) {
+            this.init();
+          }
         }, 2000);
       };
 
       this.#audio.load();
 
       // فك قفل تشغيل الصوت برمجياً (Autoplay Policy Unlocker)
-      // بمجرد ضغط المستخدم على أي مكان في الشاشة، نقوم بتحميل الصوت لضمان سماح المتصفح
       const unlockAudio = () => {
         if (this.#audio && !this.#ready) {
           this.#audio.load();
@@ -624,7 +717,14 @@ export class ThunderEngine {
       };
       document.addEventListener('click', unlockAudio);
 
+      setTimeout(() => {
+        if (!this.#ready && this.#audio) {
+          this.#ready = true;
+        }
+      }, 3000);
+
     } catch (err) {
+      console.warn('⚠️ ThunderEngine: استثناء أثناء التهيئة', err);
       this.#ready = false;
     }
   }
@@ -633,10 +733,13 @@ export class ThunderEngine {
     if (!this.#ready || !this.#audio) {
       this.init();
       setTimeout(() => {
-        if (this.#ready && this.#audio) this._playInternal(intensity);
+        if (this.#ready && this.#audio) {
+          this._playInternal(intensity);
+        }
       }, 500);
       return false;
     }
+
     return this._playInternal(intensity);
   }
 
@@ -647,14 +750,25 @@ export class ThunderEngine {
       this.#audio.volume = volume;
 
       const playPromise = this.#audio.play();
+
       if (playPromise !== undefined) {
-        playPromise.catch(() => {
+        playPromise
+          .then(() => {
+            // نجاح
+          })
+          .catch((err) => {
+            console.warn('⚠️ ThunderEngine: فشل التشغيل التلقائي', err);
             this.#audio.load();
-            setTimeout(() => { this.#audio.play().catch(() => {}); }, 300);
+            setTimeout(() => {
+              this.#audio.play().catch(() => {});
+            }, 300);
           });
+        return true;
       }
+
       return true;
     } catch (err) {
+      console.warn('⚠️ ThunderEngine: استثناء أثناء التشغيل', err);
       return false;
     }
   }
@@ -674,10 +788,10 @@ export class ThunderEngine {
 // 8. UTILITY FUNCTIONS – دوال مساعدة للمتجر
 // ================================================================
 
-// رفع الصورة بصيغة Base64 إلى Firebase Storage وإرجاع الرابط النظيف (URL)
+// دالة لرفع الصورة بصيغة Base64 إلى Firebase Storage وإرجاع الرابط
 export async function uploadImageToStorage(base64String, path) {
   if (!base64String || !base64String.startsWith('data:image')) {
-    return base64String;
+    return base64String; 
   }
   
   try {
@@ -689,7 +803,7 @@ export async function uploadImageToStorage(base64String, path) {
     const downloadURL = await getDownloadURL(imgRef);
     return downloadURL;
   } catch (error) {
-    console.error('خطأ في رفع الصورة إلى Storage:', error);
+    console.error('خطأ في رفع الصورة:', error);
     throw error;
   }
 }
@@ -704,8 +818,11 @@ export function showToast(message, duration = 3500, icon = '✨') {
 }
 
 export function getCart() {
-  try { return JSON.parse(localStorage.getItem('nokhba_cart') || '[]'); } 
-  catch { return []; }
+  try {
+    return JSON.parse(localStorage.getItem('nokhba_cart') || '[]');
+  } catch {
+    return [];
+  }
 }
 
 export function saveCart(cart) {
@@ -713,8 +830,11 @@ export function saveCart(cart) {
 }
 
 export function getOrders() {
-  try { return JSON.parse(localStorage.getItem('nokhba_orders') || '[]'); } 
-  catch { return []; }
+  try {
+    return JSON.parse(localStorage.getItem('nokhba_orders') || '[]');
+  } catch {
+    return [];
+  }
 }
 
 export function saveOrders(orders) {
@@ -734,14 +854,14 @@ export function getBackground() {
   return localStorage.getItem('nokhba_bg_image') || '';
 }
 
-export function setBackground(url) {
-  localStorage.setItem('nokhba_bg_image', url);
-  applyBackground(url);
+export function setBackground(base64) {
+  localStorage.setItem('nokhba_bg_image', base64);
+  applyBackground(base64);
 }
 
-export function applyBackground(url) {
-  if (url && (url.startsWith('http') || url.startsWith('data:image'))) {
-    document.body.style.setProperty('--bg-image', `url(${url})`);
+export function applyBackground(base64) {
+  if (base64 && (base64.startsWith('http') || base64.startsWith('data:image'))) {
+    document.body.style.setProperty('--bg-image', `url(${base64})`);
   } else {
     document.body.style.setProperty('--bg-image', 'none');
   }
@@ -751,16 +871,16 @@ export function getFooterImage() {
   return localStorage.getItem('nokhba_footer_image') || '';
 }
 
-export function setFooterImage(url) {
-  localStorage.setItem('nokhba_footer_image', url);
-  applyFooterImage(url);
+export function setFooterImage(base64) {
+  localStorage.setItem('nokhba_footer_image', base64);
+  applyFooterImage(base64);
 }
 
-export function applyFooterImage(url) {
+export function applyFooterImage(base64) {
   const footer = document.getElementById('siteFooter');
   if (!footer) return;
-  if (url && (url.startsWith('http') || url.startsWith('data:image'))) {
-    footer.style.backgroundImage = `url(${url})`;
+  if (base64 && (base64.startsWith('http') || base64.startsWith('data:image'))) {
+    footer.style.backgroundImage = `url(${base64})`;
     footer.style.backgroundSize = 'cover';
     footer.style.backgroundPosition = 'center';
     footer.style.minHeight = '180px';
@@ -786,25 +906,33 @@ export function applyFooterImage(url) {
 // ================================================================
 
 export function getVariantPrice(product, variantSize) {
-  if (!product.variants || product.variants.length === 0) return product.price;
+  if (!product.variants || product.variants.length === 0) {
+    return product.price;
+  }
   const variant = product.variants.find(v => v.size === variantSize);
   return variant ? variant.price : product.price;
 }
 
 export function getVariantStock(product, variantSize) {
-  if (!product.variants || product.variants.length === 0) return product.stock;
+  if (!product.variants || product.variants.length === 0) {
+    return product.stock;
+  }
   const variant = product.variants.find(v => v.size === variantSize);
   return variant ? variant.stock : 0;
 }
 
 export function getVariantMinOrder(product, variantSize) {
-  if (!product.variants || product.variants.length === 0) return product.minOrder || 1;
+  if (!product.variants || product.variants.length === 0) {
+    return product.minOrder || 1;
+  }
   const variant = product.variants.find(v => v.size === variantSize);
   return variant ? variant.minOrder : 1;
 }
 
 export function getAvailableSizes(product) {
-  if (!product.variants || product.variants.length === 0) return [];
+  if (!product.variants || product.variants.length === 0) {
+    return [];
+  }
   return product.variants.map(v => v.size);
 }
 
@@ -816,4 +944,6 @@ if (typeof THREE !== 'undefined' && !window.__THREE_LOADED) {
   window.__THREE_LOADED = true;
 }
 
-console.log('⚡ النخبة – النواة الأسطورية (Enterprise) جاهزة بكامل ميزاتها مع Firebase!');
+console.log('⚡ النخبة – النواة الأسطورية جاهزة بكامل ميزاتها مع Firebase!');
+console.log('📞 رقم الهاتف: +967782826727');
+console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
