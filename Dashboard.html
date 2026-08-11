@@ -1261,7 +1261,7 @@
   <div id="toast" class="toast"></div>
 
   <!-- ============================================================ -->
-  <!-- JavaScript – تشغيل لوحة التحكم (v8.0) -->
+  <!-- JavaScript – تشغيل لوحة التحكم (v8.1 – مع شريط التقدم) -->
   <!-- ============================================================ -->
   <script type="module">
     // ================================================================
@@ -1464,37 +1464,53 @@
         pImageFileExtra.click();
       });
 
+      // ================================================================
+      // 🔥 القسم المُحدَّث: رفع الصور مع شريط التقدم والضغط التلقائي
+      // ================================================================
       pImageFileExtra.addEventListener('change', async (e) => {
         const files = e.target.files;
         if (files.length === 0) return;
         
-        showToast(`⏳ جاري رفع ${files.length} صورة...`, 3000, '⏳');
+        showToast(`⏳ جاري تجهيز ${files.length} صورة للرفع...`, 3000, '⏳');
         let uploaded = 0;
-        const uploadErrors = [];
+        const totalFiles = files.length;
+        const failedFiles = [];
         
-        for (const file of files) {
+        for (let i = 0; i < totalFiles; i++) {
+          const file = files[i];
           try {
-            const url = await ImageUploader.uploadFile(file);
+            // عرض شريط التقدم لكل صورة
+            showToast(`⏳ رفع الصورة ${i+1}/${totalFiles} (0%)`, 15000, '⏳');
+            
+            const url = await ImageUploader.uploadFile(file, (percent) => {
+              // تحديث الـ Toast ديناميكياً
+              const toast = document.getElementById('toast');
+              if (toast && toast.classList.contains('show')) {
+                toast.innerHTML = `<span class="toast-icon">⏳</span> رفع الصورة ${i+1}/${totalFiles} (${percent}%)`;
+              }
+            });
+            
             if (url) {
               tempImages.push(url);
               uploaded++;
-              // تحديث المعاينة تدريجياً
               renderImagePreviews();
               updateHiddenImagesField();
+            } else {
+              failedFiles.push(file.name);
             }
           } catch (err) {
-            uploadErrors.push(`${file.name}: ${err.message}`);
             console.warn('فشل رفع ملف:', file.name, err);
+            failedFiles.push(file.name);
           }
         }
         
-        if (uploaded > 0 && uploadErrors.length === 0) {
-          showToast(`✅ تم رفع ${uploaded} صورة بنجاح`, 2500, '✅');
-        } else if (uploaded > 0 && uploadErrors.length > 0) {
-          showToast(`⚠️ تم رفع ${uploaded} صورة، فشل ${uploadErrors.length} صورة`, 4000, '⚠️');
+        // إظهار رسالة نهائية
+        if (uploaded === totalFiles) {
+          showToast(`✅ تم رفع جميع الصور (${uploaded}) بنجاح!`, 3000, '✅');
+        } else if (uploaded > 0 && failedFiles.length > 0) {
+          showToast(`⚠️ تم رفع ${uploaded} من أصل ${totalFiles}. فشل: ${failedFiles.join(', ')}`, 5000, '⚠️');
         } else {
-          showToast(`❌ فشل رفع جميع الصور (${files.length})، تحقق من الاتصال بالإنترنت`, 5000, '❌');
-          console.error('أخطاء الرفع:', uploadErrors.join('\n'));
+          showToast(`❌ فشل رفع جميع الصور. تأكد من اتصالك بالإنترنت.`, 4000, '❌');
         }
         
         renderImagePreviews();
@@ -2424,7 +2440,7 @@
     setInterval(renderOrders, 30000);
     setInterval(updateCommunityStatsUI, 60000);
 
-    console.log('⚡ لوحة التحكم الأسطورية v8.0 جاهزة (مع دعم رفع عدة صور وفيديو)');
+    console.log('⚡ لوحة التحكم الأسطورية v8.1 جاهزة (مع شريط تقدم وضغط تلقائي)');
     console.log('📞 رقم الهاتف: +967782826727');
     console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
     console.log('✅ البيانات مخزنة في Realtime Database (مجاني)');
