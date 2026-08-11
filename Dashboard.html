@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>النخبة – لوحة التحكم الأسطورية (نسخة السحابة)</title>
+  <title>النخبة – لوحة التحكم الأسطورية</title>
+  
+  <!-- ===== Google Fonts – خطوط عصرية ===== -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
   
@@ -25,136 +29,147 @@
       font-weight: 800;
     }
 
-    /* ===== التبويبات ===== */
     .admin-tabs {
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
       margin-bottom: 1.5rem;
-      background: var(--card);
+      background: rgba(18, 18, 32, 0.2);
+      backdrop-filter: blur(12px);
       padding: 0.5rem 1rem;
       border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.03);
       box-shadow: var(--shadow-sm);
     }
+    [data-theme="light"] .admin-tabs {
+      background: rgba(255, 255, 255, 0.15);
+    }
     .admin-tabs button {
-      padding: 0.5rem 1.5rem;
+      padding: 0.4rem 1.2rem;
       border: none;
-      border-radius: 30px;
+      border-radius: var(--radius-full);
       background: transparent;
       color: var(--text);
       font-weight: 600;
       cursor: pointer;
-      transition: 0.2s;
-      opacity: 0.6;
-      font-size: 0.95rem;
+      transition: all var(--duration-fast) var(--ease-out);
+      opacity: 0.4;
+      font-size: 0.85rem;
     }
     .admin-tabs button.active {
       background: var(--primary);
       color: white;
       opacity: 1;
-      box-shadow: 0 0 20px var(--primary-glow);
+      box-shadow: 0 0 30px var(--primary-glow);
     }
-    .admin-tabs button:hover {
-      opacity: 1;
-    }
+    .admin-tabs button:hover { opacity: 1; }
 
     .tab-content {
       display: none;
       animation: fadeIn 0.3s ease;
     }
-    .tab-content.active {
-      display: block;
-    }
+    .tab-content.active { display: block; }
     @keyframes fadeIn {
       0% { opacity: 0; }
       100% { opacity: 1; }
     }
 
-    /* ===== الإحصائيات ===== */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
     }
     .stat-card {
-      background: var(--card);
+      background: rgba(18, 18, 32, 0.2);
+      backdrop-filter: blur(12px);
       border-radius: var(--radius-lg);
-      padding: 1rem 1.2rem;
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.03);
       box-shadow: var(--shadow-sm);
       border-right: 4px solid var(--primary);
       transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
     }
+    [data-theme="light"] .stat-card {
+      background: rgba(255, 255, 255, 0.15);
+    }
     .stat-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-md);
     }
     .stat-card .stat-number {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: var(--primary);
     }
     .stat-card .stat-label {
-      font-size: 0.85rem;
-      color: rgba(var(--text-rgb), 0.5);
-      margin-top: 0.2rem;
+      font-size: 0.75rem;
+      color: rgba(var(--text-rgb), 0.3);
+      margin-top: 0.1rem;
     }
     .stat-card.warning { border-right-color: #f59e0b; }
     .stat-card.danger { border-right-color: #ef4444; }
     .stat-card.success { border-right-color: #22c55e; }
 
-    /* ===== أزرار الإجراءات ===== */
     .admin-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-bottom: 1.2rem;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
     }
     .admin-actions button {
-      padding: 0.4rem 1.5rem;
+      padding: 0.3rem 1.2rem;
       border: none;
-      border-radius: 40px;
+      border-radius: var(--radius-full);
       cursor: pointer;
       background: var(--primary);
       color: white;
       font-weight: 700;
       transition: all var(--duration-fast) var(--ease-out);
-      box-shadow: 0 2px 12px var(--primary-glow);
-      font-size: 0.9rem;
+      box-shadow: 0 0 20px var(--primary-glow);
+      font-size: 0.8rem;
     }
     .admin-actions button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 24px var(--primary-glow);
+      box-shadow: 0 8px 30px var(--primary-glow);
     }
     .admin-actions .secondary-btn {
-      background: rgba(var(--border-rgb), 0.3);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text);
       box-shadow: none;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .admin-actions .secondary-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
     }
 
-    /* ===== جدول المنتجات ===== */
     .product-table-wrap {
       overflow-x: auto;
       margin-top: 0.5rem;
     }
     .product-table-wrap table {
-      min-width: 1200px;
+      min-width: 1000px;
       width: 100%;
       border-collapse: collapse;
-      background: var(--card);
+      background: rgba(18, 18, 32, 0.2);
+      backdrop-filter: blur(12px);
       border-radius: var(--radius-lg);
       overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.03);
       box-shadow: var(--shadow-md);
+    }
+    [data-theme="light"] .product-table-wrap table {
+      background: rgba(255, 255, 255, 0.15);
     }
     .product-table-wrap th,
     .product-table-wrap td {
-      padding: 0.5rem 0.7rem;
-      border-bottom: 1px solid rgba(var(--border-rgb), 0.2);
+      padding: 0.4rem 0.6rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
       text-align: right;
       white-space: nowrap;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
     }
     .product-table-wrap th {
       background: var(--primary);
@@ -162,24 +177,24 @@
       font-weight: 700;
     }
     .product-table-wrap td img {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       object-fit: contain;
-      border-radius: 6px;
-      background: var(--bg);
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.1);
     }
     .product-table-wrap td .actions {
       display: flex;
-      gap: 0.25rem;
+      gap: 0.2rem;
       flex-wrap: wrap;
     }
     .product-table-wrap td .actions button {
-      padding: 0.15rem 0.5rem;
+      padding: 0.1rem 0.4rem;
       border: none;
-      border-radius: 4px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      font-size: 0.7rem;
-      transition: 0.2s;
+      font-size: 0.6rem;
+      transition: all var(--duration-fast) var(--ease-out);
     }
     .btn-edit { background: var(--primary); color: white; }
     .btn-edit:hover { background: var(--primary-dark); }
@@ -188,28 +203,24 @@
     .btn-preview { background: #8b5cf6; color: white; }
     .btn-preview:hover { background: #7c3aed; }
 
-    /* ===== حالات المنتج ===== */
     .badge-status {
       display: inline-block;
-      padding: 0.15rem 0.6rem;
-      border-radius: 20px;
-      font-size: 0.65rem;
+      padding: 0.1rem 0.5rem;
+      border-radius: var(--radius-full);
+      font-size: 0.55rem;
       font-weight: 700;
     }
-    .badge-status.active { background: #22c55e20; color: #22c55e; border: 1px solid #22c55e40; }
-    .badge-status.inactive { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
-    .badge-status.new { background: #3b82f620; color: #3b82f6; border: 1px solid #3b82f640; }
-    .badge-status.bestseller { background: #f59e0b20; color: #d97706; border: 1px solid #f59e0b40; }
+    .badge-status.active { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.05); }
+    .badge-status.inactive { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.05); }
+    .badge-status.new { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.05); }
+    .badge-status.bestseller { background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.05); }
 
-    /* ===== نموذج المودال ===== */
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.8rem;
     }
-    .form-row .full-width {
-      grid-column: 1 / -1;
-    }
+    .form-row .full-width { grid-column: 1 / -1; }
     .form-row label {
       display: flex;
       flex-direction: column;
@@ -221,13 +232,18 @@
     .form-row label select,
     .form-row label textarea {
       padding: 0.35rem 0.6rem;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      background: var(--bg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.2);
       color: var(--text);
       font-family: var(--font);
       width: 100%;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+    }
+    [data-theme="light"] .form-row label input,
+    [data-theme="light"] .form-row label select,
+    [data-theme="light"] .form-row label textarea {
+      background: rgba(255, 255, 255, 0.1);
     }
     .form-row label input:focus,
     .form-row label select:focus,
@@ -255,13 +271,36 @@
       accent-color: var(--primary);
     }
 
-    /* ===== قسم المقاسات ===== */
+    .category-field-wrapper {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .category-field-wrapper select { flex: 1; }
+    .category-field-wrapper .add-category-btn {
+      padding: 0.35rem 1rem;
+      border: none;
+      border-radius: var(--radius-full);
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      white-space: nowrap;
+      font-size: 0.8rem;
+    }
+    .category-field-wrapper .add-category-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
     .variants-section {
       margin-top: 0.5rem;
       padding: 0.8rem;
-      background: rgba(var(--bg-rgb), 0.15);
+      background: rgba(0, 0, 0, 0.1);
       border-radius: var(--radius-md);
-      border: 1px dashed rgba(var(--border-rgb), 0.3);
+      border: 1px dashed rgba(255, 255, 255, 0.04);
     }
     .variants-section .section-label {
       font-weight: 700;
@@ -276,19 +315,19 @@
       grid-template-columns: 1.2fr 0.9fr 0.9fr 0.7fr auto;
       gap: 0.4rem;
       align-items: center;
-      background: rgba(var(--card-rgb), 0.5);
+      background: rgba(0, 0, 0, 0.1);
       padding: 0.4rem 0.6rem;
       border-radius: var(--radius-sm);
       margin-bottom: 0.3rem;
-      border: 1px solid rgba(var(--border-rgb), 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.04);
     }
     .variant-row input {
       padding: 0.25rem 0.4rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: var(--bg);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.2);
       color: var(--text);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       width: 100%;
       min-width: 0;
     }
@@ -314,8 +353,8 @@
       color: #dc2626;
     }
     .variant-row .variant-label {
-      font-size: 0.7rem;
-      color: rgba(var(--text-rgb), 0.4);
+      font-size: 0.65rem;
+      color: rgba(var(--text-rgb), 0.3);
       display: block;
       margin-bottom: 0.1rem;
     }
@@ -325,15 +364,15 @@
     }
     #addVariantBtn {
       padding: 0.25rem 1rem;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       margin-top: 0.3rem;
       border: none;
-      border-radius: 30px;
+      border-radius: var(--radius-full);
       cursor: pointer;
       background: var(--primary);
       color: white;
       font-weight: 600;
-      transition: 0.2s;
+      transition: all var(--duration-fast) var(--ease-out);
       width: auto;
     }
     #addVariantBtn:hover {
@@ -341,40 +380,38 @@
       box-shadow: 0 0 20px var(--primary-glow);
     }
     .hint {
-      font-size: 0.7rem;
-      color: rgba(var(--text-rgb), 0.3);
+      font-size: 0.65rem;
+      color: rgba(var(--text-rgb), 0.2);
       margin-top: 0.2rem;
     }
 
-    /* ===== المدونة في لوحة التحكم ===== */
     .blog-posts-list .blog-item {
       display: flex;
       gap: 1rem;
       align-items: center;
       padding: 0.5rem 0;
       flex-wrap: wrap;
-      background: var(--card);
+      background: rgba(18, 18, 32, 0.2);
+      backdrop-filter: blur(8px);
       padding: 0.6rem 1rem;
       border-radius: var(--radius-md);
       margin-bottom: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.03);
       box-shadow: var(--shadow-sm);
-      border: 1px solid rgba(var(--border-rgb), 0.1);
+    }
+    [data-theme="light"] .blog-posts-list .blog-item {
+      background: rgba(255, 255, 255, 0.15);
     }
     .blog-posts-list .blog-item img {
       width: 60px;
       height: 60px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
     }
-    .blog-posts-list .blog-item .blog-info {
-      flex: 1;
-    }
-    .blog-posts-list .blog-item .blog-info h4 {
-      margin: 0;
-      font-size: 1rem;
-    }
+    .blog-posts-list .blog-item .blog-info { flex: 1; }
+    .blog-posts-list .blog-item .blog-info h4 { margin: 0; font-size: 1rem; }
     .blog-posts-list .blog-item .blog-info .blog-meta {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: rgba(var(--text-rgb), 0.4);
     }
     .blog-posts-list .blog-item .blog-actions {
@@ -384,9 +421,10 @@
     .blog-posts-list .blog-item .blog-actions button {
       padding: 0.2rem 0.6rem;
       border: none;
-      border-radius: 4px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
+      transition: all var(--duration-fast) var(--ease-out);
     }
     .blog-posts-list .blog-item .blog-actions .edit-post {
       background: var(--primary);
@@ -397,16 +435,13 @@
       color: white;
     }
 
-    /* ===== التواصل في لوحة التحكم ===== */
     .contact-fields {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
       margin-top: 1rem;
     }
-    .contact-fields .full-width {
-      grid-column: 1 / -1;
-    }
+    .contact-fields .full-width { grid-column: 1 / -1; }
     .contact-fields label {
       display: flex;
       flex-direction: column;
@@ -417,11 +452,15 @@
     .contact-fields input,
     .contact-fields textarea {
       padding: 0.4rem 0.6rem;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      background: var(--bg);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.2);
       color: var(--text);
       font-family: var(--font);
+    }
+    [data-theme="light"] .contact-fields input,
+    [data-theme="light"] .contact-fields textarea {
+      background: rgba(255, 255, 255, 0.1);
     }
     .contact-fields input:focus,
     .contact-fields textarea:focus {
@@ -432,32 +471,30 @@
     #resetContactBtn {
       padding: 0.3rem 1.2rem;
       border: none;
-      border-radius: 30px;
+      border-radius: var(--radius-full);
       cursor: pointer;
-      background: rgba(var(--border-rgb), 0.3);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text);
       font-weight: 600;
-      transition: 0.2s;
+      transition: all var(--duration-fast) var(--ease-out);
       margin-bottom: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.04);
     }
-    #resetContactBtn:hover {
-      background: rgba(var(--border-rgb), 0.5);
-    }
+    #resetContactBtn:hover { background: rgba(255, 255, 255, 0.08); }
 
-    /* ===== رفع الصور ===== */
     .image-upload-area {
-      border: 2px dashed rgba(var(--border-rgb), 0.5);
+      border: 2px dashed rgba(255, 255, 255, 0.04);
       padding: 1.2rem;
       text-align: center;
       border-radius: var(--radius-lg);
       margin-bottom: 0.8rem;
       cursor: pointer;
       transition: all var(--duration-med) var(--ease-out);
-      background: rgba(var(--bg-rgb), 0.2);
+      background: rgba(0, 0, 0, 0.1);
     }
     .image-upload-area:hover {
       border-color: var(--primary);
-      background: rgba(var(--primary-rgb), 0.05);
+      background: rgba(var(--primary-rgb), 0.04);
     }
     .image-upload-area input { display: none; }
     .image-upload-area .preview-image {
@@ -468,20 +505,18 @@
       box-shadow: var(--shadow-sm);
     }
     .image-upload-area .image-label {
-      font-size: 0.8rem;
-      color: rgba(var(--text-rgb), 0.5);
+      font-size: 0.75rem;
+      color: rgba(var(--text-rgb), 0.3);
       display: block;
       margin-top: 0.2rem;
     }
 
-    /* ===== المودال ===== */
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(16px);
       z-index: 2000;
       align-items: center;
       justify-content: center;
@@ -489,22 +524,26 @@
     }
     .modal.active { display: flex; }
     .modal-content {
-      background: var(--card);
-      padding: 1.8rem 2rem;
-      border-radius: var(--radius-lg);
-      max-width: 750px;
+      background: rgba(18, 18, 32, 0.85);
+      backdrop-filter: blur(32px);
+      padding: 1.5rem 1.8rem;
+      border-radius: var(--radius-xl);
+      max-width: 700px;
       width: 94%;
       max-height: 92vh;
       overflow-y: auto;
       box-shadow: var(--shadow-xl);
-      border: 1px solid rgba(var(--border-rgb), 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.03);
       animation: modalSlide 0.35s ease;
+    }
+    [data-theme="light"] .modal-content {
+      background: rgba(255, 255, 255, 0.85);
     }
     .modal-content .close-modal {
       float: left;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       cursor: pointer;
-      color: rgba(var(--text-rgb), 0.5);
+      color: rgba(var(--text-rgb), 0.3);
       transition: all var(--duration-fast) ease;
       line-height: 1;
     }
@@ -513,19 +552,23 @@
       transform: rotate(90deg);
     }
     @keyframes modalSlide {
-      0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+      0% { opacity: 0; transform: scale(0.95) translateY(20px); }
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* ===== الطلبات ===== */
     .orders-list .order-item {
-      background: var(--card);
+      background: rgba(18, 18, 32, 0.2);
+      backdrop-filter: blur(8px);
       border-radius: var(--radius-md);
       padding: 0.6rem 1rem;
       margin-bottom: 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.03);
       box-shadow: var(--shadow-sm);
       border-right: 4px solid var(--primary);
       transition: all var(--duration-fast) ease;
+    }
+    [data-theme="light"] .orders-list .order-item {
+      background: rgba(255, 255, 255, 0.15);
     }
     .orders-list .order-item:hover { box-shadow: var(--shadow-md); }
     .order-item .order-header {
@@ -533,92 +576,393 @@
       justify-content: space-between;
       align-items: center;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
     .status-badge {
       display: inline-block;
       padding: 0.1rem 0.7rem;
-      border-radius: 40px;
+      border-radius: var(--radius-full);
       background: var(--primary);
       color: white;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 700;
     }
     .order-item .order-details {
-      font-size: 0.8rem;
-      color: rgba(var(--text-rgb), 0.6);
+      font-size: 0.75rem;
+      color: rgba(var(--text-rgb), 0.5);
       margin-top: 0.2rem;
     }
 
-    /* ===== استجابة ===== */
+    #categoryModal .modal-content { max-width: 500px; }
+    .category-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin: 0.5rem 0;
+    }
+    .category-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.3rem 0.6rem;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .category-item .cat-name { font-weight: 600; }
+    .category-item .cat-delete {
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0 0.2rem;
+      transition: 0.2s;
+    }
+    .category-item .cat-delete:hover {
+      transform: scale(1.2);
+      color: #dc2626;
+    }
+    .add-category-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .add-category-row input {
+      flex: 1;
+      padding: 0.35rem 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text);
+    }
+    .add-category-row input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+    .add-category-row button {
+      padding: 0.35rem 1.2rem;
+      border: none;
+      border-radius: var(--radius-full);
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .add-category-row button:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .typing-settings {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    .typing-settings h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .typing-settings .hint {
+      font-size: 0.7rem;
+      color: rgba(var(--text-rgb), 0.3);
+      margin-bottom: 0.5rem;
+    }
+    .typing-settings textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      resize: vertical;
+      min-height: 120px;
+      transition: border-color 0.2s;
+    }
+    [data-theme="light"] .typing-settings textarea {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .typing-settings textarea:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+    .typing-settings .actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .typing-settings .save-btn {
+      padding: 0.4rem 1.5rem;
+      border: none;
+      border-radius: var(--radius-full);
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      font-size: 0.85rem;
+    }
+    .typing-settings .save-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--primary-glow);
+    }
+    .typing-settings .reset-btn {
+      padding: 0.4rem 1.5rem;
+      border: none;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 0.85rem;
+    }
+    .typing-settings .reset-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* ===== إدارة صور الهيرو ===== */
+    .hero-images-manager {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    .hero-images-manager h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero-images-manager .hint {
+      font-size: 0.7rem;
+      color: rgba(var(--text-rgb), 0.3);
+      margin-bottom: 0.5rem;
+    }
+    .hero-image-item {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 0.4rem;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.3rem;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      flex-wrap: wrap;
+    }
+    .hero-image-item .img-preview {
+      width: 60px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .hero-image-item .img-info {
+      flex: 1;
+      font-size: 0.75rem;
+    }
+    .hero-image-item .img-actions {
+      display: flex;
+      gap: 0.2rem;
+    }
+    .hero-image-item .img-actions button {
+      padding: 0.1rem 0.4rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.6rem;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+    .hero-image-item .img-actions .btn-edit-img {
+      background: var(--primary);
+      color: white;
+    }
+    .hero-image-item .img-actions .btn-delete-img {
+      background: #ef4444;
+      color: white;
+    }
+    .hero-image-item .img-actions .btn-move-up,
+    .hero-image-item .img-actions .btn-move-down {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+    }
+    .hero-images-manager .add-hero-image {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .hero-images-manager .add-hero-image input,
+    .hero-images-manager .add-hero-image textarea {
+      flex: 1;
+      padding: 0.3rem 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.75rem;
+      min-width: 120px;
+    }
+    .hero-images-manager .add-hero-image textarea {
+      min-height: 60px;
+      flex-basis: 100%;
+    }
+    .hero-images-manager .add-hero-image button {
+      padding: 0.3rem 1rem;
+      border: none;
+      border-radius: var(--radius-full);
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      font-size: 0.8rem;
+    }
+    .hero-images-manager .add-hero-image button:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    /* ===== نظام إدارة الصور (معاينات) ===== */
+    .image-preview-item {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.05);
+      background: rgba(0,0,0,0.2);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+    .image-preview-item:hover {
+      border-color: var(--primary);
+      transform: scale(1.05);
+    }
+    .image-preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .image-preview-item .img-actions-overlay {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      display: flex;
+      gap: 2px;
+      background: rgba(0,0,0,0.6);
+      border-radius: var(--radius-sm);
+      padding: 1px;
+    }
+    .image-preview-item .img-actions-overlay button {
+      background: rgba(239,68,68,0.8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 0.6rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+    .image-preview-item .img-actions-overlay button:hover {
+      transform: scale(1.15);
+    }
+    .image-preview-item .img-move-actions {
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 2px;
+      background: rgba(0,0,0,0.6);
+      border-radius: var(--radius-sm);
+      padding: 1px;
+    }
+    .image-preview-item .img-move-actions button {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 0.6rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+    .image-preview-item .img-move-actions button:hover {
+      background: var(--primary);
+      transform: scale(1.1);
+    }
+
     @media (max-width: 768px) {
-      .admin-tabs button {
-        padding: 0.3rem 1rem;
-        font-size: 0.85rem;
-      }
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 0.8rem;
-      }
-      .variant-row {
-        grid-template-columns: 1fr 1fr;
-        gap: 0.3rem;
-        padding: 0.4rem;
-      }
-      .variant-row .remove-variant {
-        grid-column: 2;
-        justify-self: end;
-      }
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-      .contact-fields {
-        grid-template-columns: 1fr;
-      }
-      .blog-posts-list .blog-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .product-table-wrap table {
-        min-width: 800px;
-      }
-      .modal-content {
-        padding: 1.2rem;
-      }
+      .admin-tabs button { padding: 0.3rem 1rem; font-size: 0.8rem; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+      .variant-row { grid-template-columns: 1fr 1fr; gap: 0.3rem; padding: 0.4rem; }
+      .variant-row .remove-variant { grid-column: 2; justify-self: end; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-fields { grid-template-columns: 1fr; }
+      .blog-posts-list .blog-item { flex-direction: column; align-items: flex-start; }
+      .product-table-wrap table { min-width: 800px; }
+      .modal-content { padding: 1.2rem; }
+      .category-field-wrapper { flex-direction: column; align-items: stretch; }
+      .category-field-wrapper .add-category-btn { width: 100%; text-align: center; }
+      .typing-settings .actions { flex-direction: column; }
+      .typing-settings .actions button { width: 100%; }
+      .hero-image-item { flex-direction: column; align-items: flex-start; }
+      .hero-images-manager .add-hero-image { flex-direction: column; }
+      .hero-images-manager .add-hero-image input,
+      .hero-images-manager .add-hero-image textarea { width: 100%; }
     }
     @media (max-width: 480px) {
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 0.6rem;
-      }
-      .stat-card .stat-number {
-        font-size: 1.3rem;
-      }
-      .admin-tabs button {
-        padding: 0.2rem 0.8rem;
-        font-size: 0.75rem;
-      }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+      .stat-card .stat-number { font-size: 1.3rem; }
+      .admin-tabs button { padding: 0.2rem 0.8rem; font-size: 0.75rem; }
     }
     @media (max-width: 400px) {
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
+      .stats-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <!-- ===== الهيدر ===== -->
-  <header>
+  <!-- ===== الهيدر العائم الزجاجي ===== -->
+  <header id="mainHeader">
     <div class="logo">⚡ النخبة – الإدارة</div>
     <div class="header-actions">
       <button id="themeToggle" aria-label="تبديل الثيم">🌙</button>
-      <a href="index.html" style="color:var(--text);text-decoration:none;font-size:1.1rem;margin-left:0.5rem;">🛍️ المتجر</a>
+      <a href="index.html" style="color:var(--text);text-decoration:none;font-size:1.1rem;margin-left:0.5rem;opacity:0.7;transition:0.3s;">🛍️ المتجر</a>
     </div>
   </header>
 
   <!-- ===== المحتوى الرئيسي ===== -->
   <main class="admin-panel">
-    <h2>📊 لوحة التحكم الأسطورية (نسخة السحابة)</h2>
+    <h2>📊 لوحة التحكم الأسطورية</h2>
 
     <!-- ===== التبويبات ===== -->
     <div class="admin-tabs">
@@ -644,10 +988,11 @@
       <!-- أزرار الإجراءات -->
       <div class="admin-actions">
         <button id="addProductBtn">➕ إضافة منتج</button>
+        <button id="manageCategoriesBtn">📂 إدارة الفئات</button>
         <button id="exportBtn">📥 تصدير JSON</button>
         <button id="importBtn">📤 استيراد JSON</button>
         <input type="file" id="importFileInput" accept=".json" style="display:none;" />
-        <button id="refreshStatsBtn" class="secondary-btn" style="background:var(--border);color:var(--text);">🔄 تحديث الإحصائيات</button>
+        <button id="refreshStatsBtn" class="secondary-btn">🔄 تحديث الإحصائيات</button>
       </div>
 
       <!-- جدول المنتجات -->
@@ -664,7 +1009,7 @@
         </table>
       </div>
 
-      <!-- ===== مودال المنتج ===== -->
+      <!-- ===== مودال المنتج – مع دعم الصور والفيديو ===== -->
       <div id="productModal" class="modal">
         <div class="modal-content">
           <span id="closeModal" class="close-modal">&times;</span>
@@ -674,18 +1019,24 @@
 
             <div class="form-row">
               <label>الاسم <input type="text" id="pName" required /></label>
-              <label>الفئة <input type="text" id="pCategory" required /></label>
+              <label>
+                الفئة
+                <div class="category-field-wrapper">
+                  <select id="pCategory" required><option value="">اختر فئة</option></select>
+                  <button type="button" class="add-category-btn" id="pAddCategoryBtn">➕ إضافة</button>
+                </div>
+              </label>
             </div>
             <div class="form-row">
-              <label>السعر (ريال) <input type="number" id="pPrice" step="0.5" required /></label>
-              <label>المخزون <input type="number" id="pStock" required /></label>
+              <label>السعر (ريال) <input type="number" id="pPrice" step="any" required /></label>
+              <label>المخزون <input type="number" id="pStock" step="any" required /></label>
             </div>
             <div class="form-row">
-              <label>الحد الأدنى للطلب <input type="number" id="pMinOrder" value="1" min="1" required /></label>
+              <label>الحد الأدنى للطلب <input type="number" id="pMinOrder" value="1" min="1" step="any" required /></label>
               <label>التقييم (1-5) <input type="number" id="pRating" min="0" max="5" step="0.5" value="0" /></label>
             </div>
             <div class="form-row">
-              <label>ترتيب العرض <input type="number" id="pSortOrder" value="0" /></label>
+              <label>ترتيب العرض <input type="number" id="pSortOrder" value="0" step="any" /></label>
               <label>الحالة <select id="pStatus"><option value="active">نشط</option><option value="inactive">موقف</option></select></label>
             </div>
             <div class="form-row full-width checkbox-group">
@@ -695,30 +1046,46 @@
             <div class="form-row full-width">
               <label>الوصف <textarea id="pDesc" rows="2"></textarea></label>
             </div>
-            
-            <!-- إضافة دعم الرفع السحابي لصورة المنتج -->
+
+            <!-- ===== نظام إدارة الصور المتقدم ===== -->
             <div class="form-row full-width">
-              <label>الصورة الرئيسية
-                <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 0.2rem;">
-                  <input type="url" id="pImage" placeholder="رابط الصورة أو قم برفعها من زر (رفع)..." style="flex: 1;" />
-                  <button type="button" id="btnUploadMainImg" class="secondary-btn" style="width: auto; padding: 0.35rem 1rem; margin: 0;">☁️ رفع</button>
-                  <input type="file" id="fileMainImg" accept="image/*" style="display: none;" />
-                </div>
+              <label style="font-weight:700; margin-bottom:0.3rem;">
+                🖼️ معرض الصور (إدارة متقدمة)
+                <span style="font-weight:400;font-size:0.7rem;color:rgba(var(--text-rgb),0.3);">
+                  – يمكنك إضافة، حذف، ترتيب الصور
+                </span>
+              </label>
+              <div id="imagePreviewContainer" style="display:flex;flex-wrap:wrap;gap:0.5rem;padding:0.5rem;background:rgba(0,0,0,0.1);border-radius:var(--radius-md);min-height:60px;border:1px dashed rgba(255,255,255,0.05);">
+                <!-- سيتم عرض المعاينات هنا -->
+              </div>
+              <div style="display:flex;gap:0.5rem;margin-top:0.3rem;flex-wrap:wrap;">
+                <button type="button" id="addMoreImagesBtn" class="secondary-btn" style="padding:0.2rem 1rem;font-size:0.75rem;">➕ إضافة صور</button>
+                <input type="file" id="pImageFileExtra" accept="image/*" multiple style="display:none;" />
+                <span style="font-size:0.65rem;color:rgba(var(--text-rgb),0.3);align-self:center;">اختر صوراً إضافية أو اسحبها لإعادة الترتيب</span>
+              </div>
+            </div>
+
+            <div class="form-row full-width">
+              <label>أو رابط الصورة الرئيسي (اختياري) <input type="url" id="pImage" placeholder="في حال لم ترفع ملفاً، ضع رابط الصورة الأساسية هنا" /></label>
+            </div>
+
+            <!-- ===== حقل رفع الفيديو ===== -->
+            <div class="form-row full-width">
+              <label>
+                🎬 فيديو المنتج (اختياري)
+                <input type="file" id="pVideoFile" accept="video/*" style="padding:0.3rem;background:rgba(0,0,0,0.2);border:1px dashed var(--primary);border-radius:var(--radius-sm);cursor:pointer;" />
+                <span style="font-size:0.7rem;color:rgba(var(--text-rgb),0.3);">يرفع الفيديو على imgbb ويعطيك رابطاً (يدعم MP4, WebM, إلخ)</span>
               </label>
             </div>
-            
             <div class="form-row full-width">
-              <label>صور إضافية (فصل بفواصل) <input type="text" id="pImages" placeholder="/path/1.jpg, /path/2.jpg" /></label>
-            </div>
-            <div class="form-row full-width">
-              <label>رابط الفيديو (اختياري) <input type="url" id="pVideo" placeholder="/public/videos/products/..." /></label>
+              <label>أو رابط الفيديو (اختياري) <input type="url" id="pVideo" placeholder="https://example.com/video.mp4" /></label>
             </div>
 
             <!-- ===== مقاسات ===== -->
             <div class="form-row full-width variants-section">
               <div class="section-label">
                 📏 المقاسات والأسعار
-                <span style="font-weight:400;font-size:0.7rem;color:rgba(var(--text-rgb),0.4);">
+                <span style="font-weight:400;font-size:0.7rem;color:rgba(var(--text-rgb),0.3);">
                   – أضف مقاسات مختلفة للسعر والمخزون والحد الأدنى
                 </span>
               </div>
@@ -729,6 +1096,19 @@
 
             <button type="submit" class="primary-btn" style="width:100%;margin-top:0.8rem;">💾 حفظ المنتج</button>
           </form>
+        </div>
+      </div>
+
+      <!-- ===== مودال إدارة الفئات ===== -->
+      <div id="categoryModal" class="modal">
+        <div class="modal-content">
+          <span id="closeCategoryModal" class="close-modal">&times;</span>
+          <h3>📂 إدارة الفئات</h3>
+          <div id="categoryList" class="category-list"></div>
+          <div class="add-category-row">
+            <input type="text" id="newCategoryInput" placeholder="اسم الفئة الجديدة" />
+            <button id="addCategoryBtn">➕ إضافة</button>
+          </div>
         </div>
       </div>
     </div>
@@ -752,19 +1132,10 @@
               <label>العنوان <input type="text" id="postTitle" required /></label>
               <label>الرابط (slug) <input type="text" id="postSlug" placeholder="عنوان-المقال" /></label>
             </div>
-            
-            <!-- إضافة دعم الرفع السحابي لصورة المقال -->
             <div class="form-row">
-              <label>صورة المقال
-                <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 0.2rem;">
-                  <input type="url" id="postImage" placeholder="الرابط..." style="flex: 1;" />
-                  <button type="button" id="btnUploadBlogImg" class="secondary-btn" style="width: auto; padding: 0.35rem 1rem; margin: 0;">☁️ رفع</button>
-                  <input type="file" id="fileBlogImg" accept="image/*" style="display: none;" />
-                </div>
-              </label>
+              <label>صورة المقال <input type="url" id="postImage" placeholder="/public/images/blog/..." /></label>
               <label>المؤلف <input type="text" id="postAuthor" placeholder="اسم المؤلف" /></label>
             </div>
-
             <div class="form-row full-width">
               <label>الملخص <textarea id="postExcerpt" rows="2"></textarea></label>
             </div>
@@ -827,6 +1198,61 @@
         <div id="footerPreview"></div>
         <span class="image-label" id="footerLabel">لا توجد صورة</span>
       </div>
+
+      <!-- ===== إعدادات تأثير الكتابة ===== -->
+      <div class="typing-settings">
+        <h4>✍️ إعدادات تأثير الكتابة (Typewriter)</h4>
+        <p class="hint">أدخل كل عبارة في سطر منفصل. سيتم عرض هذه العبارات بتأثير الكتابة الديناميكي.</p>
+        <textarea id="typingPhrasesTextarea" rows="6"></textarea>
+        <div class="actions">
+          <button class="save-btn" id="saveTypingPhrases">💾 حفظ العبارات</button>
+          <button class="reset-btn" id="resetTypingPhrases">🔄 إعادة تعيين (الافتراضي)</button>
+        </div>
+        <div style="margin-top:0.5rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.8rem;cursor:pointer;">
+            <input type="checkbox" id="typingEnabled" checked />
+            تشغيل تأثير الكتابة
+          </label>
+          <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.8rem;cursor:pointer;">
+            <input type="checkbox" id="cursorEnabled" checked />
+            تشغيل المؤشر الوامض
+          </label>
+          <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.8rem;cursor:pointer;">
+            <input type="checkbox" id="showPrefix" checked />
+            إظهار النص الثابت (النخبة NBA: ~_)
+          </label>
+        </div>
+        <div style="margin-top:0.5rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;">
+          <label style="font-size:0.8rem;">سرعة الكتابة: <input type="range" id="typingSpeed" min="10" max="200" value="50" style="width:120px;" /> <span id="typingSpeedVal">50</span>ms</label>
+          <label style="font-size:0.8rem;">سرعة الحذف: <input type="range" id="typingDeleteSpeed" min="10" max="100" value="30" style="width:120px;" /> <span id="typingDeleteSpeedVal">30</span>ms</label>
+          <label style="font-size:0.8rem;">وقت التوقف: <input type="range" id="typingPause" min="500" max="5000" value="2000" style="width:120px;" /> <span id="typingPauseVal">2000</span>ms</label>
+        </div>
+        <div style="margin-top:0.5rem;">
+          <label style="font-size:0.8rem;">النص الثابت: <input type="text" id="prefixTextInput" value="النخبة NBA: ~_" style="padding:0.3rem 0.5rem;border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius-sm);background:rgba(0,0,0,0.2);color:var(--text);width:250px;" /></label>
+          <button class="save-btn" id="saveTypingSettings" style="margin-left:0.5rem;padding:0.2rem 1rem;font-size:0.7rem;">💾 حفظ الإعدادات</button>
+        </div>
+      </div>
+
+      <!-- ===== إدارة صور الإعلانات (Hero) ===== -->
+      <div class="hero-images-manager">
+        <h4>🖼️ إدارة صور الإعلانات (Hero)</h4>
+        <p class="hint">أضف أو عدل أو احذف صور الإعلانات التي تظهر في أعلى الصفحة.</p>
+        <div id="heroImagesList"></div>
+        <div class="add-hero-image">
+          <input type="text" id="heroImageUrl" placeholder="رابط الصورة" />
+          <input type="text" id="heroBadge" placeholder="الشارة (مثال: ⚡ عرض خاص)" />
+          <input type="text" id="heroTitle" placeholder="العنوان (استخدم &lt;span class=&quot;highlight&quot;&gt;للتمييز&lt;/span&gt;)" />
+          <input type="text" id="heroDesc" placeholder="الوصف" />
+          <input type="text" id="heroBtn" placeholder="نص الزر" />
+          <select id="heroAction">
+            <option value="shop">تسوق</option>
+            <option value="lighting">إضاءة</option>
+            <option value="whatsapp">واتساب</option>
+          </select>
+          <button id="addHeroImageBtn">➕ إضافة شريحة</button>
+        </div>
+        <button id="resetHeroImagesBtn" class="reset-btn" style="margin-top:0.5rem;padding:0.3rem 1rem;border:none;border-radius:var(--radius-full);background:rgba(255,255,255,0.04);color:var(--text);cursor:pointer;border:1px solid rgba(255,255,255,0.04);font-size:0.8rem;">🔄 إعادة تعيين الصور الافتراضية</button>
+      </div>
     </div>
 
   </main>
@@ -835,26 +1261,66 @@
   <div id="toast" class="toast"></div>
 
   <!-- ============================================================ -->
-  <!-- JavaScript – تشغيل لوحة التحكم -->
+  <!-- JavaScript – تشغيل لوحة التحكم (v8.0) -->
   <!-- ============================================================ -->
   <script type="module">
     // ================================================================
-    // استيراد المكونات من main.js (مع تضمين دالة uploadImageToStorage)
+    // استيراد المكونات من main.js
     // ================================================================
     import { 
       ProductManager, BlogManager, ContactManager,
+      CategoryManager,
+      TypingEngine,
+      HeroImagesManager,
+      ImageUploader,
       showToast, getOrders, getTheme, setTheme,
       getBackground, setBackground, applyBackground,
       getFooterImage, setFooterImage, applyFooterImage,
-      uploadImageToStorage // دالة رفع الصور السحابية
+      CommunityStatsManager,
+      getCommunityStats,
+      updateEnergyClock,
+      FirebaseRTDBAdapter,
+      LocalStorageAdapter
     } from './main.js';
 
     // ================================================================
-    // تهيئة المديرين
+    // تهيئة المديرين باستخدام Firebase Realtime Database (مجاني)
     // ================================================================
-    const productManager = new ProductManager();
-    const blogManager = new BlogManager();
-    const contactManager = new ContactManager();
+    const rtdbAdapter = new FirebaseRTDBAdapter();
+
+    const productManager = new ProductManager(rtdbAdapter);
+    const blogManager = new BlogManager(rtdbAdapter);
+    const contactManager = new ContactManager(rtdbAdapter);
+    const categoryManager = new CategoryManager(rtdbAdapter);
+    const communityStatsManager = new CommunityStatsManager(rtdbAdapter);
+    const heroImagesManager = new HeroImagesManager(new LocalStorageAdapter());
+
+    // ================================================================
+    // إدارة الصوت (للوحة التحكم)
+    // ================================================================
+    let soundEnabled = localStorage.getItem('nokhba_sound') !== 'off';
+    
+    function playClickSound(volume = 0.1) {
+      if (!soundEnabled) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 800;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(volume, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.06);
+      } catch (e) { /* تجاهل */ }
+    }
+
+    document.addEventListener('click', (e) => {
+      const target = e.target.closest('button, .category-item, .blog-item');
+      if (target) playClickSound(0.08);
+    });
 
     // ================================================================
     // عناصر DOM
@@ -885,6 +1351,169 @@
     const blogPostsList = $('blogPostsList');
     const variantsContainer = $('variantsContainer');
     const addVariantBtn = $('addVariantBtn');
+    const pCategory = $('pCategory');
+    const pAddCategoryBtn = $('pAddCategoryBtn');
+    const manageCategoriesBtn = $('manageCategoriesBtn');
+    const categoryModal = $('categoryModal');
+    const closeCategoryModal = $('closeCategoryModal');
+    const categoryList = $('categoryList');
+    const newCategoryInput = $('newCategoryInput');
+    const addCategoryBtn = $('addCategoryBtn');
+    
+    // Typing settings
+    const typingPhrasesTextarea = $('typingPhrasesTextarea');
+    const saveTypingPhrases = $('saveTypingPhrases');
+    const resetTypingPhrases = $('resetTypingPhrases');
+    const typingEnabled = $('typingEnabled');
+    const cursorEnabled = $('cursorEnabled');
+    const showPrefix = $('showPrefix');
+    const typingSpeed = $('typingSpeed');
+    const typingSpeedVal = $('typingSpeedVal');
+    const typingDeleteSpeed = $('typingDeleteSpeed');
+    const typingDeleteSpeedVal = $('typingDeleteSpeedVal');
+    const typingPause = $('typingPause');
+    const typingPauseVal = $('typingPauseVal');
+    const prefixTextInput = $('prefixTextInput');
+    const saveTypingSettings = $('saveTypingSettings');
+    
+    // Hero images
+    const heroImagesList = $('heroImagesList');
+    const heroImageUrl = $('heroImageUrl');
+    const heroBadge = $('heroBadge');
+    const heroTitle = $('heroTitle');
+    const heroDesc = $('heroDesc');
+    const heroBtn = $('heroBtn');
+    const heroAction = $('heroAction');
+    const addHeroImageBtn = $('addHeroImageBtn');
+    const resetHeroImagesBtn = $('resetHeroImagesBtn');
+
+    // ================================================================
+    // نظام إدارة الصور المتقدم (معاينات، حذف، ترتيب)
+    // ================================================================
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const addMoreImagesBtn = document.getElementById('addMoreImagesBtn');
+    const pImageFileExtra = document.getElementById('pImageFileExtra');
+    let tempImages = [];
+
+    function renderImagePreviews() {
+      if (!imagePreviewContainer) return;
+      if (tempImages.length === 0) {
+        imagePreviewContainer.innerHTML = '<span style="color:rgba(var(--text-rgb),0.2);font-size:0.8rem;">لا توجد صور. أضف صوراً باستخدام الزر أعلاه.</span>';
+        return;
+      }
+      imagePreviewContainer.innerHTML = tempImages.map((url, index) => `
+        <div class="image-preview-item" data-index="${index}">
+          <img src="${url}" alt="صورة ${index + 1}" onerror="this.src='/public/images/products/1.jpg'" />
+          <div class="img-actions-overlay">
+            <button class="img-delete-btn" data-index="${index}" title="حذف">✕</button>
+          </div>
+          <div class="img-move-actions">
+            ${index > 0 ? `<button class="img-move-up" data-index="${index}" title="تحريك لأعلى">↑</button>` : ''}
+            ${index < tempImages.length - 1 ? `<button class="img-move-down" data-index="${index}" title="تحريك لأسفل">↓</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      imagePreviewContainer.querySelectorAll('.img-delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.dataset.index);
+          tempImages.splice(idx, 1);
+          renderImagePreviews();
+          updateHiddenImagesField();
+        });
+      });
+
+      imagePreviewContainer.querySelectorAll('.img-move-up').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.dataset.index);
+          if (idx > 0) {
+            [tempImages[idx], tempImages[idx - 1]] = [tempImages[idx - 1], tempImages[idx]];
+            renderImagePreviews();
+            updateHiddenImagesField();
+          }
+        });
+      });
+
+      imagePreviewContainer.querySelectorAll('.img-move-down').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.dataset.index);
+          if (idx < tempImages.length - 1) {
+            [tempImages[idx], tempImages[idx + 1]] = [tempImages[idx + 1], tempImages[idx]];
+            renderImagePreviews();
+            updateHiddenImagesField();
+          }
+        });
+      });
+    }
+
+    function updateHiddenImagesField() {
+      const pImagesField = document.getElementById('pImages');
+      if (pImagesField) {
+        pImagesField.value = tempImages.join(', ');
+      }
+    }
+
+    function loadImagesToManager(imagesArray) {
+      tempImages = Array.isArray(imagesArray) ? [...imagesArray] : [];
+      renderImagePreviews();
+      updateHiddenImagesField();
+    }
+
+    if (addMoreImagesBtn && pImageFileExtra) {
+      addMoreImagesBtn.addEventListener('click', () => {
+        pImageFileExtra.click();
+      });
+
+      pImageFileExtra.addEventListener('change', async (e) => {
+        const files = e.target.files;
+        if (files.length === 0) return;
+        
+        showToast(`⏳ جاري رفع ${files.length} صورة...`, 3000, '⏳');
+        let uploaded = 0;
+        const uploadErrors = [];
+        
+        for (const file of files) {
+          try {
+            const url = await ImageUploader.uploadFile(file);
+            if (url) {
+              tempImages.push(url);
+              uploaded++;
+              // تحديث المعاينة تدريجياً
+              renderImagePreviews();
+              updateHiddenImagesField();
+            }
+          } catch (err) {
+            uploadErrors.push(`${file.name}: ${err.message}`);
+            console.warn('فشل رفع ملف:', file.name, err);
+          }
+        }
+        
+        if (uploaded > 0 && uploadErrors.length === 0) {
+          showToast(`✅ تم رفع ${uploaded} صورة بنجاح`, 2500, '✅');
+        } else if (uploaded > 0 && uploadErrors.length > 0) {
+          showToast(`⚠️ تم رفع ${uploaded} صورة، فشل ${uploadErrors.length} صورة`, 4000, '⚠️');
+        } else {
+          showToast(`❌ فشل رفع جميع الصور (${files.length})، تحقق من الاتصال بالإنترنت`, 5000, '❌');
+          console.error('أخطاء الرفع:', uploadErrors.join('\n'));
+        }
+        
+        renderImagePreviews();
+        updateHiddenImagesField();
+        pImageFileExtra.value = '';
+      });
+    }
+
+    // ================================================================
+    // تأثير انكماش الهيدر
+    // ================================================================
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
 
     // ================================================================
     // التبويبات
@@ -899,7 +1528,27 @@
     });
 
     // ================================================================
-    // 1. إدارة المقاسات
+    // 0. Category Manager – دوال مساعدة
+    // ================================================================
+    async function loadCategorySelect(selectElement, selectedValue = '') {
+      const categories = await categoryManager.getAll();
+      selectElement.innerHTML = '<option value="">اختر فئة</option>';
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        if (cat === selectedValue) opt.selected = true;
+        selectElement.appendChild(opt);
+      });
+    }
+
+    async function refreshCategorySelect() {
+      const currentVal = pCategory.value;
+      await loadCategorySelect(pCategory, currentVal);
+    }
+
+    // ================================================================
+    // 1. إدارة المقاسات (مع دعم الأعداد العشرية)
     // ================================================================
     let variantCounter = 0;
 
@@ -914,15 +1563,15 @@
         </div>
         <div class="variant-field">
           <span class="variant-label">السعر (ريال)</span>
-          <input type="number" class="variant-price" placeholder="0.00" step="0.5" value="${price}" />
+          <input type="number" class="variant-price" placeholder="0.00" step="any" value="${price}" />
         </div>
         <div class="variant-field">
           <span class="variant-label">المخزون</span>
-          <input type="number" class="variant-stock" placeholder="0" value="${stock}" />
+          <input type="number" class="variant-stock" placeholder="0" step="any" value="${stock}" />
         </div>
         <div class="variant-field">
           <span class="variant-label">الحد الأدنى</span>
-          <input type="number" class="variant-minorder" placeholder="1" min="1" value="${minOrder || 1}" />
+          <input type="number" class="variant-minorder" placeholder="1" min="1" step="any" value="${minOrder || 1}" />
         </div>
         <button type="button" class="remove-variant" title="حذف المقاس">✕</button>
       `;
@@ -946,8 +1595,8 @@
       rows.forEach(row => {
         const size = row.querySelector('.variant-size').value.trim();
         const price = parseFloat(row.querySelector('.variant-price').value);
-        const stock = parseInt(row.querySelector('.variant-stock').value);
-        const minOrder = parseInt(row.querySelector('.variant-minorder').value) || 1;
+        const stock = parseFloat(row.querySelector('.variant-stock').value);
+        const minOrder = parseFloat(row.querySelector('.variant-minorder').value) || 1;
         if (size && !isNaN(price) && !isNaN(stock) && stock >= 0) {
           variants.push({ size, price, stock, minOrder });
         }
@@ -976,7 +1625,7 @@
       });
       $('statProducts').textContent = products.length;
       $('statOrders').textContent = orders.length;
-      $('statRevenue').textContent = totalRevenue.toFixed(0) + ' ريال';
+      $('statRevenue').textContent = totalRevenue.toFixed(2) + ' ريال';
       $('statLowStock').textContent = lowStockCount;
     }
 
@@ -988,7 +1637,7 @@
         const tags = [];
         if (p.isNew) tags.push('<span class="badge-status new">🆕 جديد</span>');
         if (p.isBestSeller) tags.push('<span class="badge-status bestseller">⭐ الأكثر مبيعاً</span>');
-        if (!tags.length) tags.push('<span style="color:rgba(var(--text-rgb),0.3);font-size:0.65rem;">—</span>');
+        if (!tags.length) tags.push('<span style="color:rgba(var(--text-rgb),0.2);font-size:0.6rem;">—</span>');
         const stars = '⭐'.repeat(Math.floor(p.rating || 0)) + (p.rating % 1 >= 0.5 ? '✨' : '');
         const hasVariants = p.variants && p.variants.length > 0;
         const variantsInfo = hasVariants ? p.variants.map(v => v.size).join('، ') : '—';
@@ -997,14 +1646,14 @@
         return `
           <tr>
             <td>${p.id.slice(0,4)}</td>
-            <td><img src="${p.image || '/public/images/products/default.jpg'}" /></td>
+            <td><img src="${p.image || '/public/images/products/1.jpg'}" /></td>
             <td><strong>${p.name}</strong></td>
             <td>${p.category}</td>
-            <td>${hasVariants ? 'متعدد' : displayPrice}</td>
-            <td>${hasVariants ? `مجموع: ${displayStock}` : displayStock}</td>
+            <td>${hasVariants ? 'متعدد' : displayPrice.toFixed(2)}</td>
+            <td>${hasVariants ? `مجموع: ${displayStock.toFixed(2)}` : displayStock.toFixed(2)}</td>
             <td>${hasVariants ? '—' : (p.minOrder || 1)}</td>
             <td>${stars || '—'}</td>
-            <td style="font-size:0.7rem;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${variantsInfo}">${variantsInfo}</td>
+            <td style="font-size:0.65rem;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${variantsInfo}">${variantsInfo}</td>
             <td>${tags.join(' ')}</td>
             <td><span class="badge-status ${statusClass}">${status}</span></td>
             <td>${p.sortOrder || 0}</td>
@@ -1025,21 +1674,29 @@
           await productManager.mutate({ type: 'DELETE', payload: { id: b.dataset.id } });
           renderTable();
           updateStats();
-          showToast('🗑️ تم الحذف', 2500, '🗑️');
+          showToast('🗑️ تم الحذف', '🗑️');
         }
       }));
       tableBody.querySelectorAll('.btn-preview').forEach(b => b.addEventListener('click', () => openPreview(b.dataset.id)));
       updateStats();
     }
 
-    function openModal(id = null) {
+    // ===== فتح مودال الإضافة/التعديل =====
+    async function openModal(id = null) {
       modal.classList.add('active');
+      await refreshCategorySelect();
+      
+      // تصفير مدير الصور
+      tempImages = [];
+      renderImagePreviews();
+
       if (id) {
         $('modalTitle').textContent = 'تعديل منتج';
-        productManager.getById(id).then(p => {
+        const p = await productManager.getById(id);
+        if (p) {
           $('productId').value = p.id;
           $('pName').value = p.name || '';
-          $('pCategory').value = p.category || '';
+          await loadCategorySelect(pCategory, p.category || '');
           $('pPrice').value = p.price || 0;
           $('pStock').value = p.stock || 0;
           $('pMinOrder').value = p.minOrder || 1;
@@ -1050,11 +1707,20 @@
           $('pIsBestSeller').checked = !!p.isBestSeller;
           $('pDesc').value = p.desc || '';
           $('pImage').value = p.image || '';
-          $('pImages').value = (p.images || []).join(', ');
           $('pVideo').value = p.video || '';
+          
+          // تحميل الصور إلى مدير الصور
+          if (p.images && p.images.length > 0) {
+            loadImagesToManager(p.images);
+          } else if (p.image) {
+            loadImagesToManager([p.image]);
+          } else {
+            loadImagesToManager([]);
+          }
+          
           if (p.variants && p.variants.length > 0) loadVariants(p.variants);
           else { variantsContainer.innerHTML = ''; variantCounter = 0; }
-        });
+        }
       } else {
         $('modalTitle').textContent = 'إضافة منتج';
         form.reset();
@@ -1065,38 +1731,79 @@
         $('pIsBestSeller').checked = false;
         $('pRating').value = 0;
         $('pSortOrder').value = 0;
+        $('pImage').value = '';
+        $('pVideo').value = '';
         variantsContainer.innerHTML = '';
         variantCounter = 0;
+        await loadCategorySelect(pCategory);
+        loadImagesToManager([]);
       }
     }
 
+    // ===== حفظ المنتج (مع استخدام مدير الصور ودعم الفيديو) =====
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      // ===== معالجة الفيديو =====
+      const videoFileInput = document.getElementById('pVideoFile');
+      let videoUrl = document.getElementById('pVideo').value.trim();
+
+      if (videoFileInput && videoFileInput.files.length > 0) {
+        showToast('⏳ جاري رفع الفيديو...', 3000, '⏳');
+        try {
+          videoUrl = await ImageUploader.uploadVideo(videoFileInput.files[0]);
+          if (videoUrl) showToast('✅ تم رفع الفيديو بنجاح', 2000, '✅');
+        } catch (error) {
+          console.warn('فشل رفع الفيديو:', error);
+          showToast('⚠️ فشل رفع الفيديو، يمكنك إدخال رابط يدوياً', 3000, '⚠️');
+          // نستمر بدون فيديو
+        }
+      }
+
+      // ===== استخدام الصور من مدير الصور =====
+      const allImages = tempImages.length > 0 ? tempImages : [];
+      const finalImageUrl = allImages.length > 0 ? allImages[0] : $('pImage').value.trim();
+
       const id = $('productId').value;
-      const images = $('pImages').value.split(',').map(s => s.trim()).filter(Boolean);
       const variants = getVariantsFromForm();
+
       const payload = {
         name: $('pName').value.trim(),
         category: $('pCategory').value.trim(),
         price: parseFloat($('pPrice').value) || 0,
-        stock: parseInt($('pStock').value) || 0,
-        minOrder: parseInt($('pMinOrder').value) || 1,
+        stock: parseFloat($('pStock').value) || 0,
+        minOrder: parseFloat($('pMinOrder').value) || 1,
         rating: parseFloat($('pRating').value) || 0,
-        sortOrder: parseInt($('pSortOrder').value) || 0,
+        sortOrder: parseFloat($('pSortOrder').value) || 0,
         active: $('pStatus').value === 'active',
         isNew: $('pIsNew').checked,
         isBestSeller: $('pIsBestSeller').checked,
         desc: $('pDesc').value.trim(),
-        image: $('pImage').value.trim(),
-        images: images.length ? images : undefined,
-        video: $('pVideo').value.trim() || undefined,
+        image: finalImageUrl,
+        images: allImages.length > 0 ? allImages : undefined,
+        video: videoUrl || undefined,
         variants: variants.length > 0 ? variants : []
       };
-      if (id) { payload.id = id; await productManager.mutate({ type: 'UPDATE', payload }); }
-      else await productManager.mutate({ type: 'ADD', payload });
-      modal.classList.remove('active');
-      renderTable();
-      showToast('✅ تم الحفظ', 3000, '✅');
+
+      try {
+        if (id) {
+          payload.id = id;
+          await productManager.mutate({ type: 'UPDATE', payload });
+        } else {
+          await productManager.mutate({ type: 'ADD', payload });
+        }
+        
+        modal.classList.remove('active');
+        renderTable();
+        showToast('✅ تم الحفظ بنجاح', 3000, '✅');
+        tempImages = [];
+        renderImagePreviews();
+        // تصفير حقل رفع الفيديو
+        if (videoFileInput) videoFileInput.value = '';
+      } catch (error) {
+        console.error('فشل الحفظ:', error);
+        showToast('⚠️ فشل الحفظ: ' + error.message, 4000, '⚠️');
+      }
     });
 
     closeModal.addEventListener('click', () => modal.classList.remove('active'));
@@ -1108,14 +1815,14 @@
         if (!p) return;
         let msg = '👁️ معاينة المنتج:\n\n';
         msg += `📌 الاسم: ${p.name}\n`;
-        msg += `💰 السعر: ${p.price} ريال\n`;
-        msg += `📦 المخزون: ${p.stock}\n`;
+        msg += `💰 السعر: ${p.price.toFixed(2)} ريال\n`;
+        msg += `📦 المخزون: ${p.stock.toFixed(2)}\n`;
         msg += `📂 الفئة: ${p.category}\n`;
         msg += `⭐ التقييم: ${p.rating || 0} نجوم\n`;
         if (p.variants && p.variants.length > 0) {
           msg += `📏 المقاسات:\n`;
           p.variants.forEach(v => {
-            msg += `   • ${v.size}: ${v.price} ريال، مخزون: ${v.stock}\n`;
+            msg += `   • ${v.size}: ${v.price.toFixed(2)} ريال، مخزون: ${v.stock.toFixed(2)}\n`;
           });
         }
         if (p.desc) msg += `📝 الوصف: ${p.desc}\n`;
@@ -1124,64 +1831,76 @@
     }
 
     // ================================================================
-    // 3. رفع صور المنتجات والمقالات عبر الأزرار الجديدة
+    // 3. إدارة الفئات
     // ================================================================
+    async function renderCategoryList() {
+      const categories = await categoryManager.getAll();
+      categoryList.innerHTML = categories.map(cat => `
+        <div class="category-item">
+          <span class="cat-name">${cat}</span>
+          <button class="cat-delete" data-category="${cat}">✕</button>
+        </div>
+      `).join('');
 
-    // رفع صورة منتج
-    $('btnUploadMainImg').addEventListener('click', () => $('fileMainImg').click());
-    $('fileMainImg').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = async (ev) => {
-        const base64 = ev.target.result;
-        $('pImage').value = '⏳ جاري الرفع إلى السحابة...';
-        try {
-          const url = await uploadImageToStorage(base64, 'products');
-          $('pImage').value = url;
-          showToast('✅ تم رفع صورة المنتج بنجاح', 3000, '✅');
-        } catch (err) {
-          $('pImage').value = '';
-          showToast('❌ فشل رفع الصورة', 3000, '⚠️');
-        }
-      };
-      reader.readAsDataURL(file);
+      categoryList.querySelectorAll('.cat-delete').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const cat = btn.dataset.category;
+          if (confirm(`حذف الفئة "${cat}"؟ سيتم إزالتها من جميع المنتجات.`)) {
+            await categoryManager.remove(cat);
+            renderCategoryList();
+            refreshCategorySelect();
+            renderTable();
+            showToast(`🗑️ تم حذف الفئة "${cat}"`, '🗑️');
+          }
+        });
+      });
+    }
+
+    addCategoryBtn.addEventListener('click', async () => {
+      const name = newCategoryInput.value.trim();
+      if (!name) { showToast('⚠️ يرجى إدخال اسم الفئة', '⚠️'); return; }
+      await categoryManager.add(name);
+      newCategoryInput.value = '';
+      renderCategoryList();
+      refreshCategorySelect();
+      showToast(`✅ تم إضافة الفئة "${name}"`, '✅');
     });
 
-    // رفع صورة مقال
-    $('btnUploadBlogImg').addEventListener('click', () => $('fileBlogImg').click());
-    $('fileBlogImg').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = async (ev) => {
-        const base64 = ev.target.result;
-        $('postImage').value = '⏳ جاري الرفع إلى السحابة...';
-        try {
-          const url = await uploadImageToStorage(base64, 'blog');
-          $('postImage').value = url;
-          showToast('✅ تم رفع صورة المقال بنجاح', 3000, '✅');
-        } catch (err) {
-          $('postImage').value = '';
-          showToast('❌ فشل رفع الصورة', 3000, '⚠️');
-        }
-      };
-      reader.readAsDataURL(file);
+    newCategoryInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') addCategoryBtn.click();
+    });
+
+    manageCategoriesBtn.addEventListener('click', () => {
+      categoryModal.classList.add('active');
+      renderCategoryList();
+    });
+
+    closeCategoryModal.addEventListener('click', () => categoryModal.classList.remove('active'));
+    window.addEventListener('click', (e) => { if (e.target === categoryModal) categoryModal.classList.remove('active'); });
+
+    pAddCategoryBtn.addEventListener('click', async () => {
+      const name = prompt('أدخل اسم الفئة الجديدة:');
+      if (name && name.trim()) {
+        await categoryManager.add(name.trim());
+        await refreshCategorySelect();
+        pCategory.value = name.trim();
+        showToast(`✅ تم إضافة الفئة "${name.trim()}"`, '✅');
+        renderCategoryList();
+      }
     });
 
     // ================================================================
     // 4. المدونة
     // ================================================================
-
     async function renderBlogPosts() {
       const posts = await blogManager.getAll();
       blogPostsList.innerHTML = posts.map(p => `
         <div class="blog-item">
-          <img src="${p.image || '/public/images/blog/default.jpg'}" alt="${p.title}" />
+          <img src="${p.image || '/public/images/products/1.jpg'}" alt="${p.title}" />
           <div class="blog-info">
             <h4>${p.title}</h4>
             <div class="blog-meta">${new Date(p.date).toLocaleDateString()} - ${p.author || 'غير معروف'} ${p.published !== false ? '✅' : '⛔'}</div>
-            <div style="font-size:0.8rem;color:rgba(var(--text-rgb),0.5);">${p.tags ? p.tags.join(', ') : ''}</div>
+            <div style="font-size:0.7rem;color:rgba(var(--text-rgb),0.4);">${p.tags ? p.tags.join(', ') : ''}</div>
           </div>
           <div class="blog-actions">
             <button class="edit-post" data-id="${p.id}">✏️</button>
@@ -1195,7 +1914,7 @@
         if (confirm('حذف المقال؟')) {
           await blogManager.mutate({ type: 'DELETE', payload: { id: b.dataset.id } });
           renderBlogPosts();
-          showToast('🗑️ تم الحذف', 2500, '🗑️');
+          showToast('🗑️ تم الحذف', '🗑️');
         }
       }));
     }
@@ -1237,11 +1956,16 @@
         tags: tags,
         published: $('postPublished').checked
       };
-      if (id) { payload.id = id; await blogManager.mutate({ type: 'UPDATE', payload }); }
-      else await blogManager.mutate({ type: 'ADD', payload });
-      postModal.classList.remove('active');
-      renderBlogPosts();
-      showToast('✅ تم حفظ المقال', 3000, '✅');
+      try {
+        if (id) { payload.id = id; await blogManager.mutate({ type: 'UPDATE', payload }); }
+        else await blogManager.mutate({ type: 'ADD', payload });
+        postModal.classList.remove('active');
+        renderBlogPosts();
+        showToast('✅ تم حفظ المقال', '✅');
+      } catch (error) {
+        console.error('فشل حفظ المقال:', error);
+        showToast('⚠️ فشل حفظ المقال', 3000, '⚠️');
+      }
     });
 
     closePostModal.addEventListener('click', () => postModal.classList.remove('active'));
@@ -1251,7 +1975,6 @@
     // ================================================================
     // 5. التواصل
     // ================================================================
-
     async function loadContactInfo() {
       const info = await contactManager.get();
       $('contactAddress').value = info.address || '';
@@ -1280,41 +2003,284 @@
         openingHours: $('contactHours').value.trim(),
         mapEmbed: $('contactMap').value.trim()
       };
-      await contactManager.update(data);
-      showToast('✅ تم حفظ معلومات التواصل', 3000, '✅');
+      try {
+        await contactManager.update(data);
+        showToast('✅ تم حفظ معلومات التواصل', '✅');
+      } catch (error) {
+        console.error('فشل حفظ معلومات التواصل:', error);
+        showToast('⚠️ فشل الحفظ', 3000, '⚠️');
+      }
     });
 
     resetContactBtn.addEventListener('click', async () => {
       if (confirm('إعادة تعيين معلومات التواصل إلى الافتراضي؟')) {
         await contactManager.reset();
         await loadContactInfo();
-        showToast('🔄 تم إعادة التعيين', 3000, '🔄');
+        showToast('🔄 تم إعادة التعيين', '🔄');
       }
     });
 
     // ================================================================
-    // 6. الإعدادات – الرفع السحابي للخلفيات والفوتر (Firebase Storage)
+    // 6. إعدادات العبارات (Typing Phrases)
     // ================================================================
+    function loadTypingPhrases() {
+      try {
+        const saved = localStorage.getItem('nokhba_typing_settings');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.phrases && parsed.phrases.length > 0) {
+            typingPhrasesTextarea.value = parsed.phrases.join('\n');
+            typingEnabled.checked = parsed.enabled !== undefined ? parsed.enabled : true;
+            cursorEnabled.checked = parsed.cursorEnabled !== undefined ? parsed.cursorEnabled : true;
+            showPrefix.checked = parsed.showPrefix !== undefined ? parsed.showPrefix : true;
+            typingSpeed.value = parsed.speed || 50;
+            typingSpeedVal.textContent = parsed.speed || 50;
+            typingDeleteSpeed.value = parsed.deleteSpeed || 30;
+            typingDeleteSpeedVal.textContent = parsed.deleteSpeed || 30;
+            typingPause.value = parsed.pause || 2000;
+            typingPauseVal.textContent = parsed.pause || 2000;
+            prefixTextInput.value = parsed.prefixText || 'النخبة NBA: ~_';
+            return;
+          }
+        }
+      } catch (e) { /* تجاهل */ }
+      const defaults = [
+        'مرحباً بك في النخبة للكهربائيات',
+        'جودة عالية وأسعار تنافسية',
+        'توصيل سريع إلى جميع أنحاء عدن',
+        'نحن نصنع الفرق في عالم الكهرباء',
+        'أفضل المنتجات بأفضل الأسعار'
+      ];
+      typingPhrasesTextarea.value = defaults.join('\n');
+      typingEnabled.checked = true;
+      cursorEnabled.checked = true;
+      showPrefix.checked = true;
+      typingSpeed.value = 50;
+      typingSpeedVal.textContent = '50';
+      typingDeleteSpeed.value = 30;
+      typingDeleteSpeedVal.textContent = '30';
+      typingPause.value = 2000;
+      typingPauseVal.textContent = '2000';
+      prefixTextInput.value = 'النخبة NBA: ~_';
+    }
 
+    function saveTypingSettingsHandler() {
+      const text = typingPhrasesTextarea.value;
+      const lines = text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+      if (lines.length === 0) {
+        showToast('⚠️ يرجى إدخال عبارة واحدة على الأقل', '⚠️');
+        return;
+      }
+      const settings = {
+        enabled: typingEnabled.checked,
+        phrases: lines,
+        speed: parseInt(typingSpeed.value),
+        deleteSpeed: parseInt(typingDeleteSpeed.value),
+        pause: parseInt(typingPause.value),
+        cursorEnabled: cursorEnabled.checked,
+        showPrefix: showPrefix.checked,
+        prefixText: prefixTextInput.value.trim() || 'النخبة NBA: ~_'
+      };
+      localStorage.setItem('nokhba_typing_settings', JSON.stringify(settings));
+      showToast('✅ تم حفظ إعدادات الكتابة', '✅');
+      if (window.__typingEngine) {
+        window.__typingEngine.setPhrases(lines);
+        window.__typingEngine.setEnabled(settings.enabled);
+        window.__typingEngine.setSpeed(settings.speed);
+        window.__typingEngine.setDeleteSpeed(settings.deleteSpeed);
+        window.__typingEngine.setPause(settings.pause);
+        const prefixTextEl = document.querySelector('#prefixText');
+        const terminalPrefix = document.querySelector('#terminalPrefix');
+        if (prefixTextEl) {
+          prefixTextEl.textContent = settings.prefixText;
+        }
+        if (terminalPrefix) {
+          terminalPrefix.style.display = settings.showPrefix ? 'flex' : 'none';
+        }
+        const cursorEl = document.querySelector('#prefixCursor');
+        if (cursorEl) {
+          cursorEl.style.display = settings.cursorEnabled ? 'inline-block' : 'none';
+        }
+      }
+    }
+
+    function resetTypingPhrasesHandler() {
+      const defaults = [
+        'مرحباً بك في النخبة للكهربائيات',
+        'جودة عالية وأسعار تنافسية',
+        'توصيل سريع إلى جميع أنحاء عدن',
+        'نحن نصنع الفرق في عالم الكهرباء',
+        'أفضل المنتجات بأفضل الأسعار'
+      ];
+      typingPhrasesTextarea.value = defaults.join('\n');
+      typingEnabled.checked = true;
+      cursorEnabled.checked = true;
+      showPrefix.checked = true;
+      typingSpeed.value = 50;
+      typingSpeedVal.textContent = '50';
+      typingDeleteSpeed.value = 30;
+      typingDeleteSpeedVal.textContent = '30';
+      typingPause.value = 2000;
+      typingPauseVal.textContent = '2000';
+      prefixTextInput.value = 'النخبة NBA: ~_';
+      saveTypingSettingsHandler();
+    }
+
+    saveTypingPhrases.addEventListener('click', saveTypingSettingsHandler);
+    resetTypingPhrases.addEventListener('click', resetTypingPhrasesHandler);
+    saveTypingSettings.addEventListener('click', saveTypingSettingsHandler);
+
+    typingSpeed.addEventListener('input', () => {
+      typingSpeedVal.textContent = typingSpeed.value;
+    });
+    typingDeleteSpeed.addEventListener('input', () => {
+      typingDeleteSpeedVal.textContent = typingDeleteSpeed.value;
+    });
+    typingPause.addEventListener('input', () => {
+      typingPauseVal.textContent = typingPause.value;
+    });
+
+    loadTypingPhrases();
+
+    // ================================================================
+    // 7. إدارة صور الإعلانات (Hero) – تم إصلاحها بالكامل
+    // ================================================================
+    function renderHeroImages() {
+      const images = heroImagesManager.getAll();
+      if (images.length === 0) {
+        heroImagesList.innerHTML = '<p style="color:rgba(var(--text-rgb),0.3);font-size:0.8rem;">لا توجد صور إعلانية. أضف شريحة جديدة!</p>';
+        return;
+      }
+      heroImagesList.innerHTML = images.map((img, index) => `
+        <div class="hero-image-item">
+          <img src="${img.image}" alt="شريحة ${index + 1}" class="img-preview" onerror="this.onerror=null;this.src='/public/images/products/27.jpg'" />
+          <div class="img-info">
+            <div><strong>${img.badge || 'بدون شارة'}</strong> - ${img.btn || 'زر'}</div>
+            <div style="font-size:0.65rem;opacity:0.5;">${img.title || ''}</div>
+          </div>
+          <div class="img-actions">
+            <button class="btn-edit-img" data-index="${index}">✏️</button>
+            <button class="btn-delete-img" data-index="${index}">🗑️</button>
+            ${index > 0 ? `<button class="btn-move-up" data-index="${index}">↑</button>` : ''}
+            ${index < images.length - 1 ? `<button class="btn-move-down" data-index="${index}">↓</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      heroImagesList.querySelectorAll('.btn-edit-img').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index);
+          const img = images[index];
+          heroImageUrl.value = img.image || '';
+          heroBadge.value = img.badge || '';
+          heroTitle.value = img.title || '';
+          heroDesc.value = img.desc || '';
+          heroBtn.value = img.btn || '';
+          heroAction.value = img.action || 'shop';
+          addHeroImageBtn.textContent = '✏️ تحديث الشريحة';
+          addHeroImageBtn.dataset.editIndex = index;
+        });
+      });
+
+      heroImagesList.querySelectorAll('.btn-delete-img').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index);
+          if (confirm('حذف هذه الشريحة؟')) {
+            heroImagesManager.remove(index);
+            renderHeroImages();
+            showToast('🗑️ تم حذف الشريحة', '🗑️');
+          }
+        });
+      });
+
+      heroImagesList.querySelectorAll('.btn-move-up').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index);
+          heroImagesManager.reorder(index, index - 1);
+          renderHeroImages();
+        });
+      });
+
+      heroImagesList.querySelectorAll('.btn-move-down').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index);
+          heroImagesManager.reorder(index, index + 1);
+          renderHeroImages();
+        });
+      });
+
+      addHeroImageBtn.textContent = '➕ إضافة شريحة';
+      delete addHeroImageBtn.dataset.editIndex;
+    }
+
+    // ===== زر إضافة شريحة (تم إصلاحه) =====
+    if (addHeroImageBtn) {
+      addHeroImageBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const url = heroImageUrl.value.trim();
+        if (!url) {
+          showToast('⚠️ يرجى إدخال رابط الصورة', '⚠️');
+          return;
+        }
+        
+        const data = {
+          image: url,
+          badge: heroBadge.value.trim() || '✨ عرض خاص',
+          title: heroTitle.value.trim() || 'منتج <span class="highlight">جديد</span>',
+          desc: heroDesc.value.trim() || 'اكتشف أفضل العروض في متجر النخبة',
+          btn: heroBtn.value.trim() || 'تسوق الآن',
+          action: heroAction.value || 'shop'
+        };
+
+        const editIndex = this.dataset.editIndex;
+        if (editIndex !== undefined) {
+          heroImagesManager.update(parseInt(editIndex), data);
+          showToast('✅ تم تحديث الشريحة', '✅');
+        } else {
+          heroImagesManager.add(data);
+          showToast('✅ تم إضافة الشريحة', '✅');
+        }
+        
+        renderHeroImages();
+        heroImageUrl.value = '';
+        heroBadge.value = '';
+        heroTitle.value = '';
+        heroDesc.value = '';
+        heroBtn.value = '';
+        heroAction.value = 'shop';
+        this.textContent = '➕ إضافة شريحة';
+        delete this.dataset.editIndex;
+      });
+    }
+
+    // ===== زر إعادة تعيين الصور =====
+    if (resetHeroImagesBtn) {
+      resetHeroImagesBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('إعادة تعيين صور الإعلانات إلى الافتراضي؟')) {
+          heroImagesManager.reset();
+          renderHeroImages();
+          showToast('🔄 تم إعادة تعيين الصور', '🔄');
+        }
+      });
+    }
+
+    renderHeroImages();
+
+    // ================================================================
+    // 8. الإعدادات – رفع الصور
+    // ================================================================
     bgInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = async (ev) => {
+      reader.onload = (ev) => {
         const base64 = ev.target.result;
-        bgPreview.innerHTML = `<img src="${base64}" class="preview-image" style="opacity: 0.5;" />`;
-        bgLabel.textContent = '⏳ جاري الرفع إلى السحابة...';
-        
-        try {
-          const imageUrl = await uploadImageToStorage(base64, 'settings/backgrounds');
-          setBackground(imageUrl);
-          bgPreview.innerHTML = `<img src="${imageUrl}" class="preview-image" />`;
-          bgLabel.textContent = '✅ تم تحديث الخلفية سحابياً';
-          showToast('✅ تم تحديث خلفية المتجر', 3500, '🖼️');
-        } catch (err) {
-          bgLabel.textContent = '❌ فشل الرفع';
-          showToast('❌ فشل رفع الصورة', 3500, '⚠️');
-        }
+        setBackground(base64);
+        bgPreview.innerHTML = `<img src="${base64}" class="preview-image" />`;
+        bgLabel.textContent = '✅ تم تحديث الخلفية';
+        showToast('✅ تم تحديث خلفية المتجر', '🖼️');
       };
       reader.readAsDataURL(file);
     });
@@ -1323,21 +2289,12 @@
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = async (ev) => {
+      reader.onload = (ev) => {
         const base64 = ev.target.result;
-        footerPreview.innerHTML = `<img src="${base64}" class="preview-image" style="opacity: 0.5;" />`;
-        footerLabel.textContent = '⏳ جاري الرفع إلى السحابة...';
-        
-        try {
-          const imageUrl = await uploadImageToStorage(base64, 'settings/footers');
-          setFooterImage(imageUrl);
-          footerPreview.innerHTML = `<img src="${imageUrl}" class="preview-image" />`;
-          footerLabel.textContent = '✅ تم تحديث الفوتر سحابياً';
-          showToast('✅ تم تحديث صورة أسفل الصفحة', 3500, '🏁');
-        } catch (err) {
-          footerLabel.textContent = '❌ فشل الرفع';
-          showToast('❌ فشل رفع الصورة', 3500, '⚠️');
-        }
+        setFooterImage(base64);
+        footerPreview.innerHTML = `<img src="${base64}" class="preview-image" />`;
+        footerLabel.textContent = '✅ تم تحديث صورة الفوتر';
+        showToast('✅ تم تحديث صورة أسفل الصفحة', '🏁');
       };
       reader.readAsDataURL(file);
     });
@@ -1345,19 +2302,19 @@
     const currentBg = getBackground();
     if (currentBg) {
       bgPreview.innerHTML = `<img src="${currentBg}" class="preview-image" />`;
-      bgLabel.textContent = '✅ خلفية نشطة';
+      bgLabel.textContent = '✅ خلفية محفوظة';
     }
     const currentFooter = getFooterImage();
     if (currentFooter) {
       footerPreview.innerHTML = `<img src="${currentFooter}" class="preview-image" />`;
-      footerLabel.textContent = '✅ صورة فوتر نشطة';
+      footerLabel.textContent = '✅ صورة فوتر محفوظة';
     }
 
     $('bgUploadArea').addEventListener('click', () => bgInput.click());
     $('footerUploadArea').addEventListener('click', () => footerInput.click());
 
     // ================================================================
-    // 7. الثيم
+    // 9. الثيم
     // ================================================================
     themeToggle.addEventListener('click', () => {
       const current = getTheme();
@@ -1370,7 +2327,7 @@
     themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
     // ================================================================
-    // 8. استيراد/تصدير المنتجات (مع حماية بسيطة للبيانات)
+    // 10. استيراد/تصدير المنتجات
     // ================================================================
     exportBtn.addEventListener('click', async () => {
       const data = await productManager.getAll(true);
@@ -1388,29 +2345,22 @@
       try {
         const text = await file.text();
         const data = JSON.parse(text);
-        if (!Array.isArray(data)) throw new Error('الملف غير صالح');
-        
-        showToast('⏳ جاري الاستيراد إلى Firebase...', 3000, '⏳');
         for (const p of data) {
-          if (!p.name || p.price === undefined) continue; // حماية بسيطة للتحقق من هيكل المنتج
           if (!p.variants) p.variants = [];
           await productManager.mutate({ type: 'ADD', payload: p });
         }
         renderTable();
-        showToast('✅ تم استيراد المنتجات بنجاح', 4000, '✅');
+        showToast('✅ تم استيراد المنتجات', '✅');
       } catch (err) {
-        showToast('⚠️ خطأ في الملف أو الصيغة', 4000, '⚠️');
+        showToast('⚠️ خطأ في الملف', '⚠️');
       }
       importFileInput.value = '';
     });
 
     // ================================================================
-    // 9. الطلبات وتحديث الإحصائيات
+    // 11. تحديث الإحصائيات والطلبات
     // ================================================================
-    refreshStatsBtn.addEventListener('click', () => {
-      updateStats();
-      showToast('🔄 تم التحديث من Firebase', 2000, '🔄');
-    });
+    refreshStatsBtn.addEventListener('click', updateStats);
 
     function renderOrders() {
       const orders = getOrders();
@@ -1423,27 +2373,61 @@
             <span class="status-badge">${o.status}</span>
           </div>
           <div class="order-details">
-            <div>التاريخ: ${new Date(o.date).toLocaleString('ar-SA')}</div>
+            <div>التاريخ: ${new Date(o.date).toLocaleString()}</div>
             <div>المنتجات: ${o.items.map(it => `${it.name}${it.size ? ' (' + it.size + ')' : ''} (${it.quantity})`).join('، ')}</div>
-            <div>الإجمالي: ${o.total || o.subtotal} ريال</div>
+            <div>الإجمالي: ${(o.total || o.subtotal).toFixed(2)} ريال</div>
           </div>
         </div>
-      `).join('') : '<p style="color:rgba(var(--text-rgb),0.4);">لا توجد طلبات بعد</p>';
+      `).join('') : '<p style="color:rgba(var(--text-rgb),0.2);">لا توجد طلبات بعد</p>';
     }
 
     // ================================================================
-    // 10. التشغيل
+    // 12. عرض إحصائيات المجتمع في لوحة التحكم
+    // ================================================================
+    async function updateCommunityStatsUI() {
+      try {
+        const stats = await getCommunityStats();
+        const power = stats.totalPower || 0;
+        const customers = stats.totalCustomers || 0;
+        const hours = Math.round(stats.savedHours || 0);
+        const statsGrid = document.querySelector('.stats-grid');
+        if (statsGrid && !document.getElementById('statCommunity')) {
+          const card = document.createElement('div');
+          card.className = 'stat-card';
+          card.id = 'statCommunity';
+          card.innerHTML = `
+            <span class="stat-number">${power.toLocaleString()}</span>
+            <span class="stat-label">⚡ وات من الطاقة النظيفة</span>
+            <span style="font-size:0.7rem;opacity:0.6;">👥 ${customers} عميل | ⏳ ${hours} ساعة موفرة</span>
+          `;
+          statsGrid.appendChild(card);
+        } else {
+          const el = document.getElementById('statCommunity');
+          if (el) {
+            el.querySelector('.stat-number').textContent = power.toLocaleString();
+            el.querySelector('span:last-child').textContent = `👥 ${customers} عميل | ⏳ ${hours} ساعة موفرة`;
+          }
+        }
+      } catch (e) { /* تجاهل */ }
+    }
+
+    // ================================================================
+    // 13. التشغيل النهائي
     // ================================================================
     renderTable();
     renderBlogPosts();
     loadContactInfo();
     renderOrders();
+    updateCommunityStatsUI();
 
-    // تحديث البيانات تلقائياً من Firebase
     setInterval(updateStats, 60000);
     setInterval(renderOrders, 30000);
+    setInterval(updateCommunityStatsUI, 60000);
 
-    console.log('⚡ لوحة التحكم الأسطورية جاهزة ومتصلة بسحابة Firebase!');
+    console.log('⚡ لوحة التحكم الأسطورية v8.0 جاهزة (مع دعم رفع عدة صور وفيديو)');
+    console.log('📞 رقم الهاتف: +967782826727');
+    console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
+    console.log('✅ البيانات مخزنة في Realtime Database (مجاني)');
   </script>
 </body>
-</html>
+  </html>
