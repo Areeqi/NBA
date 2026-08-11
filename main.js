@@ -1,6 +1,6 @@
 // ================================================================
 // main.js – النواة الأسطورية لمتجر النخبة
-// الإصدار النهائي المتكامل – v8.0 (مع جميع الميزات الجديدة)
+// الإصدار النهائي المتكامل – v8.1 (مع ضغط الصور والتقدم)
 // ================================================================
 
 import * as THREE from 'three';
@@ -93,7 +93,6 @@ export class FirebaseRTDBAdapter extends StorageAdapter {
 
   async set(key, value) {
     try {
-      // إزالة أي خاصية قيمتها undefined (لأن Firebase لا يقبلها)
       const cleanValue = removeUndefined(value);
       await set(ref(this.db, key), cleanValue);
     } catch (e) {
@@ -474,7 +473,6 @@ export class ProductManager {
     const parsed = data && data.length ? data : defaults;
     parsed.forEach(p => {
       p.image = migrateStaticImage(p.image);
-      // التأكد من أن خاصية images موجودة كمصفوفة (حماية من undefined)
       if (!p.images) p.images = [];
       if (Array.isArray(p.images)) {
         p.images = p.images.map(migrateStaticImage);
@@ -573,7 +571,6 @@ export class ProductManager {
           ...command.payload,
           createdAt: new Date().toISOString()
         };
-        // التأكد من أن images مصفوفة
         if (!np.images) np.images = [];
         np.price = parseFloat(np.price) || 0;
         np.stock = parseFloat(np.stock) || 0;
@@ -1406,33 +1403,140 @@ export class HeroImagesManager {
 }
 
 // ================================================================
-// 10. IMAGE UPLOADER – إدارة رفع الصور عبر ImgBB
+// 10. IMAGE UPLOADER – إدارة رفع الصور عبر ImgBB (مُحسَّن: ضغط + تقدم)
 // ================================================================
 
 export class ImageUploader {
-  static async uploadFile(file) {
+  // ضغط الصورة باستخدام Canvas
+  static compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75) {
+    return new Promise((resolve, reject) => {
+      // إذا كان الملف صغيراً جداً، نعيده كما هو دون ضغط (توفير وقت)
+      if (file.size < 100 * 1024) { // أقل من 100 كيلوبايت
+        resolve(file);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          // حساب الأبعاد الجديدة مع الحفاظ على النسبة
+          let width = img.width;
+          let height = img.height;
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // تحويل إلى Blob (JPG للصور العادية، PNG للشفافية إذا لزم الأمر)
+          const mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              reject(new Error('فشل ضغط الصورة'));
+              return;
+            }
+            // إنشاء ملف جديد مضغوط
+            const compressedFile = new File([blob], file.name, { type: mimeType });
+            resolve(compressedFile);
+          }, mimeType, quality);
+        };
+        img.onerror = () => reject(new Error('فشل تحميل الصورة للضغط'));
+      };
+      reader.onerror = () => reject(new Error('فشل قراءة الملف'));
+    });
+  }
+
+  // رفع ملف مع دعم التقدم والضغط التلقائي
+  static async uploadFile(file, onProgress = null) {
     if (!file) return null;
 
-    const apiKey = "a2429d609080c139ccdaa5a789cf6928";
-
-    const formData = new FormData();
-    formData.append("image", file);
-
     try {
-      const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-        method: "POST",
-        body: formData
+      // 1. ضغط الصورة (تقليل الحجم بنسبة 70-80%)
+      const compressedFile = await this.compressImage(file, 1200, 1200, 0.75);
+      
+      // 2. إعداد طلب الرفع
+      const apiKey = "a2429d609080c139ccdaa5a789cf6928";
+      const formData = new FormData();
+      formData.append("image", compressedFile);
+
+      // 3. استخدام XMLHttpRequest لمراقبة التقدم
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", `https://api.imgbb.com/1/upload?key=${apiKey}`, true);
+        
+        xhr.upload.onprogress = (event) => {
+          if (onProgress && event.lengthComputable) {
+            const percent = Math.round((event.loaded / event.total) * 100);
+            onProgress(percent);
+          }
+        };
+
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            try {
+              const data = JSON.parse(xhr.responseText);
+              if (data.success) {
+                resolve(data.data.url);
+              } else {
+                reject(new Error(data.error.message || 'فشل رفع الصورة'));
+              }
+            } catch (e) {
+              reject(new Error('خطأ في قراءة استجابة الخادم'));
+            }
+          } else {
+            reject(new Error(`HTTP ${xhr.status}`));
+          }
+        };
+
+        xhr.onerror = () => reject(new Error('فشل الاتصال بالخادم (ImgbB)'));
+        xhr.send(formData);
       });
 
-      const data = await response.json();
-
-      if (data.success) {
-        return data.data.url;
-      } else {
-        throw new Error(data.error.message);
-      }
     } catch (error) {
       console.error("حدث خطأ أثناء رفع الصورة:", error);
+      // محاولة رفع الملف الأصلي إذا فشل الضغط (حماية)
+      if (error.message.includes('ضغط')) {
+        console.warn("محاولة رفع الملف الأصلي بعد فشل الضغط...");
+        return new Promise((resolve, reject) => {
+          const apiKey = "a2429d609080c139ccdaa5a789cf6928";
+          const formData = new FormData();
+          formData.append("image", file);
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", `https://api.imgbb.com/1/upload?key=${apiKey}`, true);
+          xhr.upload.onprogress = (event) => {
+            if (onProgress && event.lengthComputable) {
+              const percent = Math.round((event.loaded / event.total) * 100);
+              onProgress(percent);
+            }
+          };
+          xhr.onload = () => {
+            if (xhr.status === 200) {
+              const data = JSON.parse(xhr.responseText);
+              if (data.success) resolve(data.data.url);
+              else reject(new Error(data.error.message));
+            } else reject(new Error(`HTTP ${xhr.status}`));
+          };
+          xhr.onerror = () => reject(new Error('فشل الاتصال'));
+          xhr.send(formData);
+        });
+      }
       throw error;
     }
   }
@@ -1963,7 +2067,7 @@ if (typeof THREE !== 'undefined' && !window.__THREE_LOADED) {
   window.__THREE_LOADED = true;
 }
 
-console.log('⚡ النخبة – النواة الأسطورية v8.0 (مع جميع الميزات الجديدة) جاهزة');
+console.log('⚡ النخبة – النواة الأسطورية v8.1 (مع ضغط الصور والتقدم) جاهزة');
 console.log('📞 رقم الهاتف: +967782826727');
 console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
 console.log('🔊 ThunderEngine: تم تهيئة صوت الرعد');
@@ -1972,3 +2076,4 @@ console.log('⚡ LightningEngine: محرك برق واقعي');
 console.log('💓 EmotionalEngine: المحرك العاطفي جاهز');
 console.log('🗺️ Energy Map: خريطة الطاقة جاهزة');
 console.log('🏆 Engineering Challenge: نظام المنافسة جاهز');
+console.log('🖼️ ImageUploader: يدعم الضغط التلقائي وشريط التقدم');
