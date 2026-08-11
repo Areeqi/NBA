@@ -1069,12 +1069,12 @@
               <label>أو رابط الصورة الرئيسي (اختياري) <input type="url" id="pImage" placeholder="في حال لم ترفع ملفاً، ضع رابط الصورة الأساسية هنا" /></label>
             </div>
 
-            <!-- ===== حقل رفع الفيديو ===== -->
+            <!-- ===== حقل رفع الفيديو (مُحدَّث لاستخدام Firebase Storage) ===== -->
             <div class="form-row full-width">
               <label>
                 🎬 فيديو المنتج (اختياري)
                 <input type="file" id="pVideoFile" accept="video/*" style="padding:0.3rem;background:rgba(0,0,0,0.2);border:1px dashed var(--primary);border-radius:var(--radius-sm);cursor:pointer;" />
-                <span style="font-size:0.7rem;color:rgba(var(--text-rgb),0.3);">يرفع الفيديو على imgbb ويعطيك رابطاً (يدعم MP4, WebM, إلخ)</span>
+                <span style="font-size:0.7rem;color:rgba(var(--text-rgb),0.3);">يرفع الفيديو إلى Firebase Storage (يدعم MP4, WebM, إلخ)</span>
               </label>
             </div>
             <div class="form-row full-width">
@@ -1261,7 +1261,7 @@
   <div id="toast" class="toast"></div>
 
   <!-- ============================================================ -->
-  <!-- JavaScript – تشغيل لوحة التحكم (v8.1 – مع شريط التقدم) -->
+  <!-- JavaScript – تشغيل لوحة التحكم (v9.0 – مع Firebase Storage) -->
   <!-- ============================================================ -->
   <script type="module">
     // ================================================================
@@ -1459,14 +1459,14 @@
       updateHiddenImagesField();
     }
 
+    // ================================================================
+    // 🔥 رفع الصور المتعددة – باستخدام Firebase Storage مع شريط التقدم
+    // ================================================================
     if (addMoreImagesBtn && pImageFileExtra) {
       addMoreImagesBtn.addEventListener('click', () => {
         pImageFileExtra.click();
       });
 
-      // ================================================================
-      // 🔥 القسم المُحدَّث: رفع الصور مع شريط التقدم والضغط التلقائي
-      // ================================================================
       pImageFileExtra.addEventListener('change', async (e) => {
         const files = e.target.files;
         if (files.length === 0) return;
@@ -1516,6 +1516,35 @@
         renderImagePreviews();
         updateHiddenImagesField();
         pImageFileExtra.value = '';
+      });
+    }
+
+    // ================================================================
+    // 🔥 رفع الفيديو – باستخدام Firebase Storage مع شريط التقدم
+    // ================================================================
+    const pVideoFile = document.getElementById('pVideoFile');
+    if (pVideoFile) {
+      pVideoFile.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        showToast(`⏳ جاري رفع الفيديو (0%)`, 20000, '⏳');
+        try {
+          const url = await ImageUploader.uploadFile(file, (percent) => {
+            const toast = document.getElementById('toast');
+            if (toast && toast.classList.contains('show')) {
+              toast.innerHTML = `<span class="toast-icon">⏳</span> رفع الفيديو (${percent}%)`;
+            }
+          });
+          if (url) {
+            document.getElementById('pVideo').value = url;
+            showToast(`✅ تم رفع الفيديو بنجاح`, 3000, '✅');
+          }
+        } catch (err) {
+          console.error('فشل رفع الفيديو:', err);
+          showToast(`❌ فشل رفع الفيديو: ${err.message}`, 4000, '❌');
+        }
+        pVideoFile.value = ''; // تصفير الحقل
       });
     }
 
@@ -1759,29 +1788,14 @@
     // ===== حفظ المنتج (مع استخدام مدير الصور ودعم الفيديو) =====
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      // ===== معالجة الفيديو =====
-      const videoFileInput = document.getElementById('pVideoFile');
-      let videoUrl = document.getElementById('pVideo').value.trim();
 
-      if (videoFileInput && videoFileInput.files.length > 0) {
-        showToast('⏳ جاري رفع الفيديو...', 3000, '⏳');
-        try {
-          videoUrl = await ImageUploader.uploadVideo(videoFileInput.files[0]);
-          if (videoUrl) showToast('✅ تم رفع الفيديو بنجاح', 2000, '✅');
-        } catch (error) {
-          console.warn('فشل رفع الفيديو:', error);
-          showToast('⚠️ فشل رفع الفيديو، يمكنك إدخال رابط يدوياً', 3000, '⚠️');
-          // نستمر بدون فيديو
-        }
-      }
-
-      // ===== استخدام الصور من مدير الصور =====
+      // استخدام الصور من مدير الصور
       const allImages = tempImages.length > 0 ? tempImages : [];
       const finalImageUrl = allImages.length > 0 ? allImages[0] : $('pImage').value.trim();
 
       const id = $('productId').value;
       const variants = getVariantsFromForm();
+      const videoUrl = document.getElementById('pVideo').value.trim();
 
       const payload = {
         name: $('pName').value.trim(),
@@ -1815,6 +1829,7 @@
         tempImages = [];
         renderImagePreviews();
         // تصفير حقل رفع الفيديو
+        const videoFileInput = document.getElementById('pVideoFile');
         if (videoFileInput) videoFileInput.value = '';
       } catch (error) {
         console.error('فشل الحفظ:', error);
@@ -2159,7 +2174,7 @@
     loadTypingPhrases();
 
     // ================================================================
-    // 7. إدارة صور الإعلانات (Hero) – تم إصلاحها بالكامل
+    // 7. إدارة صور الإعلانات (Hero)
     // ================================================================
     function renderHeroImages() {
       const images = heroImagesManager.getAll();
@@ -2229,7 +2244,7 @@
       delete addHeroImageBtn.dataset.editIndex;
     }
 
-    // ===== زر إضافة شريحة (تم إصلاحه) =====
+    // ===== زر إضافة شريحة =====
     if (addHeroImageBtn) {
       addHeroImageBtn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -2285,7 +2300,7 @@
     renderHeroImages();
 
     // ================================================================
-    // 8. الإعدادات – رفع الصور
+    // 8. الإعدادات – رفع الصور (خلفية وفوتر) – تبقى كما هي
     // ================================================================
     bgInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
@@ -2440,10 +2455,10 @@
     setInterval(renderOrders, 30000);
     setInterval(updateCommunityStatsUI, 60000);
 
-    console.log('⚡ لوحة التحكم الأسطورية v8.1 جاهزة (مع شريط تقدم وضغط تلقائي)');
+    console.log('⚡ لوحة التحكم الأسطورية v9.0 جاهزة (رفع مباشر إلى Firebase Storage)');
     console.log('📞 رقم الهاتف: +967782826727');
     console.log('📍 العنوان: عدن، جولة عبد القوي فكة كونكورد – مقابل ثلاجة بلعيد');
-    console.log('✅ البيانات مخزنة في Realtime Database (مجاني)');
+    console.log('✅ البيانات مخزنة في Realtime Database + Storage (مجاني)');
   </script>
 </body>
   </html>
